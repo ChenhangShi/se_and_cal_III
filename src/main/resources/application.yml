@@ -1,3 +1,10 @@
 spring:
+  datasource:
+    username: root
+    url: jdbc:mysql://localhost:3306/coin?serverTimezone=UTC&useUnicode=true&characterEncoding=utf-8
+    driver-class-name: com.mysql.cj.jdbc.Driver
   profiles:
     active: dev
+mybatis:
+  mapper-locations: classpath:mapping/*Mapper.xml
+  type-aliases-package: com.codemonkeys.backendcoin.entity
