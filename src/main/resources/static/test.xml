@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<root>
+    <RelationGroup>
+        <Entity property="source">s</Entity>
+        <Relation>relation</Relation>
+        <Entity property="target">t</Entity>
+    </RelationGroup>
+</root>
