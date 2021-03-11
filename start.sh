@@ -1,4 +1,5 @@
 #!/bin/bash
+
 echo "Starting SpringBoot Application"
 pwd
 export JENKINS_NODE_COOKIE=dontKillMe
