@@ -1,4 +1,5 @@
 #!/bin/bash
 echo "starting springboot application"
 pwd
-nohup java -jar target/*.jar &
+export JENKINS_NODE_COOKIE=dontKillMe
+nohup java -Dhudson.util.ProcessTree.disable=true -jar target/*.jar &
