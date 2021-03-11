@@ -6,4 +6,16 @@
         <Relation>relation</Relation>
         <Entity property="target">t</Entity>
     </RelationGroup>
+
+    <RelationGroup>
+        <Entity property="source">s</Entity>
+        <Relation>relation</Relation>
+        <Entity property="target">t</Entity>
+    </RelationGroup>
+
+    <RelationGroup>
+        <Entity property="source">s</Entity>
+        <Relation>relation</Relation>
+        <Entity property="target">t</Entity>
+    </RelationGroup>
 </root>

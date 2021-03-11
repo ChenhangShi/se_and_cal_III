@@ -1,9 +1,14 @@
 package com.codemonkeys.backendcoin.VO;
 
-public class Entity {
+
+/**
+ * @author 吴旻轩
+ * 一个EntityVO表示一个实体
+ */
+public class EntityVO {
     private String name;
 
-    public Entity(String name){
+    public EntityVO(String name){
         this.name=name;
     }
 

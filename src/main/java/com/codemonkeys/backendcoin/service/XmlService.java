@@ -1,8 +1,6 @@
 package com.codemonkeys.backendcoin.service;
 
-import com.codemonkeys.backendcoin.VO.Entity;
-import com.codemonkeys.backendcoin.VO.Relation;
-import com.codemonkeys.backendcoin.VO.RelationGroup;
+import com.codemonkeys.backendcoin.VO.RelationGroupVO;
 import com.codemonkeys.backendcoin.util.XmlUtil;
 import org.springframework.stereotype.Service;
 import org.xml.sax.SAXException;
@@ -16,8 +14,8 @@ import java.util.List;
 
 public class XmlService {
     XmlUtil xmlUtil=new XmlUtil();
-    public List<RelationGroup> getAllRelations()  {
-        List<RelationGroup> res=new ArrayList<>();
+    public List<RelationGroupVO> getAllRelations()  {
+        List<RelationGroupVO> res=new ArrayList<>();
         try {
             res=xmlUtil.resolveXml("src/main/resources/static/test.xml");
         }

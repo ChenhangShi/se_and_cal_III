@@ -1,9 +1,14 @@
 package com.codemonkeys.backendcoin.VO;
 
-public class Relation {
+/**
+ * @author 吴旻轩
+ * 一个RelationVO表示一个关系
+ */
+
+public class RelationVO {
     private String name;
 
-    public Relation(String name){
+    public RelationVO(String name){
         this.name=name;
     }
 
