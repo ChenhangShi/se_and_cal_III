@@ -1,7 +1,7 @@
 package com.codemonkeys.backendcoin.controller;
 
 
-import com.codemonkeys.backendcoin.VO.RelationGroup;
+import com.codemonkeys.backendcoin.VO.RelationGroupVO;
 import com.codemonkeys.backendcoin.service.XmlService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,7 +16,7 @@ public class XmlController {
     @Autowired
     XmlService xmlService;
     @GetMapping("/getRelations")
-    public List<RelationGroup> getRelations(){
+    public List<RelationGroupVO> getRelations(){
         return xmlService.getAllRelations();
     }
 }
