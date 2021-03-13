@@ -1,6 +1,8 @@
 package com.codemonkeys.backendcoin.service;
 
+import com.codemonkeys.backendcoin.VO.EntityVO;
 import com.codemonkeys.backendcoin.VO.RelationGroupVO;
+import com.codemonkeys.backendcoin.VO.RelationVO;
 import com.codemonkeys.backendcoin.util.XmlUtil;
 import org.springframework.stereotype.Service;
 import org.xml.sax.SAXException;
@@ -8,7 +10,9 @@ import org.xml.sax.SAXException;
 import javax.xml.parsers.ParserConfigurationException;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Service
 
@@ -29,7 +33,24 @@ public class XmlService {
             saxException.printStackTrace();
         }
         return res;
+    }
 
+    public Set<EntityVO> getAllEntity(){
+        List<RelationGroupVO> relationGroupVOList=getAllRelations();
+        Set<EntityVO> res=new HashSet<>();
+        for(RelationGroupVO r:relationGroupVOList){
+            res.add(r.getSource());
+            res.add(r.getTarget());
+        }
+        return res;
+    }
 
+    public Set<RelationVO> getAllRelation(){
+        List<RelationGroupVO> relationGroupVOList=getAllRelations();
+        Set<RelationVO> res=new HashSet<>();
+        for(RelationGroupVO r:relationGroupVOList){
+            res.add(r.getRelation());
+        }
+        return res;
     }
 }

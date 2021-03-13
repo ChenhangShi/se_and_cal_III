@@ -27,6 +27,10 @@ public class XmlUtil {
     private final static String ENTITY_PROPERTY_ATTRIBUTE_NAME="property";
     private final static String ENTITY_SOURCE_ATTRIBUTE="source";
     private final static String ENTITY_TARGET_ATTRIBUTE="target";
+    private final static String ID_ATTRIBUTE_NAME="id";
+    private final static String DESCRIPTION_ATTRIBUTE_NAME="description";
+    private final static String TYPE_ATTRIBUTE_NAME="type";
+
 
     /**
      * @author 吴旻轩
@@ -67,21 +71,26 @@ public class XmlUtil {
             for(int j=0;j<childNodeList.getLength();j++){
                 if(childNodeList.item(j).getNodeType()==Node.ELEMENT_NODE){
                     Node childNode=childNodeList.item(j);
+                    Element element=(Element)childNode;
+                    String id=element.getAttribute(ID_ATTRIBUTE_NAME);
+                    String description=element.getAttribute(DESCRIPTION_ATTRIBUTE_NAME);
+                    String type=element.getAttribute(TYPE_ATTRIBUTE_NAME);
                     //<Entity>节点
                     if(childNode.getNodeName().equals(ENTITY_TAG)){
-                        Element element=(Element)childNode;
                         //property="source"
                         if(element.getAttribute(ENTITY_PROPERTY_ATTRIBUTE_NAME).equals(ENTITY_SOURCE_ATTRIBUTE)){
-                            source=new EntityVO(childNode.getTextContent());
+                            source=new EntityVO(id,type,childNode.getTextContent(),description);
+
                         }
                         //property="target"
                         else if(element.getAttribute(ENTITY_PROPERTY_ATTRIBUTE_NAME).equals(ENTITY_TARGET_ATTRIBUTE)){
-                            target=new EntityVO(childNode.getTextContent());
+                            target=new EntityVO(id,type,childNode.getTextContent(),description);
+
                         }
                     }
                     //<Relation>节点
                     else if(childNode.getNodeName().equals(RELATION_TAG)){
-                        relation=new RelationVO(childNode.getTextContent());
+                        relation=new RelationVO(id,type,childNode.getTextContent(),description);
                     }
                 }
             }
