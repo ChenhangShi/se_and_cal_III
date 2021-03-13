@@ -1,6 +1,7 @@
 package com.codemonkeys.backendcoin.service;
 
 import com.codemonkeys.backendcoin.VO.EntityVO;
+import com.codemonkeys.backendcoin.VO.LinkVO;
 import com.codemonkeys.backendcoin.VO.RelationGroupVO;
 import com.codemonkeys.backendcoin.VO.RelationVO;
 import com.codemonkeys.backendcoin.util.XmlUtil;
@@ -18,7 +19,7 @@ import java.util.Set;
 
 public class XmlService {
     XmlUtil xmlUtil=new XmlUtil();
-    public List<RelationGroupVO> getAllRelations()  {
+    public List<RelationGroupVO> getAllRelationGroup()  {
         List<RelationGroupVO> res=new ArrayList<>();
         try {
             res=xmlUtil.resolveXml("src/main/resources/static/test.xml");
@@ -36,7 +37,7 @@ public class XmlService {
     }
 
     public Set<EntityVO> getAllEntity(){
-        List<RelationGroupVO> relationGroupVOList=getAllRelations();
+        List<RelationGroupVO> relationGroupVOList=getAllRelationGroup();
         Set<EntityVO> res=new HashSet<>();
         for(RelationGroupVO r:relationGroupVOList){
             res.add(r.getSource());
@@ -46,10 +47,19 @@ public class XmlService {
     }
 
     public Set<RelationVO> getAllRelation(){
-        List<RelationGroupVO> relationGroupVOList=getAllRelations();
+        List<RelationGroupVO> relationGroupVOList=getAllRelationGroup();
         Set<RelationVO> res=new HashSet<>();
         for(RelationGroupVO r:relationGroupVOList){
             res.add(r.getRelation());
+        }
+        return res;
+    }
+
+    public Set<LinkVO> getAllLink(){
+        List<RelationGroupVO> relationGroupVOList=getAllRelationGroup();
+        Set<LinkVO> res=new HashSet<>();
+        for(RelationGroupVO r:relationGroupVOList){
+            res.add(new LinkVO(r));
         }
         return res;
     }

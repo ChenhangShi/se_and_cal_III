@@ -2,6 +2,7 @@ package com.codemonkeys.backendcoin.controller;
 
 
 import com.codemonkeys.backendcoin.VO.EntityVO;
+import com.codemonkeys.backendcoin.VO.LinkVO;
 import com.codemonkeys.backendcoin.VO.RelationGroupVO;
 import com.codemonkeys.backendcoin.VO.RelationVO;
 import com.codemonkeys.backendcoin.service.XmlService;
@@ -20,7 +21,7 @@ public class XmlController {
     XmlService xmlService;
     @GetMapping("/getRelationGroup")
     public List<RelationGroupVO> getRelations(){
-        return xmlService.getAllRelations();
+        return xmlService.getAllRelationGroup();
     }
 
     @GetMapping("/getEntity")
@@ -31,5 +32,10 @@ public class XmlController {
     @GetMapping("/getRelation")
     public Set<RelationVO> getRelation(){
         return xmlService.getAllRelation();
+    }
+
+    @GetMapping("/getLink")
+    public Set<LinkVO> getLink(){
+        return xmlService.getAllLink();
     }
 }
