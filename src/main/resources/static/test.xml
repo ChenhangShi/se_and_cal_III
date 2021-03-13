@@ -7,11 +7,11 @@
         <Entity property="target" id="2" type="type_1" description="d2">t</Entity>
     </RelationGroup>
 
-    <RelationGroup>
-        <Entity property="target" id="1" type="type_0" description="d1">s</Entity>
-        <Relation id="1" type="relation_type" description="r1">relation</Relation>
-        <Entity property="source" id="2" type="type_1" description="d2">t</Entity>
-    </RelationGroup>
+<!--    <RelationGroup>-->
+<!--        <Entity property="target" id="1" type="type_0" description="d1">s</Entity>-->
+<!--        <Relation id="1" type="relation_type" description="r1">relation</Relation>-->
+<!--        <Entity property="source" id="2" type="type_1" description="d2">t</Entity>-->
+<!--    </RelationGroup>-->
 
 
 </root>

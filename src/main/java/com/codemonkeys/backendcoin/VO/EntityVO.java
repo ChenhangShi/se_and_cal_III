@@ -1,6 +1,5 @@
 package com.codemonkeys.backendcoin.VO;
 
-
 import java.util.Objects;
 
 /**
@@ -47,6 +46,7 @@ public class EntityVO {
         this.description=description;
         this.name=name;
     }
+
 
     public String getName() {
         return name;

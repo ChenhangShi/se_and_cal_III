@@ -2,6 +2,7 @@ package com.codemonkeys.backendcoin.VO;
 
 
 
+
 /**
  * @author 吴旻轩
  * 一个RelationGroupVO表示一个实体，关系，实体的三元组
@@ -25,6 +26,14 @@ public class RelationGroupVO {
         this.source = source;
     }
 
+    public RelationVO getRelation() {
+        return relation;
+    }
+
+    public void setRelation(RelationVO relation) {
+        this.relation = relation;
+    }
+
     public EntityVO getTarget() {
         return target;
     }
@@ -33,13 +42,7 @@ public class RelationGroupVO {
         this.target = target;
     }
 
-    public RelationVO getRelation() {
-        return relation;
-    }
 
-    public void setRelation(RelationVO relation) {
-        this.relation = relation;
-    }
 
 
 }

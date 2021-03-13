@@ -12,6 +12,10 @@ import org.xml.sax.SAXException;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.transform.*;
+import javax.xml.transform.dom.DOMSource;
+import javax.xml.transform.stream.StreamResult;
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -97,6 +101,51 @@ public class XmlUtil {
         }
 
         return res;
+    }
+
+    public void beanToXml(List<RelationGroupVO> relationGroupVOList) throws ParserConfigurationException, TransformerException {
+        File file=new File("src/main/resources/static/output.xml");
+
+        DocumentBuilderFactory documentBuilderFactory=DocumentBuilderFactory.newInstance();
+        DocumentBuilder documentBuilder=documentBuilderFactory.newDocumentBuilder();
+        Document document=documentBuilder.newDocument();
+
+        Element root=document.createElement("root");
+        for(RelationGroupVO r:relationGroupVOList){
+            Element relationGroup=document.createElement("RelationGroup");
+
+            Element source=document.createElement("Entity");
+            source.setTextContent(r.getSource().getName());
+            source.setAttribute("property","source");
+            source.setAttribute("id",r.getSource().getId());
+            source.setAttribute("type",r.getSource().getType());
+            source.setAttribute("description",r.getSource().getDescription());
+
+            Element relation=document.createElement("Relation");
+            relation.setTextContent(r.getRelation().getName());
+            relation.setAttribute("id",r.getRelation().getId());
+            relation.setAttribute("type",r.getRelation().getType());
+            relation.setAttribute("description",r.getRelation().getDescription());
+
+            Element target=document.createElement("Entity");
+            target.setTextContent(r.getTarget().getName());
+            target.setAttribute("property","target");
+            target.setAttribute("id",r.getTarget().getId());
+            target.setAttribute("type",r.getTarget().getType());
+            target.setAttribute("description",r.getTarget().getDescription());
+
+            relationGroup.appendChild(source);
+            relationGroup.appendChild(relation);
+            relationGroup.appendChild(target);
+
+            root.appendChild(relationGroup);
+
+        }
+        document.appendChild(root);
+        TransformerFactory tff=TransformerFactory.newInstance();
+        Transformer tf=tff.newTransformer();
+        tf.setOutputProperty(OutputKeys.INDENT, "yes");
+        tf.transform(new DOMSource(document),new StreamResult(file));
 
 
 

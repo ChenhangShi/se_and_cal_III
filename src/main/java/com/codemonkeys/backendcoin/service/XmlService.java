@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import org.xml.sax.SAXException;
 
 import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.transform.TransformerException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -62,5 +63,9 @@ public class XmlService {
             res.add(new LinkVO(r));
         }
         return res;
+    }
+
+    public void addRelationGroup(List<RelationGroupVO> relationGroupVOList) throws TransformerException, ParserConfigurationException {
+        xmlUtil.beanToXml(relationGroupVOList);
     }
 }
