@@ -22,7 +22,7 @@ public class XmlService {
     public List<RelationGroupVO> getAllRelationGroup()  {
         List<RelationGroupVO> res=new ArrayList<>();
         try {
-            res=xmlUtil.resolveXml("src/main/resources/static/test.xml");
+            res=xmlUtil.resolveXml();
         }
         catch (ParserConfigurationException parserConfigurationException){
             parserConfigurationException.printStackTrace();

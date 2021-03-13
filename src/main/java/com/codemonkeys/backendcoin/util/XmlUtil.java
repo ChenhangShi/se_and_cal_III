@@ -37,19 +37,18 @@ public class XmlUtil {
      * 解析本地*.xml的方法
      * 接收xml文件的路径
      * 返回VO对象RelationGroup的列表
-     * @param  path
      * @return List<RelationGroup>
      * @throws ParserConfigurationException
      * @throws IOException
      * @throws SAXException
      */
-    public List<RelationGroupVO> resolveXml(String path) throws ParserConfigurationException, IOException, SAXException {
+    public List<RelationGroupVO> resolveXml() throws ParserConfigurationException, IOException, SAXException {
         List<RelationGroupVO> res=new ArrayList<>();
 
         //通过DocumentBuilderFactory创建DocumentBuilder，再使用DocumentBuilder分析path对应的xml文件
         DocumentBuilderFactory dbf=DocumentBuilderFactory.newInstance();
         DocumentBuilder db=dbf.newDocumentBuilder();
-        Document document=db.parse(path);
+        Document document=db.parse(getClass().getResourceAsStream("/static/test.xml"));
 
         //以RelationGroup为父节点，获取xml中的RelationGroup的NodeList
         NodeList nodeList=document.getElementsByTagName("RelationGroup");
