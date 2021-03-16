@@ -5,7 +5,6 @@ import com.codemonkeys.backendcoin.VO.RelationGroupVO;
 import com.codemonkeys.backendcoin.VO.RelationVO;
 import com.codemonkeys.backendcoin.util.XmlUtil;
 import org.junit.Assert;
-import org.junit.BeforeClass;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -30,7 +29,6 @@ public class XmlUtilTests {
 
     @Test
     public void testResolveXml() throws TransformerException, ParserConfigurationException, IOException, SAXException {
-//        XmlUtil.setXmlPath("output.xml");
         String json="[{\"source\":{\"id\":\"1\",\"name\":\"s\",\"type\":\"type_0\",\"description\":\"d1\"},\"target\":{\"id\":\"2\",\"name\":\"t\",\"type\":\"type_1\",\"description\":\"d2\"},\"relation\":{\"id\":\"0\",\"name\":\"relation\",\"type\":\"relation_type\",\"description\":\"r1\"}}]";
         EntityVO source=new EntityVO("1","type_0","s","d1");
         EntityVO target=new EntityVO("2","type_1","t","s2");
