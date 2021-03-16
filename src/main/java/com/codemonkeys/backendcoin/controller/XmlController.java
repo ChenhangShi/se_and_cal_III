@@ -6,7 +6,6 @@ import com.codemonkeys.backendcoin.VO.LinkVO;
 import com.codemonkeys.backendcoin.VO.RelationGroupVO;
 import com.codemonkeys.backendcoin.VO.RelationVO;
 import com.codemonkeys.backendcoin.service.XmlService;
-import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 

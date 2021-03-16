@@ -16,6 +16,7 @@ import javax.xml.transform.*;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -64,7 +65,7 @@ public class XmlUtil {
         //通过DocumentBuilderFactory创建DocumentBuilder，再使用DocumentBuilder分析path对应的xml文件
         DocumentBuilderFactory dbf=DocumentBuilderFactory.newInstance();
         DocumentBuilder db=dbf.newDocumentBuilder();
-        Document document=db.parse(xmlPath);
+        Document document=db.parse(new FileInputStream(xmlPath));
 
         //以RelationGroup为父节点，获取xml中的RelationGroup的NodeList
         NodeList nodeList=document.getElementsByTagName("RelationGroup");
