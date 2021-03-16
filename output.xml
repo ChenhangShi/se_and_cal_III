@@ -3,6 +3,6 @@
     <RelationGroup>
         <Entity description="d1" id="1" property="source" type="type_0">s</Entity>
         <Relation description="r1" id="0" type="relation_type">relation</Relation>
-        <Entity description="d2" id="2" property="target" type="type_1">t</Entity>
+        <Entity description="s2" id="2" property="target" type="type_1">t</Entity>
     </RelationGroup>
 </root>

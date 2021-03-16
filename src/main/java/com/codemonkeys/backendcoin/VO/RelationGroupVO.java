@@ -43,6 +43,20 @@ public class RelationGroupVO {
     }
 
 
+    @Override
+    public boolean equals(Object otherObject){
+        if(otherObject==this){
+            return true;
+        }
+        if(otherObject==null){
+            return false;
+        }
+        if(this.getClass()!=otherObject.getClass()){
+            return false;
+        }
+        RelationGroupVO other=(RelationGroupVO)otherObject;
+        return this.relation.equals(other.relation)&&this.source.equals(other.source)&&this.target.equals(other.target);
+    }
 
 
 }
