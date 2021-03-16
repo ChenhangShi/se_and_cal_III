@@ -20,9 +20,15 @@ import java.util.Set;
 public class XmlController {
     @Autowired
     XmlService xmlService;
+
     @GetMapping("/getRelationGroup")
     public List<RelationGroupVO> getRelations(){
         return xmlService.getAllRelationGroup();
+    }
+
+    @GetMapping("/test")
+    public String get(){
+        return "test";
     }
 
     @GetMapping("/getEntity")
