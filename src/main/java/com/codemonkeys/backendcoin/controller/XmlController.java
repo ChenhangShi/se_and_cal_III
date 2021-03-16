@@ -26,10 +26,7 @@ public class XmlController {
         return xmlService.getAllRelationGroup();
     }
 
-    @GetMapping("/test")
-    public String get(){
-        return "test";
-    }
+
 
     @GetMapping("/getEntity")
     public Set<EntityVO> getEntity(){
