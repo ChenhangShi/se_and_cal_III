@@ -26,6 +26,8 @@ import java.util.List;
  */
 
 public class XmlUtil {
+    private static String xmlPath;
+
     private final static String ENTITY_TAG="Entity";
     private final static String RELATION_TAG="Relation";
     private final static String ENTITY_PROPERTY_ATTRIBUTE_NAME="property";
@@ -34,6 +36,16 @@ public class XmlUtil {
     private final static String ID_ATTRIBUTE_NAME="id";
     private final static String DESCRIPTION_ATTRIBUTE_NAME="description";
     private final static String TYPE_ATTRIBUTE_NAME="type";
+
+    /**
+     * 设置xml文件的路径
+     * @param path
+     * path由main函数的args获得
+     * 在main函数开头被调用
+     */
+    public static void setXmlPath(String path){
+        xmlPath = path;
+    }
 
 
     /**
@@ -52,7 +64,7 @@ public class XmlUtil {
         //通过DocumentBuilderFactory创建DocumentBuilder，再使用DocumentBuilder分析path对应的xml文件
         DocumentBuilderFactory dbf=DocumentBuilderFactory.newInstance();
         DocumentBuilder db=dbf.newDocumentBuilder();
-        Document document=db.parse(getClass().getResourceAsStream("/static/test.xml"));
+        Document document=db.parse(xmlPath);
 
         //以RelationGroup为父节点，获取xml中的RelationGroup的NodeList
         NodeList nodeList=document.getElementsByTagName("RelationGroup");
@@ -104,7 +116,7 @@ public class XmlUtil {
     }
 
     public void beanToXml(List<RelationGroupVO> relationGroupVOList) throws ParserConfigurationException, TransformerException {
-        File file=new File("src/main/resources/static/output.xml");
+        File file=new File(xmlPath);
 
         DocumentBuilderFactory documentBuilderFactory=DocumentBuilderFactory.newInstance();
         DocumentBuilder documentBuilder=documentBuilderFactory.newDocumentBuilder();
