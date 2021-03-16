@@ -18,5 +18,10 @@ pipeline {
 sh start.sh'''
             }
         }
+        stage('jacoco report'){
+            steps{
+                jacoco classPattern: '**/target/classes', execPattern: '**/target/**.exec'
+            }
+        }
     }
 }
