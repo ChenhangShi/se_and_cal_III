@@ -18,18 +18,17 @@ import java.util.List;
 
 
 @SpringBootTest
-public class XmlUtilTests {
+public class XmlServiceTests {
     XmlUtil xmlUtil=new XmlUtil();
     @BeforeEach
     public void setUp(){
         XmlUtil.setXmlPath("output.xml");
         xmlUtil=new XmlUtil();
-        System.out.println("pre");
+
     }
 
     @Test
     public void testResolveXml() throws TransformerException, ParserConfigurationException, IOException, SAXException {
-        String json="[{\"source\":{\"id\":\"1\",\"name\":\"s\",\"type\":\"type_0\",\"description\":\"d1\"},\"target\":{\"id\":\"2\",\"name\":\"t\",\"type\":\"type_1\",\"description\":\"d2\"},\"relation\":{\"id\":\"0\",\"name\":\"relation\",\"type\":\"relation_type\",\"description\":\"r1\"}}]";
         EntityVO source=new EntityVO("1","type_0","s","d1");
         EntityVO target=new EntityVO("2","type_1","t","s2");
         RelationVO relation=new RelationVO("0","relation_type","relation","r1");

@@ -19,10 +19,13 @@ import java.util.Set;
 public class XmlController {
     @Autowired
     XmlService xmlService;
+
     @GetMapping("/getRelationGroup")
     public List<RelationGroupVO> getRelations(){
         return xmlService.getAllRelationGroup();
     }
+
+
 
     @GetMapping("/getEntity")
     public Set<EntityVO> getEntity(){
