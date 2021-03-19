@@ -1,10 +1,11 @@
 package com.codemonkeys.backendcoin.controller;
 
+import com.codemonkeys.backendcoin.service.FileService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
-import sun.misc.BASE64Encoder;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -14,6 +15,10 @@ import java.net.URLEncoder;
 @RestController
 @RequestMapping("/file")
 public class FileController {
+
+    @Autowired
+    FileService fileService;
+
     public static void setFilepath(String filepath) {
         FileController.filepath = filepath;
     }
@@ -67,13 +72,14 @@ public class FileController {
     }
 
     @RequestMapping("/uploadXml")
-    public String uploadXml(@RequestParam(value = "file") MultipartFile file) throws Exception {
-        // todo 细节没写
-        System.out.println("接收到请求:" + file);
-//        BASE64Encoder base64Encoder = new BASE64Encoder();
-//        return file.getOriginalFilename() + "," + base64Encoder.encode(file.getBytes());
-//        System.out.println("接收到请求:" + file);
-        return "后端的返回";
+    public void uploadXml(@RequestParam(value = "file") MultipartFile file)  {
+        try {
+            fileService.uploadXml(file,filepath);
+        }
+        catch (Exception e){
+            e.printStackTrace();
+        }
+
     }
 
 }
