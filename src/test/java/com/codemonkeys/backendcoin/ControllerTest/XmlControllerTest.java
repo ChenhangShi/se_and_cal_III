@@ -1,4 +1,4 @@
-package com.codemonkeys.backendcoin;
+package com.codemonkeys.backendcoin.ControllerTest;
 
 import com.codemonkeys.backendcoin.controller.XmlController;
 import com.codemonkeys.backendcoin.service.XmlService;

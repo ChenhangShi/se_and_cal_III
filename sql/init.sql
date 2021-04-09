@@ -1,11 +1,35 @@
 set names utf8mb4;
 
-drop table if exists user;
-create table user(
-    id          int             not null auto_increment,
-    username    varchar(20)     not null,
-    password    varchar(255)    not null,
-    primary key (id)
-
+drop table if exists entity;
+create table entity(
+    id bigint not null,
+    graphId bigint not null,
+    name varchar(255) not null,
+    type varchar(255) not null,
+    shape varchar(255) not null,
+    description varchar(255),
+    x varchar(255) not null,
+    y varchar(255) not null,
+    primary key (id,graphId)
 );
-insert into user(username,password) values('123','123456');
+
+drop table if exists link;
+create table link(
+    id bigint not null,
+    sourceId bigint not null,
+    targetId bigint not null,
+    graphId bigint not null,
+    relationName varchar(255) not null,
+    type varchar(255) not null,
+    description varchar(255),
+    isFullLine boolean not null ,
+    primary key (id,graphId)
+);
+
+drop table if exists graph;
+create table graph(
+    graphId bigint not null auto_increment,
+    graphName varchar(255) not null,
+    primary key (graphId)
+);
+
