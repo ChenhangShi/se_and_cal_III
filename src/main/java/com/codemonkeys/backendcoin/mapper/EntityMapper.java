@@ -8,8 +8,8 @@ import java.util.List;
 
 @Repository
 public interface EntityMapper {
-    @Select("select * from entity")
-    List<EntityPO> getAllEntity();
+    @Select("select * from entity where graphId=#{graphId}")
+    List<EntityPO> getAllEntity(@Param("graphId")Long graphId);
     
     @Insert("insert into entity(id,graphId,name,type,shape,description,x,y) value (#{p.id},#{p.graphId}" +
             ",#{p.name},#{p.type},#{p.shape},#{p.description},#{p.x},#{p.y}) ")

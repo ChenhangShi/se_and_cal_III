@@ -19,8 +19,8 @@ public class LinkController {
     }
 
     @GetMapping("/getAllLink")
-    public List<LinkVO> getAllLinks(){
-        return linkService.getAllLinks();
+    public List<LinkVO> getAllLinks(@RequestParam Long graphId){
+        return linkService.getAllLinks(graphId);
     }
 
     @PostMapping("/addLinks")

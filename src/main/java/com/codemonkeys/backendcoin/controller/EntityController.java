@@ -19,8 +19,8 @@ public class EntityController {
     }
 
     @GetMapping("/getAllNode")
-    public List<EntityVO> getAllEntities(){
-        return entityService.getAllEntities();
+    public List<EntityVO> getAllEntities(@RequestParam Long graphId){
+        return entityService.getAllEntities(graphId);
     }
 
     @PostMapping("/addNodes")

@@ -10,7 +10,7 @@ import java.util.List;
 @Repository
 public interface LinkMapper {
     @Select("select * from link")
-    List<LinkPO> getAllLink();
+    List<LinkPO> getAllLink(@Param("graphId")Long graphId);
 
     @Insert("insert into link(id,sourceId,targetId,graphId,relationName,type,description,isFullLine) value(#{l.id},#{l.sourceId}" +
             ",#{l.targetId},#{l.graphId},#{l.relationName},#{l.type},#{l.description},#{l.isFullLine})")
@@ -25,6 +25,6 @@ public interface LinkMapper {
             "description=#{l.description},isFullLine=#{l.isFullLine} where id=#{l.id} and graphId=#{l.graphId}")
     void updateLink(@Param("l") LinkPO linkPO);
 
-    @Select("select * from link where id=#{id}")
-    LinkPO getLink(@Param("id") Long id);
+    @Select("select * from link where id=#{id} and graphId=#{graphId}")
+    LinkPO getLink(@Param("id") Long id,@Param("graphId")Long graphId);
 }

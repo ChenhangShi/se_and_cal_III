@@ -23,8 +23,8 @@ public class LinkServiceImpl implements LinkService {
     }
 
     @Override
-    public List<LinkVO> getAllLinks() {
-        List<LinkPO> linkPOList=linkMapper.getAllLink();
+    public List<LinkVO> getAllLinks(Long graphId) {
+        List<LinkPO> linkPOList=linkMapper.getAllLink(graphId);
         List<LinkVO> linkVOS=new ArrayList<>();
         for(LinkPO linkPO:linkPOList){
             linkVOS.add(map.from(linkPO));

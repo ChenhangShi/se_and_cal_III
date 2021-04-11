@@ -26,8 +26,8 @@ public class EntityServiceImpl implements EntityService {
     }
 
     @Override
-    public List<EntityVO> getAllEntities() {
-        List<EntityPO> entityPOList=entityMapper.getAllEntity();
+    public List<EntityVO> getAllEntities(Long graphId) {
+        List<EntityPO> entityPOList=entityMapper.getAllEntity(graphId);
         List<EntityVO> entityVOList=new ArrayList<>();
         for(EntityPO entityPO:entityPOList){
             entityVOList.add(map.from(entityPO));

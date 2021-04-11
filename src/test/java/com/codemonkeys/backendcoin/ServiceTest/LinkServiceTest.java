@@ -32,7 +32,7 @@ public class LinkServiceTest {
         List<LinkVO> testLinkVOList=new ArrayList<>();
         testLinkVOList.add(linkVO);
         linkService.addLink(testLinkVOList);
-        Assert.assertEquals(linkVO,map.from(linkMapper.getLink(35L)));
+        Assert.assertEquals(linkVO,map.from(linkMapper.getLink(35L,2L)));
     }
 
     @Test
@@ -43,6 +43,6 @@ public class LinkServiceTest {
         List<LinkVO> testLinkVOList=new ArrayList<>();
         testLinkVOList.add(linkVO);
         linkService.updateLink(testLinkVOList);
-        Assert.assertEquals(linkVO,map.from(linkMapper.getLink(35L)));
+        Assert.assertEquals(linkVO,map.from(linkMapper.getLink(35L,2L)));
     }
 }
