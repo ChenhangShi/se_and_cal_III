@@ -12,6 +12,18 @@ public class LinkVO {
     private Long graphId;
     private boolean isFullLine;
 
+    public LinkVO(Long id, Long sourceId, Long targetId, String relation,
+                  String type, String description, Long graphId, boolean isFullLine) {
+        this.id = id;
+        this.sourceId = sourceId;
+        this.targetId = targetId;
+        this.relation = relation;
+        this.type = type;
+        this.description = description;
+        this.graphId = graphId;
+        this.isFullLine = isFullLine;
+    }
+
 
     public Long getGraphId() {
         return graphId;

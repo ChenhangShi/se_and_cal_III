@@ -5,6 +5,7 @@ import com.codemonkeys.backendcoin.VO.LinkVO;
 import java.util.List;
 
 public interface LinkService {
+    List<LinkVO> getAllLinks();
     void addLink(List<LinkVO> linkVOList);
     void updateLink(List<LinkVO> linkVOList);
 }

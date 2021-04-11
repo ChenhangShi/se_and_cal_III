@@ -4,10 +4,7 @@ package com.codemonkeys.backendcoin.controller;
 import com.codemonkeys.backendcoin.VO.LinkVO;
 import com.codemonkeys.backendcoin.service.LinkService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -19,6 +16,11 @@ public class LinkController {
     @Autowired
     public LinkController(LinkService linkService) {
         this.linkService = linkService;
+    }
+
+    @GetMapping("/getAllLink")
+    public List<LinkVO> getAllLinks(){
+        return linkService.getAllLinks();
     }
 
     @PostMapping("/addLinks")

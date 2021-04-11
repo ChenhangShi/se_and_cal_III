@@ -1,5 +1,6 @@
 package com.codemonkeys.backendcoin.serviceImpl;
 
+import com.codemonkeys.backendcoin.PO.EntityPO;
 import com.codemonkeys.backendcoin.VO.EntityVO;
 import com.codemonkeys.backendcoin.mapper.EntityMapper;
 import com.codemonkeys.backendcoin.mapper.LinkMapper;
@@ -8,6 +9,7 @@ import com.codemonkeys.backendcoin.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -24,6 +26,16 @@ public class EntityServiceImpl implements EntityService {
     }
 
     @Override
+    public List<EntityVO> getAllEntities() {
+        List<EntityPO> entityPOList=entityMapper.getAllEntity();
+        List<EntityVO> entityVOList=new ArrayList<>();
+        for(EntityPO entityPO:entityPOList){
+            entityVOList.add(map.from(entityPO));
+        }
+        return entityVOList;
+    }
+
+    @Override
     public void addEntities(List<EntityVO> entityVOList) {
         for(EntityVO entityVO:entityVOList){
             entityMapper.insertEntity(map.from(entityVO));
@@ -31,10 +43,10 @@ public class EntityServiceImpl implements EntityService {
     }
 
     @Override
-    public void deleteEntities(List<Long> entityIdList) {
+    public void deleteEntities(List<Long> entityIdList,Long graphId) {
         for(Long id:entityIdList){
-            entityMapper.deleteEntity(id);
-            linkMapper.deleteLink(id);
+            entityMapper.deleteEntity(id,graphId);
+            linkMapper.deleteLink(id,graphId);
         }
     }
 

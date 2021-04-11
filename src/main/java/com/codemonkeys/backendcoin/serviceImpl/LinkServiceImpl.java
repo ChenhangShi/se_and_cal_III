@@ -1,5 +1,6 @@
 package com.codemonkeys.backendcoin.serviceImpl;
 
+import com.codemonkeys.backendcoin.PO.LinkPO;
 import com.codemonkeys.backendcoin.VO.LinkVO;
 import com.codemonkeys.backendcoin.mapper.LinkMapper;
 import com.codemonkeys.backendcoin.service.LinkService;
@@ -7,6 +8,7 @@ import com.codemonkeys.backendcoin.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -18,6 +20,16 @@ public class LinkServiceImpl implements LinkService {
     public LinkServiceImpl(LinkMapper linkMapper, Map map) {
         this.linkMapper = linkMapper;
         this.map = map;
+    }
+
+    @Override
+    public List<LinkVO> getAllLinks() {
+        List<LinkPO> linkPOList=linkMapper.getAllLink();
+        List<LinkVO> linkVOS=new ArrayList<>();
+        for(LinkPO linkPO:linkPOList){
+            linkVOS.add(map.from(linkPO));
+        }
+        return linkVOS;
     }
 
     @Override

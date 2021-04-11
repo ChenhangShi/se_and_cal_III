@@ -21,7 +21,7 @@ import java.io.IOException;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = {BackendCoinApplication.class})
-public class FileServiceTests {
+public class FileServiceTest {
     @Autowired
     FileService fileService;
 
