@@ -14,8 +14,10 @@ pipeline {
         }
         stage('run'){
             steps{
-                sh '''sh stop.sh
-sh start.sh'''
+                withEnv(['JENKINS_NODE_COOKIE=dontkillme']){
+                    sh '''sh stop.sh
+                    sh start.sh'''
+                }
             }
         }
         stage('jacoco report'){
