@@ -15,7 +15,8 @@ pipeline {
         stage('run'){
             steps{
                 sh '''sh stop.sh
-sh start.sh'''
+                sh init_database.sh
+                sh start.sh'''
             }
         }
         stage('jacoco report'){
