@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RestController;
  * 为了测试服务是否跑起来
  */
 @RestController
-@RequestMapping("test")
+@RequestMapping("/test")
 public class ForTestController {
     @GetMapping("/")
     public String test(){
