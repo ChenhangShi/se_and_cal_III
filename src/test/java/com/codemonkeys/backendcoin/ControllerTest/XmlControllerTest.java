@@ -28,6 +28,7 @@ public class XmlControllerTest {
 
         MvcResult mvcResult=mockMvc.perform(get("/xml/getRelationGroup")).andReturn();
         Assert.assertEquals(200,mvcResult.getResponse().getStatus());
+        System.out.println(mvcResult.getResponse().getContentAsString());
     }
 
     @Test
