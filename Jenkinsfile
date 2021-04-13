@@ -1,6 +1,10 @@
 pipeline {
     agent any
 
+    environment{
+        JENKINS_NODE_COOKIE=dontkillme
+    }
+
     stages {
         stage('pull code') {
             steps {
@@ -14,12 +18,10 @@ pipeline {
         }
         stage('run'){
             steps{
-                withEnv(['JENKINS_NODE_COOKIE=dontkillme']){
-                    sh '''
-                    sh stop.sh
-                    nohup java -jar /var/lib/jenkins/workspace/backend-coin/target/backend-coin-0.0.1-SNAPSHOT.jar --spring.profiles.active=prod &
-                    '''
-                }
+                sh '''
+                sh stop.sh
+                nohup java -jar /var/lib/jenkins/workspace/backend-coin/target/backend-coin-0.0.1-SNAPSHOT.jar --spring.profiles.active=prod &
+                '''
             }
         }
         stage('jacoco report'){
