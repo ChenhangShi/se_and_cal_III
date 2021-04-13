@@ -15,8 +15,9 @@ pipeline {
         stage('run'){
             steps{
                 withEnv(['JENKINS_NODE_COOKIE=dontkillme']){
-                    sh '''sh stop.sh
-                    sh start.sh'''
+                    sh '''
+                    sh start.sh
+                    '''
                 }
             }
         }
