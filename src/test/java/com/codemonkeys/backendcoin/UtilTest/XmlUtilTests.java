@@ -1,4 +1,4 @@
-package com.codemonkeys.backendcoin;
+package com.codemonkeys.backendcoin.UtilTest;
 
 import com.codemonkeys.backendcoin.VO.EntityVO;
 import com.codemonkeys.backendcoin.VO.RelationGroupVO;
@@ -18,7 +18,7 @@ import java.util.List;
 
 
 @SpringBootTest
-public class XmlServiceTests {
+public class XmlUtilTests {
     XmlUtil xmlUtil=new XmlUtil();
     @BeforeEach
     public void setUp(){
@@ -29,15 +29,14 @@ public class XmlServiceTests {
 
     @Test
     public void testResolveXml() throws TransformerException, ParserConfigurationException, IOException, SAXException {
-        EntityVO source=new EntityVO("1","type_0","s","d1");
-        EntityVO target=new EntityVO("2","type_1","t","s2");
-        RelationVO relation=new RelationVO("0","relation_type","relation","r1");
+        EntityVO source=new EntityVO(1l, 1L,"type_0","s","d1","222","234","circle");
+        EntityVO target=new EntityVO(2l,1L,"type_1","t","s2","123","214","circle");
+        RelationVO relation=new RelationVO(0l,"relation_type","relation","r1",true);
         RelationGroupVO relationGroupVO=new RelationGroupVO(source,target,relation);
 
         List<RelationGroupVO> r=new ArrayList<>();
         r.add(relationGroupVO);
         xmlUtil.beanToXml(r);
         Assert.assertEquals(r.get(0).equals(xmlUtil.resolveXml().get(0)),true);
-
     }
 }

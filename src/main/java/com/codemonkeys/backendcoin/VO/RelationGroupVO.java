@@ -1,8 +1,5 @@
 package com.codemonkeys.backendcoin.VO;
 
-
-
-
 /**
  * @author 吴旻轩
  * 一个RelationGroupVO表示一个实体，关系，实体的三元组
@@ -57,6 +54,4 @@ public class RelationGroupVO {
         RelationGroupVO other=(RelationGroupVO)otherObject;
         return this.relation.equals(other.relation)&&this.source.equals(other.source)&&this.target.equals(other.target);
     }
-
-
 }
