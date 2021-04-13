@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <root>
     <RelationGroup>
-        <Entity description="d1" graphId="2" id="1" property="source" shape="circle" type="type_0" x="222" y="234">s</Entity>
+        <Entity description="d1" graphId="1" id="1" property="source" shape="circle" type="type_0" x="222" y="234">s</Entity>
         <Relation description="r1" id="0" isFullLine="true" type="relation_type">relation</Relation>
-        <Entity description="s2" graphId="2" id="2" property="target" shape="circle" type="type_1" x="123" y="214">t</Entity>
+        <Entity description="s2" graphId="1" id="2" property="target" shape="circle" type="type_1" x="123" y="214">t</Entity>
     </RelationGroup>
 </root>
