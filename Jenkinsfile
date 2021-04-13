@@ -13,10 +13,7 @@ pipeline {
             }
         }
         stage('run'){
-            environment{
-                JENKINS_NODE_COOKIE=dontkillme
-            }
-            steps{
+            withEnv(['JENKINS_NODE_COOKIE=dontkillme']){
                 sh '''
                 sh stop.sh
                 nohup java -jar /var/lib/jenkins/workspace/backend-coin/target/backend-coin-0.0.1-SNAPSHOT.jar --spring.profiles.active=prod &
