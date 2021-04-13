@@ -15,7 +15,6 @@ pipeline {
         stage('run'){
             steps{
                 sh '''sh stop.sh
-                sh init_database.sh
                 sh start.sh'''
             }
         }
