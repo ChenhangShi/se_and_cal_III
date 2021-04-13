@@ -12,6 +12,11 @@ pipeline {
                 sh 'mvn clean package'
             }
         }
+        stage('jacoco report'){
+            steps{
+                jacoco classPattern: '**/target/classes', execPattern: '**/target/**.exec'
+            }
+        }
         stage('run'){
             steps{
                 withEnv(['JENKINS_NODE_COOKIE=dontkillme']){
@@ -20,11 +25,6 @@ pipeline {
                     nohup java -jar /var/lib/jenkins/workspace/backend-coin/target/backend-coin-0.0.1-SNAPSHOT.jar --spring.profiles.active=prod &
                     '''
                 }
-            }
-        }
-        stage('jacoco report'){
-            steps{
-                jacoco classPattern: '**/target/classes', execPattern: '**/target/**.exec'
             }
         }
     }
