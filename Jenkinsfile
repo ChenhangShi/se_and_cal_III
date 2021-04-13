@@ -9,7 +9,7 @@ pipeline {
         }
         stage('build project'){
             steps{
-                sh 'mvn clean package -Dmaven.test.skip=true'
+                sh 'mvn clean package -P prod'
             }
         }
         stage('run'){
