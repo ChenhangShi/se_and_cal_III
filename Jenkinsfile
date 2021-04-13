@@ -12,16 +12,15 @@ pipeline {
                 sh 'mvn clean package'
             }
         }
+        stage('run'){
+            steps{
+                sh '''sh stop.sh
+sh start.sh'''
+            }
+        }
         stage('jacoco report'){
             steps{
                 jacoco classPattern: '**/target/classes', execPattern: '**/target/**.exec'
-            }
-        }
-        stage('run'){
-            steps{
-                withEnv(['JENKINS_NODE_COOKIE=dontkillme']){
-                    sh 'nohup java -jar /var/lib/jenkins/workspace/backend-coin/target/backend-coin-0.0.1-SNAPSHOT.jar --spring.profiles.active=prod &'
-                }
             }
         }
     }

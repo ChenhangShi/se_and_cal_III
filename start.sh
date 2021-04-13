@@ -1,3 +1,5 @@
 #!/bin/bash
 echo "Starting SpringBoot Application"
-nohup java -jar /var/lib/jenkins/workspace/backend-coin/target/backend-coin-0.0.1-SNAPSHOT.jar --spring.profiles.active=prod &
+pwd
+export JENKINS_NODE_COOKIE=dontKillMe
+nohup java -Dhudson.util.ProcessTree.disable=true -jar target/*.jar /var/lib/jenkins/workspace/backend-coin/output.xml --spring.profiles.active=prod &
