@@ -1,10 +1,6 @@
 pipeline {
     agent any
 
-    environment{
-        JENKINS_NODE_COOKIE=dontkillme
-    }
-
     stages {
         stage('pull code') {
             steps {
@@ -17,6 +13,9 @@ pipeline {
             }
         }
         stage('run'){
+            environment{
+                JENKINS_NODE_COOKIE=dontkillme
+            }
             steps{
                 sh '''
                 sh stop.sh
