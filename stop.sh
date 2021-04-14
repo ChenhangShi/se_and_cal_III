@@ -7,4 +7,5 @@ if [ -n "$pid" ]
 then
    kill -9 "$pid"
    rm -f nohup.out
+   rm -f coin.log
 fi
