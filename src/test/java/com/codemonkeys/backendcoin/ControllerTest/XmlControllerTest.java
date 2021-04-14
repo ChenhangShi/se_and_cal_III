@@ -1,4 +1,4 @@
-package com.codemonkeys.backendcoin;
+package com.codemonkeys.backendcoin.ControllerTest;
 
 import com.codemonkeys.backendcoin.controller.XmlController;
 import com.codemonkeys.backendcoin.service.XmlService;
@@ -28,6 +28,7 @@ public class XmlControllerTest {
 
         MvcResult mvcResult=mockMvc.perform(get("/xml/getRelationGroup")).andReturn();
         Assert.assertEquals(200,mvcResult.getResponse().getStatus());
+        System.out.println(mvcResult.getResponse().getContentAsString());
     }
 
     @Test

@@ -1,14 +1,21 @@
 package com.codemonkeys.backendcoin.util;
 
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.*;
 
-@Service
+@Component
 public class FileUtil {
+    /**
+     * 将
+     * @param file
+     * @param path
+     * @throws IOException
+     */
     public void multipartFileToOutPutStream(MultipartFile file,String path) throws IOException {
-        if(file.equals("")||file.getSize()<=0){
+        if(file==null||file.getSize()<=0){
             return;
         }
         else{
@@ -17,13 +24,28 @@ public class FileUtil {
             File localFile=new File(path);
 
             FileOutputStream fos=new FileOutputStream(localFile);
-//            OutputStreamWriter osw=new OutputStreamWriter(fos,"UTF-8");
             InputStreamToOutputStream(is,fos);
             is.close();
             fos.close();
 
         }
     }
+    public void multipartFileToOutputStream(MultipartFile file,File f) throws IOException {
+        if(file==null||file.getSize()<=0){
+            return;
+        }
+        else{
+            InputStream is=null;
+            is=file.getInputStream();
+            File localFile=f;
+
+            FileOutputStream fos=new FileOutputStream(localFile);
+            InputStreamToOutputStream(is,fos);
+            is.close();
+            fos.close();
+    }
+    }
+
     public void InputStreamToOutputStream(InputStream is,FileOutputStream fos){
         try {
             int byteRead=0;

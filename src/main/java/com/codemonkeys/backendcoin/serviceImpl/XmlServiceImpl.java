@@ -6,6 +6,7 @@ import com.codemonkeys.backendcoin.VO.RelationGroupVO;
 import com.codemonkeys.backendcoin.VO.RelationVO;
 import com.codemonkeys.backendcoin.service.XmlService;
 import com.codemonkeys.backendcoin.util.XmlUtil;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.xml.sax.SAXException;
 
@@ -20,7 +21,8 @@ import java.util.Set;
 @Service
 
 public class XmlServiceImpl implements XmlService {
-    XmlUtil xmlUtil=new XmlUtil();
+    @Autowired
+    XmlUtil xmlUtil;
     @Override
     public List<RelationGroupVO> getAllRelationGroup()  {
         List<RelationGroupVO> res=new ArrayList<>();

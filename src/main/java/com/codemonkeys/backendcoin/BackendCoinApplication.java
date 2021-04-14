@@ -11,8 +11,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class BackendCoinApplication {
 
     public static void main(String[] args) {
-        XmlUtil.setXmlPath(args[0]);
-        FileController.setFilepath(args[0]);
+//        XmlUtil.setXmlPath(args[0]);
+//        FileController.setFilepath(args[0]);
         SpringApplication.run(BackendCoinApplication.class, args);
     }
 
