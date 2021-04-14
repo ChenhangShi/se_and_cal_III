@@ -8,6 +8,9 @@ import java.util.List;
 
 @Repository
 public interface EntityMapper {
+    @Select("select * from entity where graphId=#{graphId} and id=#{id}")
+    EntityPO getEntity(@Param("graphId")Long graphId,@Param("id")Long id);
+
     @Select("select * from entity where graphId=#{graphId}")
     List<EntityPO> getAllEntity(@Param("graphId")Long graphId);
     

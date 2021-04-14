@@ -11,25 +11,9 @@ public class FileUtil {
     /**
      * 将
      * @param file
-     * @param path
+     * @param f
      * @throws IOException
      */
-    public void multipartFileToOutPutStream(MultipartFile file,String path) throws IOException {
-        if(file==null||file.getSize()<=0){
-            return;
-        }
-        else{
-            InputStream is=null;
-            is=file.getInputStream();
-            File localFile=new File(path);
-
-            FileOutputStream fos=new FileOutputStream(localFile);
-            InputStreamToOutputStream(is,fos);
-            is.close();
-            fos.close();
-
-        }
-    }
     public void multipartFileToOutputStream(MultipartFile file,File f) throws IOException {
         if(file==null||file.getSize()<=0){
             return;
@@ -38,7 +22,6 @@ public class FileUtil {
             InputStream is=null;
             is=file.getInputStream();
             File localFile=f;
-
             FileOutputStream fos=new FileOutputStream(localFile);
             InputStreamToOutputStream(is,fos);
             is.close();
