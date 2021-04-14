@@ -14,8 +14,10 @@ pipeline {
         }
         stage('run'){
             steps{
-                sh '''sh stop.sh
-sh start.sh'''
+                sh 'sh stop.sh'
+                withEnv(['JENKINS_NODE_COOKIE=dontkillme']){
+                    sh 'nohup java -jar target/*.jar /var/lib/jenkins/workspace/backend-coin/output.xml --spring.profiles.active=prod &'
+                }
             }
         }
         stage('jacoco report'){
