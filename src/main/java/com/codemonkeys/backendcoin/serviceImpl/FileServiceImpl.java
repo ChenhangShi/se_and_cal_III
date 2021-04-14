@@ -48,7 +48,8 @@ public class FileServiceImpl implements FileService {
     public void storeXml(MultipartFile file) throws IOException, ParserConfigurationException, SAXException {
         InputStream is=file.getInputStream();
         File f=null;
-        f=File.createTempFile("tmp", ".xml", new File("D:/"));
+        f=File.createTempFile("tmp", ".xml");
+        System.out.println(f.getAbsolutePath());
 
         fileUtil.multipartFileToOutputStream(file,f);
         List<RelationGroupVO> relationGroupVOList=xmlUtil.resolveXml(f.getAbsolutePath());
@@ -93,7 +94,7 @@ public class FileServiceImpl implements FileService {
 
         File file=null;
         try{
-            file=File.createTempFile("tmp", ".xml", new File("D:/"));
+            file=File.createTempFile("tmp", ".xml");
             xmlUtil.beanToXml(relationGroupVOList,file);
             String fileName=file.getAbsolutePath();
 
