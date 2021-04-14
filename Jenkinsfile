@@ -9,14 +9,13 @@ pipeline {
         }
         stage('build project'){
             steps{
-                sh 'mvn clean package -Dmaven.test.skip=true'
+                sh 'mvn clean package'
             }
         }
         stage('run'){
             steps{
                 sh '''sh stop.sh
-                sh init_database.sh
-                sh start.sh'''
+sh start.sh'''
             }
         }
         stage('jacoco report'){
