@@ -11,7 +11,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class BackendCoinApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(BackendCoinApplication.class);
+        SpringApplication.run(BackendCoinApplication.class, args);
     }
 
 }
