@@ -9,7 +9,7 @@ import java.util.Objects;
 
 public class RelationVO {
 
-    private String id;
+    private Long id;
 
     private String name;
 
@@ -17,11 +17,21 @@ public class RelationVO {
 
     private String description;
 
-    public String getId() {
+    private boolean isFullLine;
+
+    public boolean isFullLine() {
+        return isFullLine;
+    }
+
+    public void setFullLine(boolean fullLine) {
+        isFullLine = fullLine;
+    }
+
+    public Long getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -43,11 +53,12 @@ public class RelationVO {
 
 
 
-    public RelationVO(String id,String type,String name,String description){
+    public RelationVO(Long id,String type,String name,String description,boolean isFullLine){
         this.id=id;
         this.type=type;
         this.description=description;
         this.name=name;
+        this.isFullLine=isFullLine;
     }
 
     public String getName() {
@@ -74,11 +85,12 @@ public class RelationVO {
         return this.id.equals(relationVO.id)&&
                 this.name.equals(relationVO.name)&&
                 this.type.equals(relationVO.type)&&
-                this.description.equals(relationVO.description);
+                this.description.equals(relationVO.description)
+                &&this.isFullLine==relationVO.isFullLine;
     }
 
     @Override
     public int hashCode(){
-        return Objects.hash(this.id,this.name,this.description,this.type);
+        return Objects.hash(this.id,this.name,this.description,this.type,this.isFullLine);
     }
 }
