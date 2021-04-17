@@ -84,6 +84,8 @@ public class EntityVO {
         this.shape=shape;
     }
 
+    public EntityVO(){};
+
 
     public String getName() {
         return name;

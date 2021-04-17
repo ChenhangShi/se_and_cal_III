@@ -14,6 +14,7 @@ import com.codemonkeys.backendcoin.util.Map;
 import com.codemonkeys.backendcoin.util.XmlUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 import org.xml.sax.SAXException;
 
@@ -29,6 +30,7 @@ import java.util.Set;
 
 
 @Service
+@Transactional
 public class FileServiceImpl implements FileService {
     FileUtil fileUtil;
     XmlUtil xmlUtil;

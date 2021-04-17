@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 import org.xml.sax.SAXException;
 
@@ -21,6 +22,7 @@ import java.io.IOException;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = {BackendCoinApplication.class})
+@Transactional
 public class FileServiceTest {
     @Autowired
     FileService fileService;
@@ -28,9 +30,9 @@ public class FileServiceTest {
     @Test
     public void testStoreXml() throws IOException, ParserConfigurationException, SAXException {
         System.out.print(fileService==null);
-        String localFilePath="D:\\软工三\\backend-coin\\output.xml";
+        String localFilePath="output.xml";
         File file=new File(localFilePath);
-        FileInputStream fileInputStream=null;
+        FileInputStream fileInputStream;
         fileInputStream=new FileInputStream(file);
 
         MultipartFile multipartFile=new MockMultipartFile(file.getName(),file.getName(),"application/octet-stream",fileInputStream);

@@ -40,7 +40,7 @@ public class EntityController {
         entityService.deleteEntities(entityNodeList,graphId);
     }
 
-    @PostMapping("updateNodes")
+    @PostMapping("/updateNodes")
     public void updateEntities(@RequestBody List<EntityVO> entityVOList){
         entityService.updateEntities(entityVOList);
     }

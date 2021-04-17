@@ -16,8 +16,12 @@ import java.net.URLEncoder;
 @RequestMapping("/file")
 public class FileController {
 
-    @Autowired
     FileService fileService;
+
+    @Autowired
+    public FileController(FileService fileService){
+        this.fileService=fileService;
+    }
 
     @PostMapping("/storeXml")
     public void storeXml(@RequestParam(value="file")MultipartFile file){

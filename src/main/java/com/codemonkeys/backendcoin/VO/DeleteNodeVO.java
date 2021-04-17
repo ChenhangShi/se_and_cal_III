@@ -8,6 +8,8 @@ public class DeleteNodeVO {
         this.graphId = graphId;
     }
 
+    public DeleteNodeVO(){}
+
     public List<String> entityNodeIdList;
     public String graphId;
 }
