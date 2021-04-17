@@ -18,9 +18,9 @@ public class EntityController {
         this.entityService=entityService;
     }
 
-    @GetMapping("/getAllNode")
-    public List<EntityVO> getAllEntities(@RequestParam Long graphId){
-        return entityService.getAllEntities(graphId);
+    @GetMapping("/getAllNode/{graphId}")
+    public List<EntityVO> getAllEntities(@PathVariable String graphId){
+        return entityService.getAllEntities(Long.parseLong(graphId));
     }
 
     @PostMapping("/addNodes")
@@ -40,7 +40,7 @@ public class EntityController {
         entityService.deleteEntities(entityNodeList,graphId);
     }
 
-    @PostMapping("updateNodes")
+    @PostMapping("/updateNodes")
     public void updateEntities(@RequestBody List<EntityVO> entityVOList){
         entityService.updateEntities(entityVOList);
     }
