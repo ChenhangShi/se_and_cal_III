@@ -9,7 +9,7 @@ import javax.xml.transform.TransformerException;
 import java.io.IOException;
 
 public interface FileService {
-    void storeXml(MultipartFile file) throws IOException, ParserConfigurationException, SAXException;
+    void storeXml(MultipartFile file,Long graphId) throws IOException, ParserConfigurationException, SAXException;
 
     void downLoadXml(Long graphId, HttpServletResponse response);
 }

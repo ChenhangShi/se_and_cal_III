@@ -47,7 +47,7 @@ public class FileServiceImpl implements FileService {
         this.map=map;
     }
 
-    public void storeXml(MultipartFile file) throws IOException, ParserConfigurationException, SAXException {
+    public void storeXml(MultipartFile file,Long graphId) throws IOException, ParserConfigurationException, SAXException {
         InputStream is=file.getInputStream();
         File f=null;
         f=File.createTempFile("tmp", ".xml");
@@ -72,6 +72,7 @@ public class FileServiceImpl implements FileService {
         }
 
         for(EntityVO entityVO:entityVOSet){
+            entityVO.setGraphId(graphId);
             entityMapper.insertEntity(map.from(entityVO));
         }
     }
