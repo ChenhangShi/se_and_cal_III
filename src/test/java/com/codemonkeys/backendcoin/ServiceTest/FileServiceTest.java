@@ -36,7 +36,7 @@ public class FileServiceTest {
         fileInputStream=new FileInputStream(file);
 
         MultipartFile multipartFile=new MockMultipartFile(file.getName(),file.getName(),"application/octet-stream",fileInputStream);
-        fileService.storeXml(multipartFile);
+        fileService.storeXml(multipartFile,Long.MAX_VALUE);
 
     }
 }

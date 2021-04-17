@@ -31,9 +31,7 @@ public class EntityControllerTest {
                 }});
         EntityController entityController = new EntityController(entityService);
         MockMvc mockMvc = MockMvcBuilders.standaloneSetup(entityController).build();
-        mockMvc.perform(MockMvcRequestBuilders.get("/entity/getAllNode")
-                .param("graphId","1"))
-                .andExpect(status().isOk());
+        mockMvc.perform(MockMvcRequestBuilders.get("/entity/getAllNode/1")).andExpect(status().isOk());
         verify(entityService).getAllEntities(1L);
     }
 

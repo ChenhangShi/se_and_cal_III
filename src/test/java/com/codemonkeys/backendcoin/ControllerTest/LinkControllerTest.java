@@ -24,7 +24,7 @@ public class LinkControllerTest {
         when(linkService.getAllLinks(1L)).thenReturn(Arrays.asList(new LinkVO(1L,1L,2L,"r","rt","d",1L,true)));
         LinkController linkController = new LinkController(linkService);
         MockMvc mockMvc = standaloneSetup(linkController).build();
-        mockMvc.perform(get("/link/getAllLink").param("graphId","1")).andExpect(status().isOk());
+        mockMvc.perform(get("/link/getAllLink/1")).andExpect(status().isOk());
         verify(linkService).getAllLinks(1L);
     }
 

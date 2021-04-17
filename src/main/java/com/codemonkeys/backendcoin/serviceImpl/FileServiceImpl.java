@@ -68,6 +68,7 @@ public class FileServiceImpl implements FileService {
         }
 
         for(LinkVO linkVO:linkVOSet){
+            linkVO.setGraphId(graphId);
             linkMapper.insertLink(map.from(linkVO));
         }
 
