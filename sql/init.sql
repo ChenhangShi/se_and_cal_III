@@ -13,6 +13,10 @@ create table entity(
     primary key (id,graphId)
 );
 
+INSERT INTO `entity` VALUES (1,1,'source','red','circle','test_source','123','123');
+INSERT INTO `entity` VALUES (2,1,'target','blue','circle','test_target','124','125');
+
+
 drop table if exists link;
 create table link(
     id bigint not null,
@@ -26,6 +30,9 @@ create table link(
     primary key (id,graphId)
 );
 
+INSERT INTO `link` VALUES (1,1,2,1,'test','red','test',1);
+
+
 drop table if exists graph;
 create table graph(
     graphId bigint not null auto_increment,
@@ -33,3 +40,4 @@ create table graph(
     primary key (graphId)
 );
 
+INSERT INTO `graph` VALUES (1,'a');
