@@ -9,5 +9,4 @@ public class EntityPO {
     public String description;
     public String x;
     public String y;
-
 }

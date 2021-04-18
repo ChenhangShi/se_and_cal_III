@@ -1,0 +1,3 @@
+- 请在ServiceImpl类上加@Transactional，开启事务
+- 请在测试类上加@Transactional，以自动回滚，防止数据污染
+- 测试时，graphId等可置为Long.MAX_VALUE，防止冲突
