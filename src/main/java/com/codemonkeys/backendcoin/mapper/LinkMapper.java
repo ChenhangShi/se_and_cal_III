@@ -25,4 +25,8 @@ public interface LinkMapper {
 
     @Select("select * from link where id=#{id} and graphId=#{graphId}")
     LinkPO getLink(@Param("id") Long id,@Param("graphId")Long graphId);
+
+
+    @Delete("delete from link where id=#{id} and graphId=#{graphId}")
+    void deleteLinkById(@Param("id") Long linkId,@Param("graphId")Long graphId);
 }

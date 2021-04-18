@@ -5,7 +5,7 @@ import com.codemonkeys.backendcoin.VO.DeleteNodeVO;
 import com.codemonkeys.backendcoin.VO.EntityVO;
 import com.codemonkeys.backendcoin.controller.EntityController;
 import com.codemonkeys.backendcoin.service.EntityService;
-import com.fasterxml.jackson.databind.ObjectMapper;
+
 import org.junit.Test;
 import static org.mockito.Mockito.*;
 
