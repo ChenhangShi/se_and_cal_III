@@ -47,4 +47,11 @@ public class LinkServiceImpl implements LinkService {
             linkMapper.updateLink(map.from(linkVO));
         }
     }
+
+    @Override
+    public void deleteLink(List<LinkVO> linkVOList){
+        for(LinkVO linkVO:linkVOList){
+            linkMapper.deleteLinkById(linkVO.getId(),linkVO.getGraphId());
+        }
+    }
 }
