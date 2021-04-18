@@ -32,4 +32,9 @@ public class LinkController {
     public void updateLinks(@RequestBody List<LinkVO> linkVOList){
         linkService.updateLink(linkVOList);
     }
+
+    @PostMapping("/deleteLinks")
+    public void deleteLinks(@RequestBody List<LinkVO> linkVOList){
+        linkService.deleteLink(linkVOList);
+    }
 }
