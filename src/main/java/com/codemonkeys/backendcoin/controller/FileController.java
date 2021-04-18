@@ -22,9 +22,9 @@ public class FileController {
         this.fileService=fileService;
     }
 
-    @PostMapping("/storeXml")
+    @PostMapping("/storeXml/{graphId}")
     public void storeXml(@RequestParam(value="file")MultipartFile file,
-                         @RequestParam Long graphId){
+                         @PathVariable Long graphId){
         try{
             fileService.storeXml(file,graphId);
         } catch (SAXException e) {
