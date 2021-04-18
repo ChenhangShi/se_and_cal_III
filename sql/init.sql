@@ -13,8 +13,8 @@ create table entity(
     primary key (id,graphId)
 );
 
-INSERT INTO `entity` VALUES (1,1,'source','red','circle','test_source','123','123');
-INSERT INTO `entity` VALUES (2,1,'target','blue','circle','test_target','124','125');
+INSERT INTO `entity` VALUES (1,1,'source','t0','circle','test_source','123','123');
+INSERT INTO `entity` VALUES (2,1,'target','t0','circle','test_target','124','125');
 
 
 drop table if exists link;
@@ -30,7 +30,7 @@ create table link(
     primary key (id,graphId)
 );
 
-INSERT INTO `link` VALUES (1,1,2,1,'test','red','test',1);
+INSERT INTO `link` VALUES (1,1,2,1,'test','to','test',1);
 
 
 drop table if exists graph;
