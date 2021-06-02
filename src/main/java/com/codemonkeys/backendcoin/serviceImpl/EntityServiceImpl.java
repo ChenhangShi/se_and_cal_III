@@ -6,6 +6,7 @@ import com.codemonkeys.backendcoin.mapper.EntityMapper;
 import com.codemonkeys.backendcoin.mapper.LinkMapper;
 import com.codemonkeys.backendcoin.service.EntityService;
 import com.codemonkeys.backendcoin.util.Map;
+import com.codemonkeys.backendcoin.util.ProcessData;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -19,16 +20,21 @@ public class EntityServiceImpl implements EntityService {
     EntityMapper entityMapper;
     LinkMapper linkMapper;
     Map map;
+    ProcessData processData;
 
     @Autowired
-    public EntityServiceImpl(EntityMapper entityMapper,LinkMapper linkMapper, Map map) {
+    public EntityServiceImpl(EntityMapper entityMapper,LinkMapper linkMapper, Map map,ProcessData processData) {
         this.entityMapper = entityMapper;
         this.map = map;
         this.linkMapper=linkMapper;
+        this.processData=processData;
     }
 
     @Override
     public List<EntityVO> getAllEntities(Long graphId) {
+        processData.generateDirectorToMovie();
+
+
         List<EntityPO> entityPOList=entityMapper.getAllEntity(graphId);
         List<EntityVO> entityVOList=new ArrayList<>();
         for(EntityPO entityPO:entityPOList){
