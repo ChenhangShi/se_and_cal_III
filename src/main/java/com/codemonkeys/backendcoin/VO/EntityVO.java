@@ -9,7 +9,7 @@ import java.util.Objects;
 public class EntityVO {
 
     private Long id;
-    public Long graphId;
+    private Long graphId;
     private String name;
     private String type;
     private String description;
