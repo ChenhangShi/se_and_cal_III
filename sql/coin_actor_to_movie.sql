@@ -30,6 +30,12 @@ CREATE TABLE `actor_to_movie` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
+create index actor_to_movie_actor_index
+	on actor_to_movie (actor_id);
+
+create index actor_to_movie_movie_index
+	on actor_to_movie (movie_id);
+
 --
 -- Dumping data for table `actor_to_movie`
 --

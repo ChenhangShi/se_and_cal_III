@@ -32,6 +32,8 @@ CREATE TABLE `director_to_movie` (
 
 create index director_to_movie_director_index
     on director_to_movie (director_chName);
+create index director_to_movie_movie_index
+	on director_to_movie (movie_chName);
 
 --
 -- Dumping data for table `director_to_movie`
