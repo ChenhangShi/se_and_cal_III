@@ -12,7 +12,7 @@ public interface LinkMapper {
     @Select("select * from link where graphId=#{graphId}")
     List<LinkPO> getAllLink(@Param("graphId")Long graphId);
 
-    @Insert("insert into link(id,sourceId,targetId,graphId,relationName,type,description,isFullLine) value(#{l.id},#{l.sourceId}" +
+    @Insert("insert into link(sourceId,targetId,graphId,relationName,type,description,isFullLine) value(#{l.sourceId}" +
             ",#{l.targetId},#{l.graphId},#{l.relationName},#{l.type},#{l.description},#{l.isFullLine})")
     void insertLink(@Param("l") LinkPO linkPO);
 

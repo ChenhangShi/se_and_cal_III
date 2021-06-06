@@ -6,8 +6,9 @@ public enum NodeType {
     Actor_ForeName("actor_foreName"),
     Actor_Nationality("actor_nationality"),
     Actor_Constellation("actor_constellation"),//星座
-    Actor_Birthplace("actor_birthplace"),
-    Actor_RepWorks("actor_repworks"),
+    Actor_Birthplace("actor_birthPlace"),
+    Actor_BirthDay("actor_birthDay"),
+    Actor_RepWorks("actor_repWorks"),
     Actor_Achiem("actor_achiem"),//成就
     Actor_Brokerage("actor_brokerage"),//经纪人
     Movie("movie_chName"),
@@ -23,12 +24,17 @@ public enum NodeType {
     Movie_RekeaseTime("movie_rekeaseTime"),
     Movie_Language("movie_language"),
     Movie_Achiem("movie_achiem"),
-
-    Genre("genre")
+    Genre("genre"),
+    Default("default")
     ;
 
     private String type;
     NodeType(String type) {
         this.type=type;
+    }
+
+    @Override
+    public String toString(){
+        return this.type;
     }
 }

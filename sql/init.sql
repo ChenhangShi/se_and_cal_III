@@ -33,6 +33,28 @@ create table link(
 INSERT INTO `link` VALUES (1,1,2,1,'test','to','test',1);
 
 
+drop table if exists user_tag_movie;
+create table user_tag_movie(
+    userId int not null,
+    movie varchar(255) not null,
+    primary key(userId,movie)
+);
+
+drop table if exists user_tag_actor;
+create table user_tag_actor(
+    userId int not null,
+    actor varchar(255) not null,
+    primary key(userId,actor)
+);
+
+drop table if exists user_tag_director;
+create table user_tag_director(
+    userId int not null,
+    director varchar(255) not null,
+    primary key(userId,director)
+);
+
+
 drop table if exists graph;
 create table graph(
     graphId bigint not null auto_increment,

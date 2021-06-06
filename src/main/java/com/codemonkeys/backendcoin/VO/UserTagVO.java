@@ -4,6 +4,14 @@ import java.util.List;
 
 public class UserTagVO {
     private int userId;
+
+    public UserTagVO(int userId, List<String> movies, List<String> actors, List<String> directors) {
+        this.userId = userId;
+        this.movies = movies;
+        this.actors = actors;
+        this.directors = directors;
+    }
+
     private List<String> movies;
     private List<String> actors;
     private List<String> directors;

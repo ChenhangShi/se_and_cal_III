@@ -1,13 +1,7 @@
 package com.codemonkeys.backendcoin.util;
 
-import com.codemonkeys.backendcoin.PO.EntityPO;
-import com.codemonkeys.backendcoin.PO.GraphPO;
-import com.codemonkeys.backendcoin.PO.LinkPO;
-import com.codemonkeys.backendcoin.PO.UserPO;
-import com.codemonkeys.backendcoin.VO.EntityVO;
-import com.codemonkeys.backendcoin.VO.GraphVO;
-import com.codemonkeys.backendcoin.VO.LinkVO;
-import com.codemonkeys.backendcoin.VO.UserVO;
+import com.codemonkeys.backendcoin.PO.*;
+import com.codemonkeys.backendcoin.VO.*;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
@@ -28,4 +22,16 @@ public interface Map {
     GraphPO from(GraphVO graphVO);
 
     GraphVO from(GraphPO graphPO);
+
+    UserDirectorVO from(UserDirectorPO directorPO);
+
+    UserDirectorPO from(UserDirectorVO directorVO);
+
+    UserMovieVO from(UserMoviePO moviePO);
+
+    UserMoviePO from(UserMovieVO movieVO);
+
+    UserActorVO from(UserActorPO userActorPO);
+
+    UserActorPO from(UserActorVO userActorVO);
 }

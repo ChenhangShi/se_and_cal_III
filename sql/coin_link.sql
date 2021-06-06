@@ -23,7 +23,7 @@ DROP TABLE IF EXISTS `link`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `link` (
-  `id` bigint NOT NULL,
+  `id` bigint NOT NULL AUTO_INCREMENT,
   `sourceId` bigint NOT NULL,
   `targetId` bigint NOT NULL,
   `graphId` bigint NOT NULL,

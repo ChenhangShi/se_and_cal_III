@@ -19,6 +19,6 @@ public interface GraphMapper {
     GraphPO getGraphById(@Param("graphId") Long graphId);
 
     @Insert("insert into graph (graphName) values (#{g.graphName})")
-    @Options(useGeneratedKeys = true,keyProperty = "graphId",keyColumn = "graphId")
+    @Options(useGeneratedKeys = true,keyProperty = "",keyColumn = "graphId")
     void insertGraph(@Param("g")GraphPO graphPO);
 }

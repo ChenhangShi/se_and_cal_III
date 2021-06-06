@@ -14,8 +14,9 @@ public interface EntityMapper {
     @Select("select * from entity where graphId=#{graphId}")
     List<EntityPO> getAllEntity(@Param("graphId")Long graphId);
     
-    @Insert("insert into entity(id,graphId,name,type,shape,description,x,y) value (#{p.id},#{p.graphId}" +
-            ",#{p.name},#{p.type},#{p.shape},#{p.description},#{p.x},#{p.y}) ")
+    @Insert("insert into entity(graphId,name,type,shape,description,x,y) value (#{p.graphId}" +
+            ",#{p.name},#{p.nodeType},#{p.shape},#{p.description},#{p.x},#{p.y}) ")
+    @Options(useGeneratedKeys = true,keyProperty = "id",keyColumn = "id")
     void insertEntity(@Param("p") EntityPO entityPO);
 
     @Delete("delete from entity where id=#{id} and graphId=#{graphId}")

@@ -10,12 +10,12 @@ import org.springframework.web.bind.annotation.RestController;
 public class LoginController {
 
     @PostMapping("/success")
-    public String success(){
-        return ResponseMessage.Success.toString();
+    public ResponseMessage success(){
+        return ResponseMessage.Success;
     }
 
     @PostMapping("/failure")
-    public String failure(){
-        return ResponseMessage.Forbidden.toString();
+    public ResponseMessage failure(){
+        return ResponseMessage.Forbidden;
     }
 }

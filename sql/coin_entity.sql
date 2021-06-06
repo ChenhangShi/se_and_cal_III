@@ -23,12 +23,12 @@ DROP TABLE IF EXISTS `entity`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `entity` (
-  `id` bigint NOT NULL,
+  `id` bigint NOT NULL AUTO_INCREMENT,
   `graphId` bigint NOT NULL,
   `name` varchar(255) NOT NULL,
   `type` varchar(255) NOT NULL,
   `shape` varchar(255) NOT NULL,
-  `description` varchar(255) DEFAULT NULL,
+  `description` longtext DEFAULT NULL,
   `x` varchar(255) NOT NULL,
   `y` varchar(255) NOT NULL,
   PRIMARY KEY (`id`,`graphId`)
