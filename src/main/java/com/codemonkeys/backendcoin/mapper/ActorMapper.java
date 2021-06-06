@@ -1,5 +1,6 @@
 package com.codemonkeys.backendcoin.mapper;
 
+import com.codemonkeys.backendcoin.PO.ActorNamePO;
 import com.codemonkeys.backendcoin.PO.ActorPO;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
@@ -11,6 +12,9 @@ import java.util.List;
 public interface ActorMapper {
     @Select("select * from actor where actor_id=#{actorId}")
     ActorPO getActorById(@Param("actorId") int actorId);
+
+    @Select("select actor_id, actor_chName, actor_foreName from actor")
+    List<ActorNamePO> getAllActorNames();
 
     @Select("select movie_id from actor_to_movie where actor_id=#{actorId}")
     List<Integer> getMovieByActorId(@Param("actorId")int actorId);
