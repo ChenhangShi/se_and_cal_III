@@ -24,7 +24,9 @@ public class SecurityConf extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
 
         http.formLogin()   //自定义自己编写的登录页面
-                .loginProcessingUrl("/login/**")   //登录访问路径
+                .loginProcessingUrl("/login/**")//登录访问路径
+                .successForwardUrl("/login/success").
+                failureForwardUrl("/login/failure")
                 .and().
                 csrf().disable()
                 .authorizeRequests() // 这个确定了哪些需要权限认证
