@@ -1,6 +1,8 @@
 package com.codemonkeys.backendcoin.ServiceTest;
 
 import com.codemonkeys.backendcoin.BackendCoinApplication;
+import com.codemonkeys.backendcoin.Enum.LinkType;
+import com.codemonkeys.backendcoin.Enum.NodeType;
 import com.codemonkeys.backendcoin.PO.EntityPO;
 import com.codemonkeys.backendcoin.PO.LinkPO;
 import com.codemonkeys.backendcoin.VO.EntityVO;
@@ -36,8 +38,8 @@ public class EntityServiceTest {
     @Test
     public void testGetAllEntities() throws Exception{
         List<EntityPO> entityPOList = Arrays.asList(
-                new EntityPO(){{this.id=0L;this.graphId=Long.MAX_VALUE;this.description="";this.name="";this.shape="";this.type="";this.x="1";this.y="1";}},
-                new EntityPO(){{this.id=1L;this.graphId=Long.MAX_VALUE;this.description="";this.name="";this.shape="";this.type="";this.x="1";this.y="1";}}
+                new EntityPO(){{this.id=0L;this.graphId=Long.MAX_VALUE;this.description="";this.name="";this.shape="";this.nodeType= NodeType.Actor;this.x="1";this.y="1";}},
+                new EntityPO(){{this.id=1L;this.graphId=Long.MAX_VALUE;this.description="";this.name="";this.shape="";this.nodeType=NodeType.Actor_Bio;this.x="1";this.y="1";}}
         );
         for(EntityPO entityPO:entityPOList){
             entityMapper.insertEntity(entityPO);
@@ -49,8 +51,8 @@ public class EntityServiceTest {
     @Test
     public void testAddEntities() throws Exception{
         List<EntityVO> entityVOList = Arrays.asList(
-                new EntityVO(0L,Long.MAX_VALUE,"","a","","1","1",""),
-                new EntityVO(1L,Long.MAX_VALUE,"","b","","1","1","")
+                new EntityVO(0L,Long.MAX_VALUE,NodeType.Actor,"a","","1","1",""),
+                new EntityVO(1L,Long.MAX_VALUE,NodeType.Actor_Bio,"b","","1","1","")
         );
         entityService.addEntities(entityVOList);
         EntityPO entityPO = entityMapper.getEntity(Long.MAX_VALUE,0L);
@@ -62,13 +64,13 @@ public class EntityServiceTest {
     @Test
     public void testDeleteEntities() throws Exception{
         List<EntityPO> entityPOList = Arrays.asList(
-                new EntityPO(){{this.id=0L;this.graphId=Long.MAX_VALUE;this.description="";this.name="";this.shape="";this.type="";this.x="1";this.y="1";}},
-                new EntityPO(){{this.id=1L;this.graphId=Long.MAX_VALUE;this.description="";this.name="";this.shape="";this.type="";this.x="1";this.y="1";}}
+                new EntityPO(){{this.id=0L;this.graphId=Long.MAX_VALUE;this.description="";this.name="";this.shape="";this.nodeType=NodeType.Movie;this.x="1";this.y="1";}},
+                new EntityPO(){{this.id=1L;this.graphId=Long.MAX_VALUE;this.description="";this.name="";this.shape="";this.nodeType=NodeType.Movie_Bio;this.x="1";this.y="1";}}
         );
         for(EntityPO entityPO:entityPOList){
             entityMapper.insertEntity(entityPO);
         }
-        LinkPO linkPO = new LinkPO(){{this.id=Long.MAX_VALUE;this.graphId=Long.MAX_VALUE;this.sourceId=0L;this.targetId=1L;this.description="";this.relationName="";this.type="";this.isFullLine=false;}};
+        LinkPO linkPO = new LinkPO(){{this.id=Long.MAX_VALUE;this.graphId=Long.MAX_VALUE;this.sourceId=0L;this.targetId=1L;this.description="";this.relationName="";this.type= LinkType.Actor_Info;this.isFullLine=false;}};
         linkMapper.insertLink(linkPO);
         entityService.deleteEntities(Arrays.asList(0L),Long.MAX_VALUE);
 
@@ -80,10 +82,10 @@ public class EntityServiceTest {
 
     @Test
     public void testUpdateEntities() throws Exception{
-        EntityPO entityPO = new EntityPO(){{this.id=0L;this.graphId=Long.MAX_VALUE;this.description="";this.name="";this.shape="";this.type="";this.x="1";this.y="1";}};
+        EntityPO entityPO = new EntityPO(){{this.id=0L;this.graphId=Long.MAX_VALUE;this.description="";this.name="";this.shape="";this.nodeType=NodeType.Movie;this.x="1";this.y="1";}};
         entityMapper.insertEntity(entityPO);
         entityService.updateEntities(Arrays.asList(
-                new EntityVO(0L,Long.MAX_VALUE,"","a","","1","1","")
+                new EntityVO(0L,Long.MAX_VALUE,NodeType.Movie,"a","","1","1","")
         ));
         entityPO = entityMapper.getEntity(Long.MAX_VALUE,0L);
         Assert.assertEquals("a",entityPO.name);

@@ -1,5 +1,7 @@
 package com.codemonkeys.backendcoin.VO;
 
+import com.codemonkeys.backendcoin.Enum.LinkType;
+
 import java.util.Objects;
 
 /**
@@ -13,7 +15,7 @@ public class RelationVO {
 
     private String name;
 
-    private String type;
+    private LinkType type;
 
     private String description;
 
@@ -35,11 +37,11 @@ public class RelationVO {
         this.id = id;
     }
 
-    public String getType() {
+    public LinkType getType() {
         return type;
     }
 
-    public void setType(String type) {
+    public void setType(LinkType type) {
         this.type = type;
     }
 
@@ -53,7 +55,7 @@ public class RelationVO {
 
 
 
-    public RelationVO(Long id,String type,String name,String description,boolean isFullLine){
+    public RelationVO(Long id,LinkType type,String name,String description,boolean isFullLine){
         this.id=id;
         this.type=type;
         this.description=description;

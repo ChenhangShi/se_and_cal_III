@@ -1,6 +1,7 @@
 package com.codemonkeys.backendcoin.ControllerTest;
 
 import com.alibaba.fastjson.JSON;
+import com.codemonkeys.backendcoin.Enum.LinkType;
 import com.codemonkeys.backendcoin.VO.LinkVO;
 import com.codemonkeys.backendcoin.controller.LinkController;
 import com.codemonkeys.backendcoin.service.LinkService;
@@ -21,7 +22,7 @@ public class LinkControllerTest {
     @Test
     public void testGetAllLinks() throws Exception{
         LinkService linkService = mock(LinkService.class);
-        when(linkService.getAllLinks(1L)).thenReturn(Arrays.asList(new LinkVO(1L,1L,2L,"r","rt","d",1L,true)));
+        when(linkService.getAllLinks(1L)).thenReturn(Arrays.asList(new LinkVO(1L,1L,2L,"r", LinkType.Actor_Info,"d",1L,true)));
         LinkController linkController = new LinkController(linkService);
         MockMvc mockMvc = standaloneSetup(linkController).build();
         mockMvc.perform(get("/link/getAllLink/1")).andExpect(status().isOk());
@@ -30,7 +31,7 @@ public class LinkControllerTest {
 
     @Test
     public void testAddLinks() throws Exception{
-        List<LinkVO> linkVOList = Arrays.asList(new LinkVO(1L,1L,2L,"r","rt","d",1L,true));
+        List<LinkVO> linkVOList = Arrays.asList(new LinkVO(1L,1L,2L,"r",LinkType.Actor_Info,"d",1L,true));
         LinkService linkService = mock(LinkService.class);
         LinkController linkController = new LinkController(linkService);
         MockMvc mockMvc = standaloneSetup(linkController).build();
@@ -41,7 +42,7 @@ public class LinkControllerTest {
 
     @Test
     public void testUpdateLinks() throws Exception{
-        List<LinkVO> linkVOList = Arrays.asList(new LinkVO(1L,1L,2L,"r","rt","d",1L,true));
+        List<LinkVO> linkVOList = Arrays.asList(new LinkVO(1L,1L,2L,"r",LinkType.Actor_Info,"d",1L,true));
         LinkService linkService = mock(LinkService.class);
         LinkController linkController = new LinkController(linkService);
         MockMvc mockMvc = standaloneSetup(linkController).build();

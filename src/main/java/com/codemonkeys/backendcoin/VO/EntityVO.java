@@ -1,5 +1,7 @@
 package com.codemonkeys.backendcoin.VO;
 
+import com.codemonkeys.backendcoin.Enum.NodeType;
+
 import java.util.Objects;
 
 /**
@@ -11,7 +13,7 @@ public class EntityVO {
     private Long id;
     private Long graphId;
     private String name;
-    private String type;
+    private NodeType type;
     private String description;
     private String x;
     private String y;
@@ -57,11 +59,11 @@ public class EntityVO {
         this.id = id;
     }
 
-    public String getType() {
+    public NodeType getType() {
         return type;
     }
 
-    public void setType(String type) {
+    public void setType(NodeType type) {
         this.type = type;
     }
 
@@ -73,7 +75,7 @@ public class EntityVO {
         this.description = description;
     }
 
-    public EntityVO(Long id,Long graphId,String type,String name,String description,String x,String y,String shape){
+    public EntityVO(Long id,Long graphId,NodeType type,String name,String description,String x,String y,String shape){
         this.id=id;
         this.graphId=graphId;
         this.type=type;

@@ -1,6 +1,7 @@
 package com.codemonkeys.backendcoin.ControllerTest;
 
 import com.alibaba.fastjson.JSON;
+import com.codemonkeys.backendcoin.Enum.NodeType;
 import com.codemonkeys.backendcoin.VO.DeleteNodeVO;
 import com.codemonkeys.backendcoin.VO.EntityVO;
 import com.codemonkeys.backendcoin.controller.EntityController;
@@ -27,7 +28,7 @@ public class EntityControllerTest {
         EntityService entityService = mock(EntityService.class);
         when(entityService.getAllEntities(1L)).thenReturn(
                 new ArrayList<EntityVO>(){{
-                    add(new EntityVO(1L,1L,"a","a","a","1","1","circle"));
+                    add(new EntityVO(1L,1L,NodeType.Actor,"a","a","1","1","circle"));
                 }});
         EntityController entityController = new EntityController(entityService);
         MockMvc mockMvc = MockMvcBuilders.standaloneSetup(entityController).build();
@@ -37,7 +38,7 @@ public class EntityControllerTest {
 
     @Test
     public void testAddEntities() throws Exception{
-        List<EntityVO> entityVOList = Arrays.asList(new EntityVO(1L,1L,"a","a","a","1","1","circle"));
+        List<EntityVO> entityVOList = Arrays.asList(new EntityVO(1L,1L, NodeType.Actor,"a","a","1","1","circle"));
         String json_content = JSON.toJSONString(entityVOList);
         EntityService entityService = mock(EntityService.class);
         EntityController entityController = new EntityController(entityService);
@@ -65,7 +66,7 @@ public class EntityControllerTest {
 
     @Test
     public void testUpdateEntities() throws Exception{
-        List<EntityVO> entityVOList = Arrays.asList(new EntityVO(1L,1L,"a","a","a","1","1","circle"));
+        List<EntityVO> entityVOList = Arrays.asList(new EntityVO(1L,1L,NodeType.Actor,"a","a","1","1","circle"));
         String json_content = JSON.toJSONString(entityVOList);
         EntityService entityService = mock(EntityService.class);
         EntityController entityController = new EntityController(entityService);

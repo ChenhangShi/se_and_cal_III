@@ -1,5 +1,7 @@
 package com.codemonkeys.backendcoin.VO;
 
+import com.codemonkeys.backendcoin.Enum.LinkType;
+
 import java.util.Objects;
 
 public class LinkVO {
@@ -7,13 +9,13 @@ public class LinkVO {
     private Long sourceId;
     private Long targetId;
     private String relation;
-    private String type;
+    private LinkType type;
     private String description;
     private Long graphId;
     private boolean isFullLine;
 
     public LinkVO(Long id, Long sourceId, Long targetId, String relation,
-                  String type, String description, Long graphId, boolean isFullLine) {
+                  LinkType type, String description, Long graphId, boolean isFullLine) {
         this.id = id;
         this.sourceId = sourceId;
         this.targetId = targetId;
@@ -76,11 +78,11 @@ public class LinkVO {
         this.relation = relation;
     }
 
-    public String getType() {
+    public LinkType getType() {
         return type;
     }
 
-    public void setType(String type) {
+    public void setType(LinkType type) {
         this.type = type;
     }
 

@@ -1,5 +1,7 @@
 package com.codemonkeys.backendcoin.util;
 
+import com.codemonkeys.backendcoin.Enum.LinkType;
+import com.codemonkeys.backendcoin.Enum.NodeType;
 import com.codemonkeys.backendcoin.VO.EntityVO;
 import com.codemonkeys.backendcoin.VO.RelationVO;
 import com.codemonkeys.backendcoin.VO.RelationGroupVO;
@@ -106,19 +108,19 @@ public class XmlUtil {
                         //property="source"
                         if(element.getAttribute(ENTITY_PROPERTY_ATTRIBUTE_NAME).equals(ENTITY_SOURCE_ATTRIBUTE)){
 
-                            source=new EntityVO(id,graphId,type,childNode.getTextContent(),description,x,y,shape);
+                            source=new EntityVO(id,graphId, NodeType.valueOf(type),childNode.getTextContent(),description,x,y,shape);
 
                         }
                         //property="target"
                         else if(element.getAttribute(ENTITY_PROPERTY_ATTRIBUTE_NAME).equals(ENTITY_TARGET_ATTRIBUTE)){
-                            target=new EntityVO(id,graphId,type,childNode.getTextContent(),description,x,y,shape);
+                            target=new EntityVO(id,graphId,NodeType.valueOf(type),childNode.getTextContent(),description,x,y,shape);
 
                         }
                     }
                     //<Relation>节点
                     else if(childNode.getNodeName().equals(RELATION_TAG)){
                         boolean isFullLine=element.getAttribute(ISFULLLINE_ATTRIBUTE_NAME).equals("true");
-                        relation=new RelationVO(id,type,childNode.getTextContent(),description,isFullLine);
+                        relation=new RelationVO(id, LinkType.valueOf(type),childNode.getTextContent(),description,isFullLine);
                     }
                 }
             }
@@ -147,7 +149,7 @@ public class XmlUtil {
             source.setTextContent(r.getSource().getName());
             source.setAttribute(ENTITY_PROPERTY_ATTRIBUTE_NAME,ENTITY_SOURCE_ATTRIBUTE);
             source.setAttribute(ID_ATTRIBUTE_NAME,String.valueOf(r.getSource().getId()));
-            source.setAttribute(TYPE_ATTRIBUTE_NAME,r.getSource().getType());
+            source.setAttribute(TYPE_ATTRIBUTE_NAME,r.getSource().getType().name());
             source.setAttribute(DESCRIPTION_ATTRIBUTE_NAME,r.getSource().getDescription());
             source.setAttribute(X_ATTRIBUTE_NAME,r.getSource().getX());
             source.setAttribute(Y_ATTRIBUTE_NAME,r.getSource().getY());
@@ -157,7 +159,7 @@ public class XmlUtil {
             Element relation=document.createElement(RELATION_TAG);
             relation.setTextContent(r.getRelation().getName());
             relation.setAttribute(ID_ATTRIBUTE_NAME,String.valueOf(r.getRelation().getId()));
-            relation.setAttribute(TYPE_ATTRIBUTE_NAME,r.getRelation().getType());
+            relation.setAttribute(TYPE_ATTRIBUTE_NAME,r.getRelation().getType().name());
             relation.setAttribute(DESCRIPTION_ATTRIBUTE_NAME,r.getRelation().getDescription());
             relation.setAttribute(ISFULLLINE_ATTRIBUTE_NAME,r.getRelation().isFullLine()?"true":"false");
 
@@ -165,7 +167,7 @@ public class XmlUtil {
             target.setTextContent(r.getTarget().getName());
             target.setAttribute(ENTITY_PROPERTY_ATTRIBUTE_NAME,ENTITY_TARGET_ATTRIBUTE);
             target.setAttribute(ID_ATTRIBUTE_NAME,String.valueOf(r.getTarget().getId()));
-            target.setAttribute(TYPE_ATTRIBUTE_NAME,r.getTarget().getType());
+            target.setAttribute(TYPE_ATTRIBUTE_NAME,r.getTarget().getType().name());
             target.setAttribute(DESCRIPTION_ATTRIBUTE_NAME,r.getTarget().getDescription());
             target.setAttribute(X_ATTRIBUTE_NAME,r.getTarget().getX());
             target.setAttribute(Y_ATTRIBUTE_NAME,r.getTarget().getY());

@@ -1,6 +1,7 @@
 package com.codemonkeys.backendcoin.ServiceTest;
 
 import com.codemonkeys.backendcoin.BackendCoinApplication;
+import com.codemonkeys.backendcoin.Enum.LinkType;
 import com.codemonkeys.backendcoin.VO.LinkVO;
 import com.codemonkeys.backendcoin.mapper.LinkMapper;
 import com.codemonkeys.backendcoin.service.LinkService;
@@ -30,7 +31,7 @@ public class LinkServiceTest {
     @Test
     public void testAddLink(){
         LinkVO linkVO=new LinkVO(35L,8L,9L,"testLink"
-                ,"blue","testAddLink",Long.MAX_VALUE,false);
+                , LinkType.Actor_Info,"testAddLink",Long.MAX_VALUE,false);
         List<LinkVO> testLinkVOList=new ArrayList<>();
         testLinkVOList.add(linkVO);
         linkService.addLink(testLinkVOList);
@@ -40,7 +41,7 @@ public class LinkServiceTest {
     @Test
     public void testUpdateLink(){
         LinkVO linkVO=new LinkVO(35L,10L,9L,"testLink"
-                ,"blue","testUpdateLink",Long.MAX_VALUE,true);
+                ,LinkType.Actor_Movie,"testUpdateLink",Long.MAX_VALUE,true);
 
         List<LinkVO> testLinkVOList=new ArrayList<>();
         testLinkVOList.add(linkVO);

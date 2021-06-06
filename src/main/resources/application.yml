@@ -5,6 +5,10 @@ spring:
     driver-class-name: com.mysql.cj.jdbc.Driver
   profiles:
     active: dev
+  security:
+    user:
+      name: wuminxuan
+      password: 123456
 mybatis:
   mapper-locations: classpath:mapping/*Mapper.xml
   type-aliases-package: com.codemonkeys.backendcoin.entity
