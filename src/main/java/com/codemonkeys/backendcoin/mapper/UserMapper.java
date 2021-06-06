@@ -44,6 +44,10 @@ public interface UserMapper {
     @Select("select actor from user_tag_actor where userId=#{userId}")
     List<String> getUserActor(@Param("userId")int userId);
 
+    @Select("select genre from user_tag_genre where userId=#{userId}")
+    List<String> getUserGenre(@Param("userId")int userId);
+
+
     @Delete("delete from user_tag_actor where userId=#{userId} and actor=#{actor}")
     void deleteUserActor(@Param("userId")int userId,@Param("actor")String actor);
 
@@ -52,5 +56,8 @@ public interface UserMapper {
 
     @Delete("delete from user_tag_director where userId=#{userId} and director=#{director}")
     void deleteUserDirector(@Param("userId")int userId,@Param("director")String director);
+
+    @Delete("delete from user_tag_genre where userId=#{userId} and genre=#{genre}")
+    void deleteUserGenre(@Param("userId")int userId,@Param("genre")String genre);
 
 }

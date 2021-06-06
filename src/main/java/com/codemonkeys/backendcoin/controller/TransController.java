@@ -30,7 +30,7 @@ public class TransController {
 
     @PostMapping("/submit")
     public void submit(@Param("graphId")int graphId){
-        
+
     }
 
 }

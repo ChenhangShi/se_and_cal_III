@@ -54,6 +54,15 @@ create table user_tag_director(
     primary key(userId,director)
 );
 
+drop table if exists user_tag_genre;
+create table user_tag_genre(
+    userId int not null,
+    genre varchar(255) not null,
+    primary key(userId,genre)
+);
+
+
+
 
 drop table if exists graph;
 create table graph(

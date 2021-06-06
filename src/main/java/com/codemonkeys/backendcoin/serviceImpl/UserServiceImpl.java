@@ -1,10 +1,7 @@
 package com.codemonkeys.backendcoin.serviceImpl;
 
 import com.codemonkeys.backendcoin.PO.UserPO;
-import com.codemonkeys.backendcoin.VO.UserActorVO;
-import com.codemonkeys.backendcoin.VO.UserDirectorVO;
-import com.codemonkeys.backendcoin.VO.UserMovieVO;
-import com.codemonkeys.backendcoin.VO.UserVO;
+import com.codemonkeys.backendcoin.VO.*;
 import com.codemonkeys.backendcoin.mapper.UserMapper;
 import com.codemonkeys.backendcoin.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -73,6 +70,11 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public List<String> getUserGenre(int userId) {
+        return userMapper.getUserGenre(userId);
+    }
+
+    @Override
     public void deleteUserActor(UserActorVO userActorVO) {
         userMapper.deleteUserActor(userActorVO.getUserId(),userActorVO.getActor());
     }
@@ -81,6 +83,11 @@ public class UserServiceImpl implements UserService {
     public void deleteUserMovie(UserMovieVO userMovieVO) {
         userMapper.deleteUserMovie(userMovieVO.getUserId(),userMovieVO.getMovie());
 
+    }
+
+    @Override
+    public void deleteUserGenre(UserGenreVO userGenreVO) {
+        userMapper.deleteUserGenre(userGenreVO.getUserId(),userGenreVO.getGenre());
     }
 
     @Override

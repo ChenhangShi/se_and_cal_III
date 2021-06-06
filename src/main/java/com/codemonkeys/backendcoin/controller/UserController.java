@@ -51,8 +51,9 @@ public class UserController {
         List<String> userMovieList=userService.getUserMovie(userId);
         List<String> userActorList=userService.getUserActor(userId);
         List<String> userDirectorList=userService.getUserDirector(userId);
+        List<String> userGenreList=userService.getUserGenre(userId);
 
-        UserTagVO userTagVO=new UserTagVO(userId,userMovieList,userActorList,userDirectorList);
+        UserTagVO userTagVO=new UserTagVO((long)userId,userMovieList,userActorList,userDirectorList,userGenreList);
 
         return userTagVO;
     }

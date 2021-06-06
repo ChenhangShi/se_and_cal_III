@@ -1,9 +1,6 @@
 package com.codemonkeys.backendcoin.service;
 
-import com.codemonkeys.backendcoin.VO.UserActorVO;
-import com.codemonkeys.backendcoin.VO.UserDirectorVO;
-import com.codemonkeys.backendcoin.VO.UserMovieVO;
-import com.codemonkeys.backendcoin.VO.UserVO;
+import com.codemonkeys.backendcoin.VO.*;
 
 import java.util.List;
 
@@ -25,9 +22,13 @@ public interface UserService {
 
     public List<String> getUserDirector(int userId);
 
+    public List<String> getUserGenre(int userId);
+
     public void deleteUserActor(UserActorVO userActorVO);
 
     public void deleteUserMovie(UserMovieVO userMovieVO);
+
+    public void deleteUserGenre(UserGenreVO userGenreVO);
 
     public void deleteUserDirector(UserDirectorVO userDirectorVO);
 
