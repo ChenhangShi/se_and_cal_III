@@ -28,7 +28,7 @@ public class ProcessData {
                 if(isContainChinese(directorToMovie.getMovie_director())){
                     String[] directors=directorToMovie.getMovie_director().split(" |,|、|，");
                     for(String d:directors){
-                        movieMapper.insertIntoDirectorToMovie(d,directorToMovie.getMovie_chName());
+                        movieMapper.insertIntoDirectorToMovie(d,directorToMovie.getMovie_id());
                     }
                 }
                 else{
@@ -38,7 +38,7 @@ public class ProcessData {
                     else{
                         String[] directors=directorToMovie.getMovie_director().split("、|,|，");
                         for(String d:directors){
-                            movieMapper.insertIntoDirectorToMovie(d,directorToMovie.getMovie_chName());
+                            movieMapper.insertIntoDirectorToMovie(d,directorToMovie.getMovie_id());
                         }
                     }
                 }

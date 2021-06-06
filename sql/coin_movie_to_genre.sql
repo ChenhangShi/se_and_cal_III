@@ -30,6 +30,11 @@ CREATE TABLE `movie_to_genre` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
+create index movie_to_genre_movie_index
+	on movie_to_genre (movie_id);
+create index movie_to_genre_genre_index
+	on movie_to_genre (genre_id);
+
 --
 -- Dumping data for table `movie_to_genre`
 --

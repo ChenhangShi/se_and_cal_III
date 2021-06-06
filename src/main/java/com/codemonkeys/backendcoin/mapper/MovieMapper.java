@@ -15,11 +15,11 @@ public interface MovieMapper {
     @Select("select * from movie where movie_id=#{id}")
     MoviePO getMovieById(@Param("id") int id);
 
-    @Select("select movie_director,movie_chName from movie")
+    @Select("select movie_director,movie_id from movie")
     List<DirectorMoviePO> getAllDirectors();
 
-    @Insert("insert into director_to_movie(director_chName,movie_chName)" +
+    @Insert("insert into director_to_movie(director_chName,movie_id)" +
             "values (#{director},#{movie})")
-    void insertIntoDirectorToMovie(@Param("director")String director,@Param("movie")String movie);
+    void insertIntoDirectorToMovie(@Param("director")String director,@Param("movie")Integer movie);
 
 }

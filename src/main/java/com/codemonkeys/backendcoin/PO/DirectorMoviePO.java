@@ -9,14 +9,15 @@ public class DirectorMoviePO {
         this.movie_director = movie_director;
     }
 
-    public String getMovie_chName() {
-        return movie_chName;
+    public Integer getMovie_id() {
+        return movie_id;
     }
 
-    public void setMovie_chName(String movie_chName) {
-        this.movie_chName = movie_chName;
+    public void setMovie_id(Integer movie_id) {
+        this.movie_id = movie_id;
     }
 
-    String movie_director,movie_chName;
+    String movie_director;
+    Integer movie_id;
 
 }
