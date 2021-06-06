@@ -56,7 +56,7 @@ public class ProcessData {
      * @return true 包含中文字符  false 不包含中文字符
      * @throws EmptyException
      */
-    private static boolean isContainChinese(String str) throws EmptyException {
+    public static boolean isContainChinese(String str) throws EmptyException {
 
         if (StringUtils.isEmpty(str)) {
             throw new EmptyException("sms context is empty!");

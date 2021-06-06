@@ -1,6 +1,9 @@
 package com.codemonkeys.backendcoin.util;
 
+import com.codemonkeys.backendcoin.Exceptions.EmptyException;
+import com.codemonkeys.backendcoin.PO.ActorNamePO;
 import com.codemonkeys.backendcoin.mapper.ActorMapper;
+import com.codemonkeys.backendcoin.mapper.ActorMovieMapper;
 import com.codemonkeys.backendcoin.mapper.MovieMapper;
 import org.apache.commons.collections.SetUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,9 +21,11 @@ public class RecommendationUtil {
     private MovieMapper movieMapper;
     @Autowired
     private ActorMapper actorMapper;
+    @Autowired
+    private ActorMovieMapper actorMovieMapper;
 
     /**
-     * 计算两个字符串之间的jaccard相似度，大于2/3(66%)就认为相似
+     * 计算两个字符串之间的jaccard相似度，大于70%就认为相似
      * @param a
      * @param b
      * @return
@@ -54,17 +59,48 @@ public class RecommendationUtil {
         unionSet.addAll(bSet);
 
         double jaccard = (double) intersection.size() / (double) unionSet.size();
-        if (jaccard>=0.66)
-            return true;
-        return false;
+        return jaccard>=0.7;
     }
 
     public Set<String> recommendByMovies(List<String> movies){
         return null;
     }
 
-    public Set<String> recommendByActors(List<String> actors){
-        return null;
+    public Set<String> recommendByActors(List<String> actorTags){
+        // 获取actor_id
+        Set<String> actorTagSet = new HashSet<>(actorTags);
+        List<ActorNamePO> actorNamePOList = actorMapper.getAllActorNames();
+        Set<Integer> probableActorIds = new HashSet<>();
+        for(String actorTag:actorTagSet){
+            Set<Integer> curProbableActorIds = actorNamePOList
+                    .stream()
+                    .filter(
+                            actorNamePO -> {
+                                try {
+                                    if (ProcessData.isContainChinese(actorTag))
+                                        return isSimilarString(actorTag, actorNamePO.actor_chName);
+                                    return isSimilarString(actorTag, actorNamePO.actor_foreName);
+                                } catch (EmptyException e) {
+                                    e.printStackTrace();
+                                    return false;
+                                }
+                            }
+                    )
+                    .map(actorNamePO -> actorNamePO.actor_id)
+                    .collect(Collectors.toSet());
+            probableActorIds.addAll(curProbableActorIds);
+        }
+        // 根据actor_id拿电影id
+        Set<Integer> recommendedMovieIds = new HashSet<>();
+        for(Integer actorId:probableActorIds){
+            Set<Integer> curMovieIds = new HashSet<>(actorMovieMapper.getMovieIdsByActorId(actorId));
+            recommendedMovieIds.addAll(curMovieIds);
+        }
+        // 根据电影id拿电影名
+        Set<String> recommendedMovieNames = new HashSet<>();
+        for (Integer movieId:recommendedMovieIds)
+            recommendedMovieNames.add(movieMapper.getMovieNameById(movieId));
+        return recommendedMovieNames;
     }
 
     public Set<String> recommendByDirectors(List<String> directors){

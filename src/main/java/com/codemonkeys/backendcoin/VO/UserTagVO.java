@@ -3,24 +3,25 @@ package com.codemonkeys.backendcoin.VO;
 import java.util.List;
 
 public class UserTagVO {
-    private int userId;
-
-    public UserTagVO(int userId, List<String> movies, List<String> actors, List<String> directors) {
-        this.userId = userId;
-        this.movies = movies;
-        this.actors = actors;
-        this.directors = directors;
-    }
-
+    private Long userId;
     private List<String> movies;
     private List<String> actors;
     private List<String> directors;
+    private List<String> genres;
 
-    public int getUserId() {
+    public List<String> getGenres() {
+        return genres;
+    }
+
+    public void setGenres(List<String> genres) {
+        this.genres = genres;
+    }
+
+    public Long getUserId() {
         return userId;
     }
 
-    public void setUserId(int userId) {
+    public void setUserId(Long userId) {
         this.userId = userId;
     }
 
