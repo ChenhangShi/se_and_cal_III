@@ -15,6 +15,9 @@ public interface MovieMapper {
     @Select("select * from movie where movie_id=#{id}")
     MoviePO getMovieById(@Param("id") int id);
 
+    @Select("select movie_chName from movie where movie_id=#{movie_id}")
+    String getMovieNameById(int movie_id);
+
     @Select("select movie_director,movie_id from movie")
     List<DirectorMoviePO> getAllDirectors();
 
