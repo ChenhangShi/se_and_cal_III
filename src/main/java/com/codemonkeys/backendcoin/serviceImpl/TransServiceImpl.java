@@ -214,7 +214,7 @@ public class TransServiceImpl implements TransService {
             String[] director= processData.getDirectorName(moviePO.movie_director);
             for(String d:director){
                 if(!d.equals("None")){
-                    if(directorMapper.isDirectorInTable(d).equals("null")){
+                    if(directorMapper.isDirectorInTable(d)==null){
                         directorMapper.addDirector(d);
                     }
                 }

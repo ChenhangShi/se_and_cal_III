@@ -64,12 +64,11 @@ public class ProcessData {
     }
 
     private void extractFromDirector(DirectorMoviePO directorToMovie, String d) {
-        if(directorMapper.isDirectorInTable(d)==null||directorMapper.isDirectorInTable(d).equals("null")){
+        if(directorMapper.isDirectorInTable(d)==null){
             directorMapper.addDirector(d);
         }
         int director_id=directorMapper.getDirectorIdByName(d);
-        if(directorMapper.isDirectorToMovieInTable(director_id,directorToMovie.getMovie_id())==null||
-                directorMapper.isDirectorToMovieInTable(director_id,directorToMovie.getMovie_id()).equals("null")){
+        if(directorMapper.isDirectorToMovieInTable(director_id,directorToMovie.getMovie_id())==null){
             movieMapper.insertIntoDirectorToMovie(directorMapper.getDirectorIdByName(d),
                     directorToMovie.getMovie_id());
         }
