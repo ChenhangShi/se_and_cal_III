@@ -1,6 +1,6 @@
 package com.codemonkeys.backendcoin.PO;
 
-public class DirectorMoviePO {
+public class DirectorNameMoviePO {
     public String getMovie_director() {
         return movie_director;
     }

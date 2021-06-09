@@ -3,6 +3,7 @@ package com.codemonkeys.backendcoin.util;
 import checkers.units.quals.A;
 import com.codemonkeys.backendcoin.Exceptions.EmptyException;
 import com.codemonkeys.backendcoin.PO.ActorNamePO;
+import com.codemonkeys.backendcoin.PO.DirectorPO;
 import com.codemonkeys.backendcoin.PO.GenrePO;
 import com.codemonkeys.backendcoin.PO.MovieNamePO;
 import com.codemonkeys.backendcoin.VO.UserTagVO;
@@ -27,6 +28,10 @@ public class RecommendationUtil {
     private GenreMapper genreMapper;
     @Autowired
     private GenreMovieMapper genreMovieMapper;
+    @Autowired
+    DirectorMapper directorMapper;
+    @Autowired
+    private DirectorMovieMapper directorMovieMapper;
 
     /**
      * 计算两个字符串之间的jaccard相似度，大于阈值就认为相似
@@ -87,6 +92,7 @@ public class RecommendationUtil {
                 recommendByActors(userTagVO.getActors()),
                 recommendByDirectors(userTagVO.getDirectors()),
                 recommendByGenres(userTagVO.getGenres()));
+        // TODO
         return null;
     }
 
@@ -132,7 +138,7 @@ public class RecommendationUtil {
         Set<Integer> genreIds = new HashSet<>();
         for(Integer movieId:movieIds){
             actorIds.addAll(actorMovieMapper.getActorIdsByMovieId(movieId));
-            // TODO directorId
+            directorIds.addAll(directorMovieMapper.getDirectorIdsByMovieId(movieId));
             genreIds.addAll(genreMovieMapper.getGenreIdsByMovieId(movieId));
         }
         Map<Integer,Integer> byActorRes = recommendByActorIds(actorIds);
@@ -212,24 +218,15 @@ public class RecommendationUtil {
      */
     Map<Integer,Integer> recommendByDirectors(List<String> directors){
         Set<String> directorTagSet = new HashSet<>(directors);
-        List<ActorNamePO> directorNamePOList = actorMapper.getAllActorNames();
+        List<DirectorPO> directorPOList = directorMapper.getAllDirectors();
         Set<Integer> probableDirectorIds = new HashSet<>();
         for(String directorTag:directorTagSet){
-            Set<Integer> curProbableDirectorIds = directorNamePOList
+            Set<Integer> curProbableDirectorIds = directorPOList
                     .stream()
                     .filter(
-                            directorNamePO -> {
-                                try {
-                                    if (ProcessData.isContainChinese(directorTag))
-                                        return isSimilarString(directorTag, directorNamePO.actor_chName);
-                                    return isSimilarString(directorTag, directorNamePO.actor_foreName);
-                                } catch (EmptyException e) {
-                                    e.printStackTrace();
-                                    return false;
-                                }
-                            }
+                            directorPO -> isSimilarString(directorTag, directorPO.director_name)
                     )
-                    .map(directorNamePO -> directorNamePO.actor_id)
+                    .map(directorPO -> directorPO.director_id)
                     .collect(Collectors.toSet());
             probableDirectorIds.addAll(curProbableDirectorIds);
         }
@@ -240,7 +237,7 @@ public class RecommendationUtil {
         // 一部电影每与一个director匹配，得一分
         Map<Integer,Integer> recommendedMovieIdAndScore = new HashMap<>();
         for(Integer directorId:directorIds){
-            Set<Integer> curMovieIds = new HashSet<>(actorMovieMapper.getMovieIdsByActorId(directorId));
+            Set<Integer> curMovieIds = new HashSet<>(directorMovieMapper.getMovieIdsByDirectorId(directorId));
             for(Integer movieId:curMovieIds){
                 recommendedMovieIdAndScore.put(movieId,recommendedMovieIdAndScore.getOrDefault(movieId,0)+1);
             }
@@ -263,9 +260,7 @@ public class RecommendationUtil {
             Set<Integer> curProbableGenreIds = genreList
                     .stream()
                     .filter(
-                            genrePO -> {
-                                return isSimilarString(genreTag, genrePO.genre_name,0.5);
-                            }
+                            genrePO -> isSimilarString(genreTag, genrePO.genre_name,0.5)
                     )
                     .map(genrePO -> genrePO.genre_id)
                     .collect(Collectors.toSet());

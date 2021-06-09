@@ -30,4 +30,20 @@ public class RecommendationUtilTest {
         for (Integer movieId:res.keySet())
             System.out.println(movieId);
     }
+
+    @Test
+    public void testRecommendByDirectors() throws Exception{
+        Map<Integer,Integer> res = recommendationUtil.recommendByDirectors(new ArrayList<String>(){{add("周星驰");add("徐克");}});
+        for (Integer movieId:res.keySet())
+            System.out.println(movieId);
+    }
+
+    @Test
+    public void testRecommendByMovies() throws Exception{
+        Map<Integer,Integer> res = recommendationUtil.recommendByMovies(new ArrayList<String>(){{add("长江7号");add("唐伯虎点秋香");}});
+        for (Integer movieId:res.keySet()){
+            System.out.println(movieId);
+            System.out.println(res.get(movieId));
+        }
+    }
 }
