@@ -15,4 +15,26 @@ public class MoviePO {
      public String movie_rekeaseTime;
      public String movie_language;
      public String movie_achiem;
+
+     @Override
+     public String toString() {
+          return "MoviePO{" +
+                  "movie_id=" + movie_id +
+                  ", movie_bio='" + movie_bio + '\'' +
+                  ", movie_chName='" + movie_chName + '\'' +
+                  ", movie_foreName='" + movie_foreName + '\'' +
+                  ", movie_prodTime='" + movie_prodTime + '\'' +
+                  ", movie_prodCompany='" + movie_prodCompany + '\'' +
+                  ", movie_director='" + movie_director + '\'' +
+                  ", movie_screenwriter='" + movie_screenwriter + '\'' +
+                  ", movie_genre='" + movie_genre + '\'' +
+                  ", movie_star='" + movie_star + '\'' +
+                  ", movie_length='" + movie_length + '\'' +
+                  ", movie_rekeaseTime='" + movie_rekeaseTime + '\'' +
+                  ", movie_language='" + movie_language + '\'' +
+                  ", movie_achiem='" + movie_achiem + '\'' +
+                  '}';
+     }
+
+
 }

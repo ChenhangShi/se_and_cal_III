@@ -39,11 +39,7 @@ CREATE TABLE `entity` (
 -- Dumping data for table `entity`
 --
 
-LOCK TABLES `entity` WRITE;
-/*!40000 ALTER TABLE `entity` DISABLE KEYS */;
-INSERT INTO `entity` VALUES (1,1,'source','red','circle','test_source','123','123'),(2,1,'target','blue','circle','test_target','124','125');
-/*!40000 ALTER TABLE `entity` ENABLE KEYS */;
-UNLOCK TABLES;
+
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;

@@ -26,6 +26,13 @@ public interface LinkMapper {
     @Select("select * from link where id=#{id} and graphId=#{graphId}")
     LinkPO getLink(@Param("id") Long id,@Param("graphId")Long graphId);
 
+    @Select("select targetId from link where graphId=#{graphId} and sourceId=#{sourceId} and " +
+            "relationName='Actor_Movie'")
+    List<Long> getRelatedMovieId(@Param("graphId")Long graphId,@Param("sourceId")Long sourceId);
+
+    @Select("select targetId from link where graphId=#{graphId} and sourceId=#{sourceId} and " +
+            "type='Movie_Info'")
+    List<Long> getMovieInfoId(@Param("graphId")Long graphId,@Param("sourceId")Long sourceId);
 
     @Delete("delete from link where id=#{id} and graphId=#{graphId}")
     void deleteLinkById(@Param("id") Long linkId,@Param("graphId")Long graphId);

@@ -2,10 +2,7 @@ package com.codemonkeys.backendcoin.mapper;
 
 import com.codemonkeys.backendcoin.PO.DirectorMoviePO;
 import com.codemonkeys.backendcoin.PO.MoviePO;
-import org.apache.ibatis.annotations.Insert;
-import org.apache.ibatis.annotations.Options;
-import org.apache.ibatis.annotations.Param;
-import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.*;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -24,5 +21,31 @@ public interface MovieMapper {
     @Insert("insert into director_to_movie(director_chName,movie_id)" +
             "values (#{director},#{movie})")
     void insertIntoDirectorToMovie(@Param("director")String director,@Param("movie")Integer movie);
+
+    @Insert("insert into movie_to_genre(movie_id,genre_id) values (#{movie_id},#{genre_id})")
+    void insertIntoMovieToGenre(@Param("movie_id")int movieId,@Param("genre_id")int genreId);
+
+    @Insert("insert into movie(movie_bio,movie_chName,movie_foreName,movie_prodTime,movie_prodCompany,movie_director,movie_screenwriter," +
+            "movie_genre,movie_star,movie_length,movie_rekeaseTime,movie_language,movie_achiem) values" +
+            "(#{movie.movie_bio},#{movie.movie_chName},#{movie.movie_foreName},#{movie.movie_prodTime},#{movie.movie_prodCompany},#{movie.movie_director}," +
+            "#{movie_screenwriter}," +
+            "#{movie_genre},#{movie_star},#{movie_length},#{movie_rekeaseTime},#{movie_language},#{movie_achiem})")
+    @Options(useGeneratedKeys = true,keyProperty = "movie_id",keyColumn = "movie_id")
+    int insertMovie(@Param("movie")MoviePO moviePO);
+
+    @Select("select IFNULL((select movie_id from movie where movie_chName=#{movie_Name}),null)")
+    String isMovieInTable(@Param("movie_Name")String movieName);
+
+
+    @Update("update movie set movie_bio=#{movie.movie_bio},movie_foreName=#{movie.movie_foreName}," +
+            "movie_prodTime=#{movie.movie_prodTime},movie_prodCompany=#{movie.movie_prodCompany}," +
+            "movie_director=#{movie.movie_director},movie_screenwriter=#{movie.movie_screenwriter}," +
+            "movie_genre=#{movie.movie_genre},movie_star=#{movie.movie_star},movie_length=#{movie.movie_length}," +
+            "movie_rekeaseTime=#{movie.movie_rekeaseTime},movie_language=#{movie.movie_language},movie_achiem=#{movie.movie_achiem}" +
+            "where movie_chName=#{movie.movie_chName}")
+    void updateMovie(@Param("movie")MoviePO moviePO);
+
+    @Select("select genre_id from genre where genre_name=#{genre_name}")
+    Integer getGenreId(@Param("genre_name")String genreName);
 
 }

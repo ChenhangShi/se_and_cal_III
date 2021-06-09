@@ -23,7 +23,7 @@ DROP TABLE IF EXISTS `movie_to_genre`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `movie_to_genre` (
-  `movie_genre_id` int NOT NULL,
+  `movie_genre_id` int NOT NULL AUTO_INCREMENT,
   `movie_id` int NOT NULL,
   `genre_id` int NOT NULL,
   PRIMARY KEY (`movie_genre_id`)

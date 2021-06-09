@@ -39,11 +39,7 @@ CREATE TABLE `link` (
 -- Dumping data for table `link`
 --
 
-LOCK TABLES `link` WRITE;
-/*!40000 ALTER TABLE `link` DISABLE KEYS */;
-INSERT INTO `link` VALUES (1,1,2,1,'test','red','test',1);
-/*!40000 ALTER TABLE `link` ENABLE KEYS */;
-UNLOCK TABLES;
+
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
