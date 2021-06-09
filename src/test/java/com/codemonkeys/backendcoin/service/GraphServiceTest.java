@@ -1,9 +1,8 @@
-package com.codemonkeys.backendcoin.ServiceTest;
+package com.codemonkeys.backendcoin.service;
 
 import com.codemonkeys.backendcoin.BackendCoinApplication;
 import com.codemonkeys.backendcoin.VO.GraphVO;
 import com.codemonkeys.backendcoin.mapper.GraphMapper;
-import com.codemonkeys.backendcoin.service.GraphService;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;

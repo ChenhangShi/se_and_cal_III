@@ -1,10 +1,9 @@
-package com.codemonkeys.backendcoin.ServiceTest;
+package com.codemonkeys.backendcoin.service;
 
 import com.codemonkeys.backendcoin.BackendCoinApplication;
 import com.codemonkeys.backendcoin.Enum.LinkType;
 import com.codemonkeys.backendcoin.VO.LinkVO;
 import com.codemonkeys.backendcoin.mapper.LinkMapper;
-import com.codemonkeys.backendcoin.service.LinkService;
 import com.codemonkeys.backendcoin.util.Map;
 import org.junit.Assert;
 import org.junit.Test;

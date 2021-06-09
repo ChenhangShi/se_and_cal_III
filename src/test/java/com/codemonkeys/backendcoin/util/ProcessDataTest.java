@@ -1,6 +1,5 @@
-package com.codemonkeys.backendcoin.utilTest;
+package com.codemonkeys.backendcoin.util;
 
-import com.codemonkeys.backendcoin.util.ProcessData;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;

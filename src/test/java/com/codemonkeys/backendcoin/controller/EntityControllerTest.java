@@ -1,10 +1,9 @@
-package com.codemonkeys.backendcoin.ControllerTest;
+package com.codemonkeys.backendcoin.controller;
 
 import com.alibaba.fastjson.JSON;
 import com.codemonkeys.backendcoin.Enum.NodeType;
 import com.codemonkeys.backendcoin.VO.DeleteNodeVO;
 import com.codemonkeys.backendcoin.VO.EntityVO;
-import com.codemonkeys.backendcoin.controller.EntityController;
 import com.codemonkeys.backendcoin.service.EntityService;
 
 import org.junit.Test;

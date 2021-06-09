@@ -1,9 +1,8 @@
-package com.codemonkeys.backendcoin.ControllerTest;
+package com.codemonkeys.backendcoin.controller;
 
 import com.alibaba.fastjson.JSON;
 import com.codemonkeys.backendcoin.Enum.LinkType;
 import com.codemonkeys.backendcoin.VO.LinkVO;
-import com.codemonkeys.backendcoin.controller.LinkController;
 import com.codemonkeys.backendcoin.service.LinkService;
 import org.junit.Test;
 import org.springframework.http.MediaType;

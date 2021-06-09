@@ -1,4 +1,4 @@
-package com.codemonkeys.backendcoin.ServiceTest;
+package com.codemonkeys.backendcoin.service;
 
 
 import com.codemonkeys.backendcoin.BackendCoinApplication;
@@ -6,9 +6,7 @@ import com.codemonkeys.backendcoin.PO.EntityPO;
 import com.codemonkeys.backendcoin.PO.LinkPO;
 import com.codemonkeys.backendcoin.mapper.EntityMapper;
 import com.codemonkeys.backendcoin.mapper.LinkMapper;
-import com.codemonkeys.backendcoin.service.FileService;
 
-import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;

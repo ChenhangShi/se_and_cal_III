@@ -1,6 +1,5 @@
-package com.codemonkeys.backendcoin.MapperTest;
+package com.codemonkeys.backendcoin.mapper;
 
-import com.codemonkeys.backendcoin.mapper.ActorMapper;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;

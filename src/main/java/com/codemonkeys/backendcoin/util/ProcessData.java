@@ -3,6 +3,7 @@ package com.codemonkeys.backendcoin.util;
 import com.codemonkeys.backendcoin.Exceptions.EmptyException;
 import com.codemonkeys.backendcoin.PO.DirectorMoviePO;
 import com.codemonkeys.backendcoin.mapper.DirectorMapper;
+import com.codemonkeys.backendcoin.mapper.DirectorMovieMapper;
 import com.codemonkeys.backendcoin.mapper.MovieMapper;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,11 +20,13 @@ import java.util.regex.Pattern;
 public class ProcessData {
     MovieMapper movieMapper;
     DirectorMapper directorMapper;
+    DirectorMovieMapper directorMovieMapper;
 
     @Autowired
-    public ProcessData(MovieMapper movieMapper,DirectorMapper directorMapper){
+    public ProcessData(MovieMapper movieMapper,DirectorMapper directorMapper,DirectorMovieMapper directorMovieMapper){
         this.movieMapper=movieMapper;
         this.directorMapper=directorMapper;
+        this.directorMovieMapper=directorMovieMapper;
     }
 
     public void generateDirectorToMovie(){
@@ -69,7 +72,7 @@ public class ProcessData {
         }
         int director_id=directorMapper.getDirectorIdByName(d);
         if(directorMapper.isDirectorToMovieInTable(director_id,directorToMovie.getMovie_id())==null){
-            movieMapper.insertIntoDirectorToMovie(directorMapper.getDirectorIdByName(d),
+            directorMovieMapper.insertIntoDirectorToMovie(directorMapper.getDirectorIdByName(d),
                     directorToMovie.getMovie_id());
         }
     }

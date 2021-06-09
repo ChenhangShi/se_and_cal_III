@@ -1,6 +1,7 @@
 package com.codemonkeys.backendcoin.mapper;
 
 import com.codemonkeys.backendcoin.PO.DirectorMoviePO;
+import com.codemonkeys.backendcoin.PO.MovieNamePO;
 import com.codemonkeys.backendcoin.PO.MoviePO;
 import org.apache.ibatis.annotations.*;
 import org.springframework.stereotype.Repository;
@@ -15,15 +16,12 @@ public interface MovieMapper {
     @Select("select movie_chName from movie where movie_id=#{movie_id}")
     String getMovieNameById(int movie_id);
 
+    @Select("select movie_id, movie_chName, movie_forName from movie")
+    List<MovieNamePO> getAllMovieNames();
+
     @Select("select movie_director,movie_id from movie")
     List<DirectorMoviePO> getAllDirectors();
 
-    @Insert("insert into director_to_movie(director_id,movie_id)" +
-            "values (#{director},#{movie})")
-    void insertIntoDirectorToMovie(@Param("director")int director,@Param("movie")Integer movie);
-
-    @Insert("insert into movie_to_genre(movie_id,genre_id) values (#{movie_id},#{genre_id})")
-    void insertIntoMovieToGenre(@Param("movie_id")int movieId,@Param("genre_id")int genreId);
 
     @Insert("insert into movie(movie_bio,movie_chName,movie_foreName,movie_prodTime,movie_prodCompany,movie_director,movie_screenwriter," +
             "movie_genre,movie_star,movie_length,movie_rekeaseTime,movie_language,movie_achiem) values" +
@@ -45,8 +43,6 @@ public interface MovieMapper {
             "where movie_chName=#{movie.movie_chName}")
     void updateMovie(@Param("movie")MoviePO moviePO);
 
-    @Select("select genre_id from genre where genre_name=#{genre_name}")
-    Integer getGenreId(@Param("genre_name")String genreName);
 
     @Select("select movie_id from movie where movie_name=#{movieName}")
     int getMovieIdByMovieName(@Param("movieName")String movieName);

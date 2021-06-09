@@ -1,7 +1,6 @@
-package com.codemonkeys.backendcoin.ControllerTest;
+package com.codemonkeys.backendcoin.controller;
 
 import com.codemonkeys.backendcoin.VO.GraphVO;
-import com.codemonkeys.backendcoin.controller.GraphController;
 import com.codemonkeys.backendcoin.service.GraphService;
 import org.junit.Test;
 import org.springframework.test.web.servlet.MockMvc;

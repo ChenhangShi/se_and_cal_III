@@ -22,20 +22,27 @@ public class TransServiceImpl implements TransService {
     LinkMapper linkMapper;
     MovieMapper movieMapper;
     GraphMapper graphMapper;
+    GenreMapper genreMapper;
     ProcessData processData;
     DirectorMapper directorMapper;
+    GenreMovieMapper genreMovieMapper;
+    DirectorMovieMapper directorMovieMapper;
     @Autowired
     public TransServiceImpl(ActorMapper actorMapper,EntityMapper entityMapper,EnumUtil enumUtil,
                             LinkMapper linkMapper,MovieMapper movieMapper,GraphMapper graphMapper
-    ,ProcessData processData,DirectorMapper directorMapper){
+    ,GenreMapper genreMapper,ProcessData processData,DirectorMapper directorMapper
+            , GenreMovieMapper genreMovieMapper, DirectorMovieMapper directorMovieMapper){
         this.actorMapper=actorMapper;
         this.entityMapper=entityMapper;
         this.enumUtil=enumUtil;
         this.linkMapper=linkMapper;
         this.movieMapper=movieMapper;
         this.graphMapper=graphMapper;
+        this.genreMapper=genreMapper;
         this.processData=processData;
         this.directorMapper=directorMapper;
+        this.genreMovieMapper=genreMovieMapper;
+        this.directorMovieMapper=directorMovieMapper;
     }
 
     /**
@@ -220,17 +227,17 @@ public class TransServiceImpl implements TransService {
                 }
                 int director_id= directorMapper.getDirectorIdByName(d);
                 if(!directorMapper.isDirectorToMovieInTable(director_id,moviePO.movie_id).equals("null")){
-                    movieMapper.insertIntoDirectorToMovie(director_id,moviePO.movie_id);
+                    directorMovieMapper.insertIntoDirectorToMovie(director_id,moviePO.movie_id);
                 }
             }
             String[] genreList=moviePO.movie_genre.split(" ");
             for(String genre:genreList){
-                Integer genreId=movieMapper.getGenreId(genre);
+                Integer genreId=genreMapper.getGenreId(genre);
                 if(genreId!=null){
-                    movieMapper.insertIntoMovieToGenre(moviePO.movie_id,genreId);
+                    genreMovieMapper.insertIntoMovieToGenre(moviePO.movie_id,genreId);
                 }
                 else{
-                    movieMapper.insertIntoMovieToGenre(moviePO.movie_id,10);
+                    genreMovieMapper.insertIntoMovieToGenre(moviePO.movie_id,10);
                 }
             }
         }
