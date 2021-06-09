@@ -1,5 +1,6 @@
 package com.codemonkeys.backendcoin.util;
 
+import com.codemonkeys.backendcoin.VO.UserTagVO;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.Map;
+import java.util.Set;
 
 @SpringBootTest
 @RunWith(SpringRunner.class)
@@ -45,5 +47,17 @@ public class RecommendationUtilTest {
             System.out.println(movieId);
             System.out.println(res.get(movieId));
         }
+    }
+
+    @Test
+    public void testGenerateRecommendMovies() throws Exception{
+        UserTagVO userTagVO = new UserTagVO(1,
+                new ArrayList<String>(){{add("长江7号");add("唐伯虎点秋香");}},
+                new ArrayList<String>(){{add("周星驰");add("张家辉");}},
+                new ArrayList<String>(){{add("周星驰");add("徐克");}},
+                new ArrayList<String>(){{add("科幻");add("动画");}});
+        Set<String> res = recommendationUtil.generateRecommendMovies(userTagVO);
+        for (String movie:res)
+            System.out.println(movie);
     }
 }

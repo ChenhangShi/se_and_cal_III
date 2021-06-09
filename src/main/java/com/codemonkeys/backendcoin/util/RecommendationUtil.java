@@ -8,6 +8,7 @@ import com.codemonkeys.backendcoin.PO.GenrePO;
 import com.codemonkeys.backendcoin.PO.MovieNamePO;
 import com.codemonkeys.backendcoin.VO.UserTagVO;
 import com.codemonkeys.backendcoin.mapper.*;
+import com.codemonkeys.backendcoin.service.UserService;
 import org.apache.commons.collections.SetUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -18,6 +19,8 @@ import java.util.stream.Collectors;
 
 @Component
 public class RecommendationUtil {
+    @Autowired
+    private UserService userService;
     @Autowired
     private MovieMapper movieMapper;
     @Autowired
@@ -82,27 +85,54 @@ public class RecommendationUtil {
     }
 
     /**
+     * 当用户tag发送变化时，重新生成其推荐电影
+     * @param userId
+     */
+    public Set<String> changeUserRecommendedMovies(Integer userId){
+        UserTagVO userTagVO = userService.getUserTag(userId);
+        //TODO 删除原有的，插入新生成的
+        Set<String> recommendedMovies = generateRecommendMovies(userTagVO);
+        return recommendedMovies;
+    }
+
+    /**
      * 返回推荐的电影，不超过20条，按得分从高到低排序
      * @param userTagVO
      * @return
      */
-    public List<String> generateRecommendMovies(UserTagVO userTagVO){
+    Set<String> generateRecommendMovies(UserTagVO userTagVO){
+        Set<Integer> probableTagMovieIds = getProbableMovieIds(userTagVO.getMovies());
         Map<Integer,Integer> recommendedMovieIdAndScore = mergeMovieScore(
-                recommendByMovies(userTagVO.getMovies()),
+                recommendByMovieIds(probableTagMovieIds),
                 recommendByActors(userTagVO.getActors()),
                 recommendByDirectors(userTagVO.getDirectors()),
                 recommendByGenres(userTagVO.getGenres()));
-        // TODO
-        return null;
+        //去除用户tag中的电影id
+        recommendedMovieIdAndScore.keySet().removeIf(probableTagMovieIds::contains);
+        //根据value降序排序
+        List<Map.Entry<Integer,Integer>> entryList = new ArrayList<>(recommendedMovieIdAndScore.entrySet());
+        Collections.sort(entryList, new Comparator<Map.Entry<Integer, Integer>>() {
+            @Override
+            public int compare(Map.Entry<Integer, Integer> o1, Map.Entry<Integer, Integer> o2) {
+                return -(o1.getValue().compareTo(o2.getValue()));
+            }
+        });
+        // 获取前20条
+        Set<String> recommendedMovies = new HashSet<>();
+        for(int i = 0; i<entryList.size() && i<20;i++){
+            recommendedMovies.add(movieMapper.getMovieNameById(entryList.get(i).getKey()));
+        }
+        return recommendedMovies;
     }
 
+
     /**
-     * 根据电影tag推荐
-     * 返回movieId和其得分
+     * 根据电影tag获取电影id
+     * 用于根据电影推荐以及最终推荐结果去重
      * @param movies
      * @return
      */
-    Map<Integer,Integer> recommendByMovies(List<String> movies){
+    private Set<Integer> getProbableMovieIds(List<String> movies){
         // 获取movie_id
         Set<String> movieTagSet = new HashSet<>(movies);
         List<MovieNamePO> movieNamePOList = movieMapper.getAllMovieNames();
@@ -127,9 +157,19 @@ public class RecommendationUtil {
                     .collect(Collectors.toSet());
             probableMovieIds.addAll(curProbableMovieIds);
         }
-        return recommendByMovieIds(probableMovieIds);
+        return probableMovieIds;
     }
 
+    /**
+     * 根据电影tag推荐
+     * 返回movieId和其得分
+     * 仅供测试用
+     * @param movies
+     * @return
+     */
+    Map<Integer,Integer> recommendByMovies(List<String> movies){
+        return recommendByMovieIds(getProbableMovieIds(movies));
+    }
 
     private Map<Integer,Integer> recommendByMovieIds(Set<Integer> movieIds){
         // 获取电影的演员、导演、体裁
@@ -150,10 +190,12 @@ public class RecommendationUtil {
     /**
      * 合并电影的得分
      * 可变参数
-     * @param recommendResults
+     * @param recommendedMaps
      * @return
      */
-    private Map<Integer,Integer> mergeMovieScore(Map<Integer,Integer>... recommendResults){
+    private Map<Integer,Integer> mergeMovieScore(Map<Integer,Integer>... recommendedMaps){
+        // 转set确保不重复
+        Set<Map<Integer,Integer>> recommendResults=new HashSet<>(Arrays.asList(recommendedMaps));
         Map<Integer,Integer> mergedRes = new HashMap<>();
         for(Map<Integer,Integer> recommendResult:recommendResults){
             for(Integer movieId:recommendResult.keySet()){

@@ -48,13 +48,6 @@ public class UserController {
 
     @GetMapping("/getUserTag/{userId}")
     public UserTagVO getUserTag(@PathVariable int userId){
-        List<String> userMovieList=userService.getUserMovie(userId);
-        List<String> userActorList=userService.getUserActor(userId);
-        List<String> userDirectorList=userService.getUserDirector(userId);
-        List<String> userGenreList=userService.getUserGenre(userId);
-
-        UserTagVO userTagVO=new UserTagVO((long)userId,userMovieList,userActorList,userDirectorList,userGenreList);
-
-        return userTagVO;
+        return userService.getUserTag(userId);
     }
 }
