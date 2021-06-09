@@ -23,10 +23,11 @@ public class TransServiceImpl implements TransService {
     MovieMapper movieMapper;
     GraphMapper graphMapper;
     ProcessData processData;
+    DirectorMapper directorMapper;
     @Autowired
     public TransServiceImpl(ActorMapper actorMapper,EntityMapper entityMapper,EnumUtil enumUtil,
                             LinkMapper linkMapper,MovieMapper movieMapper,GraphMapper graphMapper
-    ,ProcessData processData){
+    ,ProcessData processData,DirectorMapper directorMapper){
         this.actorMapper=actorMapper;
         this.entityMapper=entityMapper;
         this.enumUtil=enumUtil;
@@ -34,17 +35,27 @@ public class TransServiceImpl implements TransService {
         this.movieMapper=movieMapper;
         this.graphMapper=graphMapper;
         this.processData=processData;
+        this.directorMapper=directorMapper;
     }
+
+    /**
+     * extract接口的实现类
+     * 其中使用了java反射来根据node的类型来将数据保存到对应的PO的属性中(Field),因此抛出IllegalAccessException
+     * @param actorId
+     * @param graphName
+     * @throws IllegalAccessException
+     */
     @Override
     public void extract(int actorId,String graphName) throws IllegalAccessException {
         GraphPO graphPO=new GraphPO();
         graphPO.graphName=graphName;
         graphMapper.insertGraph(graphPO);
-
+        //根据graphName来向graph表中新插入一行，graph表中id是自增字段，通过mybatis来对graphPO中的id赋新值
 
         ActorPO actorPO=actorMapper.getActorById(actorId);
         List<EntityPO> entityPOList=new ArrayList<>();
 
+        //先建中心节点
         EntityPO actorEntityPO=new EntityPO();
         actorEntityPO.nodeType= NodeType.Actor;
         actorEntityPO.shape="rectangle";
@@ -56,13 +67,13 @@ public class TransServiceImpl implements TransService {
 
         entityMapper.insertEntity(actorEntityPO);
 
-
         Field[] fields=actorPO.getClass().getDeclaredFields();
         for(int i=0;i<fields.length;i++){
             String fieldName=fields[i].getName();
             if(!fieldName.equals("actor_id")&&!fieldName.equals("actor_chName")){
                 EntityPO entityPO=new EntityPO();
                 entityPO.nodeType= enumUtil.getNodeType(fieldName);
+                //通过field来获取actorPO中对应属性的值作为entity的description
                 entityPO.description= (String) fields[i].get(actorPO);
                 entityPO.graphId= graphPO.graphId;
                 entityPO.name=fieldName;
@@ -72,6 +83,7 @@ public class TransServiceImpl implements TransService {
                 entityPOList.add(entityPO);
             }
         }
+        //再将actor的描述性节点连接到actor节点上
         for(EntityPO entityPO:entityPOList){
             entityMapper.insertEntity(entityPO);
             LinkPO linkPO=new LinkPO();
@@ -79,15 +91,17 @@ public class TransServiceImpl implements TransService {
             linkPO.type= LinkType.Actor_Info;
             linkPO.description=LinkType.Actor_Info.name();
             linkPO.isFullLine=true;
-            linkPO.relationName=entityPO.nodeType.toString();
+            linkPO.relationName=entityPO.nodeType.name();
             linkPO.sourceId=actorEntityPO.id;
             linkPO.targetId=entityPO.id;
             linkMapper.insertLink(linkPO);
         }
 
         List<Integer> relatedMovieId=actorMapper.getMovieByActorId(actorId);
+        //如果有与actor关联的movie
         if(relatedMovieId!=null&&relatedMovieId.size()>0){
             for(int movieId:relatedMovieId){
+                //先找到movie作为movie相关的中心节点，并且将其与actor相连。
                 MoviePO moviePO=movieMapper.getMovieById(movieId);
                 List<EntityPO> relatedMovieInfoList=new ArrayList<>();
                 EntityPO movieEntityPO=new EntityPO();
@@ -105,10 +119,11 @@ public class TransServiceImpl implements TransService {
                 linkPO.type= LinkType.Actor_Movie;
                 linkPO.description=LinkType.Actor_Movie.name();
                 linkPO.isFullLine=true;
-                linkPO.relationName=LinkType.Actor_Movie.toString();
+                linkPO.relationName="演员出演过的电影";
                 linkPO.sourceId=actorEntityPO.id;
                 linkPO.targetId=movieEntityPO.id;
                 linkMapper.insertLink(linkPO);
+
 
                 Field[] movieFields=moviePO.getClass().getDeclaredFields();
                 for(int i=0;i<movieFields.length;i++){
@@ -155,6 +170,7 @@ public class TransServiceImpl implements TransService {
                 String fieldName=entityPO.nodeType.toString();
                 Field field=actorPO.getClass().getDeclaredField(fieldName);
                 field.set(actorPO,entityPO.description);
+                //通过field将entityPO中的description提取到actorPO中对应的属性中
             }
         }
         List<Long> movieEntityIdList=linkMapper.getRelatedMovieId((long)graphId,actorId);
@@ -171,12 +187,16 @@ public class TransServiceImpl implements TransService {
                 field.set(moviePO,entityPO.description);
             }
             moviePOList.add(moviePO);
+            //再提取与actor相关的电影
         }
+
+        //根据数据库中是否已经存在actor
         if(actorMapper.isActorInTable(actorPO.actor_chName).equals("null")){
             actorMapper.insertActor(actorPO);
         }
         else{
             actorMapper.updateActor(actorPO);
+            actorPO.actor_id=actorMapper.getActorIdByActorName(actorPO.actor_chName);
         }
 
         for(MoviePO moviePO:moviePOList){
@@ -187,9 +207,22 @@ public class TransServiceImpl implements TransService {
             }
             else{
                 movieMapper.updateMovie(moviePO);
+                moviePO.movie_id=movieMapper.getMovieIdByMovieName(moviePO.movie_chName);
             }
             actorMapper.insertIntoActorToMovie(actorPO.actor_id,moviePO.movie_id);
-            movieMapper.insertIntoDirectorToMovie(moviePO.movie_director,moviePO.movie_id);
+
+            String[] director= processData.getDirectorName(moviePO.movie_director);
+            for(String d:director){
+                if(!d.equals("None")){
+                    if(directorMapper.isDirectorInTable(d).equals("null")){
+                        directorMapper.addDirector(d);
+                    }
+                }
+                int director_id= directorMapper.getDirectorIdByName(d);
+                if(!directorMapper.isDirectorToMovieInTable(director_id,moviePO.movie_id).equals("null")){
+                    movieMapper.insertIntoDirectorToMovie(director_id,moviePO.movie_id);
+                }
+            }
             String[] genreList=moviePO.movie_genre.split(" ");
             for(String genre:genreList){
                 Integer genreId=movieMapper.getGenreId(genre);

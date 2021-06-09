@@ -61,6 +61,13 @@ create table user_tag_genre(
     primary key(userId,genre)
 );
 
+drop table if exists director;
+create table director(
+  director_id int not null AUTO_INCREMENT,
+  director_name varchar(255) not null,
+  primary key(director_id)
+);
+
 
 
 

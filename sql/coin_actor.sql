@@ -38,9 +38,6 @@ CREATE TABLE `actor` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
-create index actor_chName_index
-    on actor (actor_chName);
-
 --
 -- Dumping data for table `actor`
 --

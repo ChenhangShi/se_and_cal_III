@@ -23,12 +23,12 @@ DROP TABLE IF EXISTS `entity`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `entity` (
-  `id` bigint NOT NULL AUTO_INCREMENT,
+  `id` bigint NOT NULL,
   `graphId` bigint NOT NULL,
   `name` varchar(255) NOT NULL,
   `type` varchar(255) NOT NULL,
   `shape` varchar(255) NOT NULL,
-  `description` longtext DEFAULT NULL,
+  `description` varchar(255) DEFAULT NULL,
   `x` varchar(255) NOT NULL,
   `y` varchar(255) NOT NULL,
   PRIMARY KEY (`id`,`graphId`)
@@ -39,7 +39,11 @@ CREATE TABLE `entity` (
 -- Dumping data for table `entity`
 --
 
-
+LOCK TABLES `entity` WRITE;
+/*!40000 ALTER TABLE `entity` DISABLE KEYS */;
+INSERT INTO `entity` VALUES (1,1,'source','red','circle','test_source','123','123'),(2,1,'target','blue','circle','test_target','124','125');
+/*!40000 ALTER TABLE `entity` ENABLE KEYS */;
+UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;

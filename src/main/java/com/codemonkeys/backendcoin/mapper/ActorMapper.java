@@ -40,4 +40,7 @@ public interface ActorMapper {
 
     @Insert("insert into actor_to_movie(actor_id,movie_id) values (#{actor_id},#{movie_id})")
     void insertIntoActorToMovie(@Param("actor_id")int actorId,@Param("movie_id")int movieId);
+
+    @Select("select actor_id from actor where actor_chName=#{actorName} ")
+    int getActorIdByActorName(@Param("actorName")String actorName);
 }

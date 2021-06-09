@@ -23,7 +23,7 @@ DROP TABLE IF EXISTS `link`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `link` (
-  `id` bigint NOT NULL AUTO_INCREMENT,
+  `id` bigint NOT NULL,
   `sourceId` bigint NOT NULL,
   `targetId` bigint NOT NULL,
   `graphId` bigint NOT NULL,
@@ -39,7 +39,11 @@ CREATE TABLE `link` (
 -- Dumping data for table `link`
 --
 
-
+LOCK TABLES `link` WRITE;
+/*!40000 ALTER TABLE `link` DISABLE KEYS */;
+INSERT INTO `link` VALUES (1,1,2,1,'test','red','test',1);
+/*!40000 ALTER TABLE `link` ENABLE KEYS */;
+UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;

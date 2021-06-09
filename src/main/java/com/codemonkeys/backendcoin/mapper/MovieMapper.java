@@ -18,9 +18,9 @@ public interface MovieMapper {
     @Select("select movie_director,movie_id from movie")
     List<DirectorMoviePO> getAllDirectors();
 
-    @Insert("insert into director_to_movie(director_chName,movie_id)" +
+    @Insert("insert into director_to_movie(director_id,movie_id)" +
             "values (#{director},#{movie})")
-    void insertIntoDirectorToMovie(@Param("director")String director,@Param("movie")Integer movie);
+    void insertIntoDirectorToMovie(@Param("director")int director,@Param("movie")Integer movie);
 
     @Insert("insert into movie_to_genre(movie_id,genre_id) values (#{movie_id},#{genre_id})")
     void insertIntoMovieToGenre(@Param("movie_id")int movieId,@Param("genre_id")int genreId);
@@ -47,5 +47,8 @@ public interface MovieMapper {
 
     @Select("select genre_id from genre where genre_name=#{genre_name}")
     Integer getGenreId(@Param("genre_name")String genreName);
+
+    @Select("select movie_id from movie where movie_name=#{movieName}")
+    int getMovieIdByMovieName(@Param("movieName")String movieName);
 
 }
