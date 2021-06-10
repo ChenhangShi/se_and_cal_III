@@ -5,6 +5,9 @@ import java.util.List;
 public class UserTagVO {
     private Integer userId;
     private List<String> movies;
+    private List<String> actors;
+    private List<String> directors;
+    private List<String> genres;
 
     public UserTagVO(Integer userId, List<String> movies, List<String> actors, List<String> directors, List<String> genres) {
         this.userId = userId;
@@ -13,10 +16,6 @@ public class UserTagVO {
         this.directors = directors;
         this.genres = genres;
     }
-
-    private List<String> actors;
-    private List<String> directors;
-    private List<String> genres;
 
     public List<String> getGenres() {
         return genres;
