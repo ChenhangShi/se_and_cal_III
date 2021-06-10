@@ -1,15 +1,10 @@
 package com.codemonkeys.backendcoin.util;
 
-import checkers.units.quals.A;
 import com.codemonkeys.backendcoin.Exceptions.EmptyException;
-import com.codemonkeys.backendcoin.PO.ActorNamePO;
-import com.codemonkeys.backendcoin.PO.DirectorPO;
-import com.codemonkeys.backendcoin.PO.GenrePO;
-import com.codemonkeys.backendcoin.PO.MovieNamePO;
+import com.codemonkeys.backendcoin.PO.*;
 import com.codemonkeys.backendcoin.VO.UserTagVO;
 import com.codemonkeys.backendcoin.mapper.*;
 import com.codemonkeys.backendcoin.service.UserService;
-import org.apache.commons.collections.SetUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -19,8 +14,6 @@ import java.util.stream.Collectors;
 
 @Component
 public class RecommendationUtil {
-    @Autowired
-    private UserService userService;
     @Autowired
     private MovieMapper movieMapper;
     @Autowired
@@ -35,6 +28,8 @@ public class RecommendationUtil {
     DirectorMapper directorMapper;
     @Autowired
     private DirectorMovieMapper directorMovieMapper;
+    @Autowired
+    private UserRecommendedMovieMapper userRecommendedMovieMapper;
 
     /**
      * 计算两个字符串之间的jaccard相似度，大于阈值就认为相似
@@ -84,23 +79,13 @@ public class RecommendationUtil {
         return isSimilarString(a,b,0.75);
     }
 
-    /**
-     * 当用户tag发送变化时，重新生成其推荐电影
-     * @param userId
-     */
-    public Set<String> changeUserRecommendedMovies(Integer userId){
-        UserTagVO userTagVO = userService.getUserTag(userId);
-        //TODO 删除原有的，插入新生成的
-        Set<String> recommendedMovies = generateRecommendMovies(userTagVO);
-        return recommendedMovies;
-    }
 
     /**
      * 返回推荐的电影，不超过20条，按得分从高到低排序
      * @param userTagVO
      * @return
      */
-    Set<String> generateRecommendMovies(UserTagVO userTagVO){
+    public Set<UserRecommendedMoviePO> generateUserRecommendedMovies(UserTagVO userTagVO){
         Set<Integer> probableTagMovieIds = getProbableMovieIds(userTagVO.getMovies());
         Map<Integer,Integer> recommendedMovieIdAndScore = mergeMovieScore(
                 recommendByMovieIds(probableTagMovieIds),
@@ -118,9 +103,11 @@ public class RecommendationUtil {
             }
         });
         // 获取前20条
-        Set<String> recommendedMovies = new HashSet<>();
+        Set<UserRecommendedMoviePO> recommendedMovies = new HashSet<>();
         for(int i = 0; i<entryList.size() && i<20;i++){
-            recommendedMovies.add(movieMapper.getMovieNameById(entryList.get(i).getKey()));
+            Integer movieId = entryList.get(i).getKey();
+            UserRecommendedMoviePO userRecommendedMoviePO = new UserRecommendedMoviePO(userTagVO.getUserId(),movieId,movieMapper.getMovieNameById(movieId));
+            recommendedMovies.add(userRecommendedMoviePO);
         }
         return recommendedMovies;
     }

@@ -1,6 +1,8 @@
 package com.codemonkeys.backendcoin.util;
 
-import com.codemonkeys.backendcoin.VO.UserTagVO;
+import com.codemonkeys.backendcoin.PO.UserRecommendedMoviePO;
+import com.codemonkeys.backendcoin.VO.*;
+import com.codemonkeys.backendcoin.service.UserService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -56,8 +58,8 @@ public class RecommendationUtilTest {
                 new ArrayList<String>(){{add("周星驰");add("张家辉");}},
                 new ArrayList<String>(){{add("周星驰");add("徐克");}},
                 new ArrayList<String>(){{add("科幻");add("动画");}});
-        Set<String> res = recommendationUtil.generateRecommendMovies(userTagVO);
-        for (String movie:res)
-            System.out.println(movie);
+        Set<UserRecommendedMoviePO> res = recommendationUtil.generateUserRecommendedMovies(userTagVO);
+        for (UserRecommendedMoviePO userRecommendedMoviePO:res)
+            System.out.println(userRecommendedMoviePO.getMovieName());
     }
 }

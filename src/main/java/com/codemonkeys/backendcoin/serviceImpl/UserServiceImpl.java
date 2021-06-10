@@ -1,26 +1,32 @@
 package com.codemonkeys.backendcoin.serviceImpl;
 
 import com.codemonkeys.backendcoin.PO.UserPO;
+import com.codemonkeys.backendcoin.PO.UserRecommendedMoviePO;
 import com.codemonkeys.backendcoin.VO.*;
 import com.codemonkeys.backendcoin.mapper.UserMapper;
+import com.codemonkeys.backendcoin.mapper.UserRecommendedMovieMapper;
 import com.codemonkeys.backendcoin.service.UserService;
 import com.codemonkeys.backendcoin.util.RecommendationUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @Service
 public class UserServiceImpl implements UserService {
 
     UserMapper userMapper;
+    UserRecommendedMovieMapper userRecommendedMovieMapper;
     RecommendationUtil recommendationUtil;
 
     @Autowired
-    public UserServiceImpl(UserMapper userMapper, RecommendationUtil recommendationUtil){
+    public UserServiceImpl(UserMapper userMapper,UserRecommendedMovieMapper userRecommendedMovieMapper ,RecommendationUtil recommendationUtil){
         this.userMapper=userMapper;
+        this.userRecommendedMovieMapper=userRecommendedMovieMapper;
         this.recommendationUtil = recommendationUtil;
     }
 
@@ -43,24 +49,28 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void addUserActor(int userId, String actor) {
+    public Set<String> addUserActor(int userId, String actor) {
         userMapper.insertUserActor(userId,actor);
-        // TODO 返回推荐
+        return changeUserRecommendedMovies(userId);
     }
 
     @Override
-    public void addUserDirector(int userId, String director) {
+    public Set<String> addUserDirector(int userId, String director) {
         userMapper.insertUserDirector(userId,director);
-        // TODO 返回推荐
+        return changeUserRecommendedMovies(userId);
     }
 
     @Override
-    public void addUserMovie(int userId, String movie) {
+    public Set<String> addUserMovie(int userId, String movie) {
         userMapper.insertUserMovie(userId,movie);
-        // TODO 返回推荐
+        return changeUserRecommendedMovies(userId);
     }
 
-    // TODO 添加体裁
+    @Override
+    public Set<String> addUserGenre(int userId, String genre){
+        userMapper.insertUserGenre(userId, genre);
+        return changeUserRecommendedMovies(userId);
+    }
 
     @Override
     public List<String> getUserActor(int userId) {
@@ -69,7 +79,6 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public List<String> getUserMovie(int userId) {
-
         return userMapper.getUserMovie(userId);
     }
 
@@ -84,27 +93,27 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void deleteUserActor(UserActorVO userActorVO) {
+    public Set<String> deleteUserActor(UserActorVO userActorVO) {
         userMapper.deleteUserActor(userActorVO.getUserId(),userActorVO.getActor());
-        // TODO 返回推荐
+        return changeUserRecommendedMovies(userActorVO.getUserId());
     }
 
     @Override
-    public void deleteUserMovie(UserMovieVO userMovieVO) {
+    public Set<String> deleteUserMovie(UserMovieVO userMovieVO) {
         userMapper.deleteUserMovie(userMovieVO.getUserId(),userMovieVO.getMovie());
-        // TODO 返回推荐
+        return changeUserRecommendedMovies(userMovieVO.getUserId());
     }
 
     @Override
-    public void deleteUserGenre(UserGenreVO userGenreVO) {
+    public Set<String> deleteUserGenre(UserGenreVO userGenreVO) {
         userMapper.deleteUserGenre(userGenreVO.getUserId(),userGenreVO.getGenre());
-        // TODO 返回推荐
+        return changeUserRecommendedMovies(userGenreVO.getUserId());
     }
 
     @Override
-    public void deleteUserDirector(UserDirectorVO userDirectorVO) {
+    public Set<String> deleteUserDirector(UserDirectorVO userDirectorVO) {
         userMapper.deleteUserDirector(userDirectorVO.getUserId(),userDirectorVO.getDirector());
-        // TODO 返回推荐
+        return changeUserRecommendedMovies(userDirectorVO.getUserId());
 
     }
 
@@ -115,16 +124,27 @@ public class UserServiceImpl implements UserService {
         List<String> userDirectorList=getUserDirector(userId);
         List<String> userGenreList=getUserGenre(userId);
 
-        UserTagVO userTagVO=new UserTagVO(userId,userMovieList,userActorList,userDirectorList,userGenreList);
-
-        return userTagVO;
+        return new UserTagVO(userId,userMovieList,userActorList,userDirectorList,userGenreList);
     }
 
     @Override
-    public Set<String> getUserRecommendedMovies(UserTagVO userTagVO){
-        // TODO 从数据库中取
-        return null;
+    public Set<String> getUserRecommendedMovies(Integer userId){
+        return new HashSet<>(userRecommendedMovieMapper.getRecommendedMovieNamesByUserId(userId));
     }
 
-
+    /**
+     * 当用户tag发送变化时，重新生成其推荐电影
+     * @param userId
+     */
+    private Set<String> changeUserRecommendedMovies(Integer userId){
+        userRecommendedMovieMapper.deleteRecommendedMoviesByUserId(userId);
+        UserTagVO userTagVO = getUserTag(userId);
+        Set<UserRecommendedMoviePO> userRecommendedMovies = recommendationUtil.generateUserRecommendedMovies(userTagVO);
+        for(UserRecommendedMoviePO userRecommendedMoviePO:userRecommendedMovies)
+            userRecommendedMovieMapper.addUserRecommendedMovie(userRecommendedMoviePO);
+        return userRecommendedMovies
+                .stream()
+                .map(UserRecommendedMoviePO::getMovieName)
+                .collect(Collectors.toSet());
+    }
 }

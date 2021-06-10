@@ -11,13 +11,13 @@ public interface UserService {
 
     UserVO getUser(int id);
 
-    void addUserActor(int userId, String actor);
+    Set<String> addUserActor(int userId, String actor);
 
-    void addUserDirector(int userId, String director);
+    Set<String> addUserDirector(int userId, String director);
 
-    void addUserMovie(int userId, String movie);
+    Set<String> addUserMovie(int userId, String movie);
 
-    // TODO 添加体裁
+    Set<String> addUserGenre(int userId, String genre);
 
     List<String> getUserActor(int userId);
 
@@ -27,16 +27,16 @@ public interface UserService {
 
     List<String> getUserGenre(int userId);
 
-    void deleteUserActor(UserActorVO userActorVO);
+    Set<String> deleteUserActor(UserActorVO userActorVO);
 
-    void deleteUserMovie(UserMovieVO userMovieVO);
+    Set<String> deleteUserMovie(UserMovieVO userMovieVO);
 
-    void deleteUserGenre(UserGenreVO userGenreVO);
+    Set<String> deleteUserGenre(UserGenreVO userGenreVO);
 
-    void deleteUserDirector(UserDirectorVO userDirectorVO);
+    Set<String> deleteUserDirector(UserDirectorVO userDirectorVO);
 
     UserTagVO getUserTag(Integer userId);
 
-    Set<String> getUserRecommendedMovies(UserTagVO userTagVO);
+    Set<String> getUserRecommendedMovies(Integer userId);
 
 }
