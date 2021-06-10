@@ -9,12 +9,14 @@ import com.codemonkeys.backendcoin.util.EnumUtil;
 import com.codemonkeys.backendcoin.util.ProcessData;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
 
 @Service
+@Transactional
 public class TransServiceImpl implements TransService {
     ActorMapper actorMapper;
     EntityMapper entityMapper;

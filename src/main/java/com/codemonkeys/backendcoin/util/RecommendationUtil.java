@@ -28,8 +28,6 @@ public class RecommendationUtil {
     DirectorMapper directorMapper;
     @Autowired
     private DirectorMovieMapper directorMovieMapper;
-    @Autowired
-    private UserRecommendedMovieMapper userRecommendedMovieMapper;
 
     /**
      * 计算两个字符串之间的jaccard相似度，大于阈值就认为相似
