@@ -31,7 +31,7 @@ public interface MovieMapper {
     @Options(useGeneratedKeys = true,keyProperty = "movie_id",keyColumn = "movie_id")
     int insertMovie(@Param("movie")MoviePO moviePO);
 
-    @Select("select IFNULL((select movie_id from movie where movie_chName=#{movie_Name}),null)")
+    @Select("select movie_id from movie where movie_chName=#{movie_Name}")
     String isMovieInTable(@Param("movie_Name")String movieName);
 
 

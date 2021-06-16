@@ -36,4 +36,8 @@ public interface LinkMapper {
 
     @Delete("delete from link where id=#{id} and graphId=#{graphId}")
     void deleteLinkById(@Param("id") Long linkId,@Param("graphId")Long graphId);
+
+    @Delete("delete from link where graphId=#{graphId}")
+    void deleteLinkByGraphId(@Param("graphId")int graphId);
+
 }

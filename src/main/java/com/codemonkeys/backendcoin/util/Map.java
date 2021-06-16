@@ -9,8 +9,10 @@ import org.mapstruct.Mapping;
 @Mapper(componentModel = "spring")
 public interface Map {
 
+    @Mapping(target = "type",source="nodeType")
     EntityVO from(EntityPO entityPO);
 
+    @Mapping(target = "nodeType",source="type")
     EntityPO from(EntityVO entityVO);
 
     @Mapping(target = "relation",source = "relationName")

@@ -27,7 +27,7 @@ public interface ActorMapper {
     @Options(useGeneratedKeys = true,keyProperty = "actor_id",keyColumn = "actor_id")
     int insertActor(@Param("actor")ActorPO actorPO);
 
-    @Select("select IFNULL((select actor_id from actor where actor_chName=#{actor_Name}),null)")
+    @Select("select actor_id from actor where actor_chName=#{actor_Name}")
     String isActorInTable(@Param("actor_Name")String actorName);
 
     @Update("update actor set actor_bio=#{a.actor_bio}," +

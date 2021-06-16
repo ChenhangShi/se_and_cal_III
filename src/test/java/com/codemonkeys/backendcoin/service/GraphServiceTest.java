@@ -24,7 +24,7 @@ public class GraphServiceTest {
 
     @Test
     public void testAddGraph(){
-        Long res=graphService.addGraph("newGraph");
+        Long res=graphService.addGraph("newGraph",1);
         Assert.assertEquals("newGraph",graphMapper.getGraphById(res).graphName);
     }
 

@@ -5,6 +5,15 @@ package com.codemonkeys.backendcoin.VO;
  * 一个RelationGroupVO表示一个实体，关系，实体的三元组
  */
 public class RelationGroupVO {
+    @Override
+    public String toString() {
+        return "RelationGroupVO{" +
+                "source=" + source.toString() +
+                ", target=" + target.toString() +
+                ", relation=" + relation.toString() +
+                '}';
+    }
+
     private EntityVO source;
     private EntityVO target;
     private RelationVO relation;

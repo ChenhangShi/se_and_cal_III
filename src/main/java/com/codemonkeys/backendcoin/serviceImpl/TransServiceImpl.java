@@ -198,7 +198,7 @@ public class TransServiceImpl implements TransService {
         }
 
         //根据数据库中是否已经存在actor
-        if(actorMapper.isActorInTable(actorPO.actor_chName).equals("null")){
+        if(actorMapper.isActorInTable(actorPO.actor_chName)==null){
             actorMapper.insertActor(actorPO);
         }
         else{
@@ -209,7 +209,7 @@ public class TransServiceImpl implements TransService {
         for(MoviePO moviePO:moviePOList){
             System.out.println(moviePO.toString());
             System.out.println(movieMapper.isMovieInTable(moviePO.movie_chName));
-            if(movieMapper.isMovieInTable(moviePO.movie_chName).equals("null")){
+            if(movieMapper.isMovieInTable(moviePO.movie_chName)==null){
                 movieMapper.insertMovie(moviePO);
             }
             else{
@@ -226,7 +226,7 @@ public class TransServiceImpl implements TransService {
                     }
                 }
                 int director_id= directorMapper.getDirectorIdByName(d);
-                if(!directorMapper.isDirectorToMovieInTable(director_id,moviePO.movie_id).equals("null")){
+                if(directorMapper.isDirectorToMovieInTable(director_id,moviePO.movie_id)==null){
                     directorMovieMapper.insertIntoDirectorToMovie(director_id,moviePO.movie_id);
                 }
             }
@@ -241,6 +241,11 @@ public class TransServiceImpl implements TransService {
                 }
             }
         }
+
+        //从操作表中删除所有已提交的图对应的entity,link,graph
+        graphMapper.deleteGraphById(graphId);
+        entityMapper.deleteEntityByGraphId(graphId);
+        linkMapper.deleteLinkByGraphId(graphId);
     }
 
     @Override

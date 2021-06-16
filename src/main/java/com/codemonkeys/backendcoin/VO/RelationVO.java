@@ -33,6 +33,17 @@ public class RelationVO {
         return id;
     }
 
+    @Override
+    public String toString() {
+        return "RelationVO{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", type=" + type +
+                ", description='" + description + '\'' +
+                ", isFullLine=" + isFullLine +
+                '}';
+    }
+
     public void setId(Long id) {
         this.id = id;
     }

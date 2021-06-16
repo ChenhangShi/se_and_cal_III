@@ -37,4 +37,7 @@ public interface EntityMapper {
     @Update("update entity set name=#{p.name},type=#{p.type},shape=#{p.shape}," +
             "description=#{p.description},x=#{p.x},y=#{p.y} where id=#{p.id} and graphId=#{p.graphId}")
     void updateEntity(@Param("p") EntityPO entityPO);
+
+    @Delete("delete from entity where graphId=#{graphId}")
+    void deleteEntityByGraphId(@Param("graphId")int graphId);
 }

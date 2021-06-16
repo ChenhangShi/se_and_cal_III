@@ -20,12 +20,13 @@ public class TransController {
     public TransController(TransService transService) {
         this.transService = transService;
     }
-    @PostMapping("/extract")
+
 
     /**
      * @Param int actorId String graphName
      * 实现根据一个演员的actorId来从数据表中提取相关信息映射到操作表中。
      */
+    @PostMapping("/extract")
     public void extract(@Param("actorId") int actorId, @Param("graphName")String graphName){
         try {
             transService.extract(actorId,graphName);

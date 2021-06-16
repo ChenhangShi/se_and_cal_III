@@ -145,6 +145,7 @@ public class XmlUtil {
         for(RelationGroupVO r:relationGroupVOList){
             Element relationGroup=document.createElement("RelationGroup");
 
+
             Element source=document.createElement(ENTITY_TAG);
             source.setTextContent(r.getSource().getName());
             source.setAttribute(ENTITY_PROPERTY_ATTRIBUTE_NAME,ENTITY_SOURCE_ATTRIBUTE);

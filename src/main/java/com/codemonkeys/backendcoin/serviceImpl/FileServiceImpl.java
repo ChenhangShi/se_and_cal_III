@@ -1,12 +1,14 @@
 package com.codemonkeys.backendcoin.serviceImpl;
 
 import com.codemonkeys.backendcoin.PO.EntityPO;
+import com.codemonkeys.backendcoin.PO.GraphPO;
 import com.codemonkeys.backendcoin.PO.LinkPO;
 import com.codemonkeys.backendcoin.VO.EntityVO;
 import com.codemonkeys.backendcoin.VO.LinkVO;
 import com.codemonkeys.backendcoin.VO.RelationGroupVO;
 import com.codemonkeys.backendcoin.VO.RelationVO;
 import com.codemonkeys.backendcoin.mapper.EntityMapper;
+import com.codemonkeys.backendcoin.mapper.GraphMapper;
 import com.codemonkeys.backendcoin.mapper.LinkMapper;
 import com.codemonkeys.backendcoin.service.FileService;
 import com.codemonkeys.backendcoin.util.FileUtil;
@@ -36,14 +38,17 @@ public class FileServiceImpl implements FileService {
     XmlUtil xmlUtil;
     EntityMapper entityMapper;
     LinkMapper linkMapper;
+    GraphMapper graphMapper;
     Map map;
 
     @Autowired
-    public FileServiceImpl(FileUtil fileUtil, XmlUtil xmlUtil, EntityMapper entityMapper, LinkMapper linkMapper,Map map) {
+    public FileServiceImpl(FileUtil fileUtil, XmlUtil xmlUtil, EntityMapper entityMapper,
+                           LinkMapper linkMapper,GraphMapper graphMapper,Map map) {
         this.fileUtil = fileUtil;
         this.xmlUtil = xmlUtil;
         this.entityMapper = entityMapper;
         this.linkMapper = linkMapper;
+        this.graphMapper=graphMapper;
         this.map=map;
     }
 
@@ -81,7 +86,6 @@ public class FileServiceImpl implements FileService {
     @Override
     public void downLoadXml(Long graphId, HttpServletResponse response)  {
         List<LinkPO> linkPOList=linkMapper.getAllLink(graphId);
-        List<EntityPO> entityPOList=entityMapper.getAllEntity(graphId);
         List<RelationGroupVO> relationGroupVOList=new ArrayList<>();
 
         for(LinkPO linkPO:linkPOList){
@@ -94,6 +98,7 @@ public class FileServiceImpl implements FileService {
             RelationVO relationVO=new RelationVO(relationId,linkPO.type,linkPO.relationName,linkPO.description,linkPO.isFullLine);
             RelationGroupVO relationGroupVO=new RelationGroupVO(sourceEntityVO,targetEntityVO,relationVO);
             relationGroupVOList.add(relationGroupVO);
+            System.out.println(relationGroupVO.toString());
         }
 
         File file=null;
@@ -107,7 +112,7 @@ public class FileServiceImpl implements FileService {
                 response.setContentType("application/octet-stream");
                 response.setHeader("Content-Disposition", "attachment;filename=" + URLEncoder.encode(fileName, "UTF-8"));
 
-                byte[] buffer = new byte[1024];
+                byte[] buffer = new byte[1024*8];
                 FileInputStream fis = null;
                 BufferedInputStream bis = null;
                 try {
@@ -121,6 +126,7 @@ public class FileServiceImpl implements FileService {
                     }
                     System.out.println("Download the File successfully!");
                 } catch (Exception e) {
+                    e.printStackTrace();
                     System.out.println("Download the File failed!");
                 } finally {
                     if (bis != null) {
@@ -140,6 +146,7 @@ public class FileServiceImpl implements FileService {
                 }
             }
         } catch (Exception e) {
+            e.printStackTrace();
             System.out.println("Download the File failed!");
         }
         finally {

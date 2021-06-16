@@ -24,7 +24,12 @@ public class GraphController {
     }
 
     @PostMapping("/addGraph")
-    public Long addGraph(@RequestParam String graphName){
-        return graphService.addGraph(graphName);
+    public Long addGraph(@RequestParam String graphName,@RequestParam int userId){
+        return graphService.addGraph(graphName,userId);
+    }
+
+    @GetMapping("/getUserGraph")
+    public List<GraphVO> getUserGraph(@RequestParam int userId){
+        return graphService.getUserGraph(userId);
     }
 }

@@ -5,6 +5,8 @@ import com.codemonkeys.backendcoin.Enum.Roles;
 public class UserVO {
     private String username;
     private String password;
+    private int id;
+    private Roles role;
 
     public String getUsername() {
         return username;
@@ -38,6 +40,5 @@ public class UserVO {
         this.role = role;
     }
 
-    private int id;
-    private Roles role;
+
 }

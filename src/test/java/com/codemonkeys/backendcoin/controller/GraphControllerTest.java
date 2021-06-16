@@ -30,12 +30,12 @@ public class GraphControllerTest {
     @Test
     public void testAddGraph() throws Exception{
         GraphService graphService = mock(GraphService.class);
-        when(graphService.addGraph("a")).thenReturn(1L);
+        when(graphService.addGraph("a",1)).thenReturn(1L);
         GraphController graphController = new GraphController(graphService);
         MockMvc mockMvc = standaloneSetup(graphController).build();
         String res = mockMvc.perform(post("/graph/addGraph").param("graphName","a"))
                 .andReturn().getResponse().getContentAsString();
         assert res.equals("1");
-        verify(graphService).addGraph("a");
+        verify(graphService).addGraph("a",1);
     }
 }

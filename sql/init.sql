@@ -75,6 +75,7 @@ drop table if exists graph;
 create table graph(
     graphId bigint not null auto_increment,
     graphName varchar(255) not null,
+
     primary key (graphId)
 );
 

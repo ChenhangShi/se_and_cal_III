@@ -17,6 +17,21 @@ public class EntityVO {
     private String description;
     private String x;
     private String y;
+
+    @Override
+    public String toString() {
+        return "EntityVO{" +
+                "id=" + id +
+                ", graphId=" + graphId +
+                ", name='" + name + '\'' +
+                ", type=" + type +
+                ", description='" + description + '\'' +
+                ", x='" + x + '\'' +
+                ", y='" + y + '\'' +
+                ", shape='" + shape + '\'' +
+                '}';
+    }
+
     private String shape;
 
     public String getShape() {

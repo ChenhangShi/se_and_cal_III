@@ -35,13 +35,24 @@ public class GraphServiceImpl implements GraphService {
     }
 
     @Override
-    public Long addGraph(String graphName) {
+    public Long addGraph(String graphName,int userId) {
         if(graphName==null||graphName.equals("")){
             return -1L;
         }
         GraphPO graphPO=new GraphPO();
         graphPO.graphName=graphName;
+        graphPO.userId=userId;
         graphMapper.insertGraph(graphPO);
         return graphPO.graphId;
+    }
+
+    @Override
+    public List<GraphVO> getUserGraph(int userId) {
+        List<GraphPO> graphPOList=graphMapper.getGraphsByUserId(userId);
+        List<GraphVO> graphVOList=new ArrayList<>();
+        for(GraphPO graphPO:graphPOList){
+            graphVOList.add(map.from(graphPO));
+        }
+        return graphVOList;
     }
 }
