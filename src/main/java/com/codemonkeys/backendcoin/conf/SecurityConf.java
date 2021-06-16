@@ -30,7 +30,7 @@ public class SecurityConf extends WebSecurityConfigurerAdapter {
                 .and().
                 csrf().disable()
                 .authorizeRequests() // 这个确定了哪些需要权限认证
-                .antMatchers("/user/**").permitAll()
+                .antMatchers("/user/register").permitAll()
                 .antMatchers("/entity/**").hasRole("USER")
 
                 .antMatchers("/link/**").hasRole("USER")

@@ -51,6 +51,24 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public boolean isNameRepeat(String username) {
+        Integer id=userMapper.getUserIdByUsername(username);
+        if(id==null){
+            return false;
+        }
+        return true;
+    }
+
+    @Override
+    public int getUserId(String username) {
+        Integer id=userMapper.getUserIdByUsername(username);
+        if(id==null){
+            return -1;
+        }
+        return id;
+    }
+
+    @Override
     public Set<String> addUserActor(int userId, String actor) {
         userMapper.insertUserActor(userId,actor);
         return changeUserRecommendedMovies(userId);

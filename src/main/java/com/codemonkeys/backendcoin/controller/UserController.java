@@ -1,5 +1,6 @@
 package com.codemonkeys.backendcoin.controller;
 
+import com.codemonkeys.backendcoin.Enum.ResponseMessage;
 import com.codemonkeys.backendcoin.VO.*;
 import com.codemonkeys.backendcoin.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,12 +20,21 @@ public class UserController {
     }
 
     @PostMapping("/register")
-    public void registerUser(@RequestBody UserVO userVO){
+    public ResponseMessage registerUser(@RequestBody UserVO userVO){
+        if(userService.isNameRepeat(userVO.getUsername())){
+            return ResponseMessage.Name_Repeat;
+        }
         userService.register(userVO.getUsername(),userVO.getPassword(),userVO.getRole().name());
+        return ResponseMessage.Success;
     }
     @GetMapping("/getUser/{id}")
     public UserVO getUser(@PathVariable int id){
         return userService.getUser(id);
+    }
+
+    @GetMapping("/getUserId")
+    public int getUserId(@RequestParam("username")String username){
+        return userService.getUserId(username);
     }
 
     @PostMapping("/addUserActor")

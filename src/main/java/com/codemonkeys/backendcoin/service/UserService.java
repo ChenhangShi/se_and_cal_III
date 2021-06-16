@@ -7,9 +7,13 @@ import java.util.Set;
 
 
 public interface UserService {
+    int getUserId(String username);
+
     void register(String username, String password, String roles);
 
     UserVO getUser(int id);
+
+    boolean isNameRepeat(String username);
 
     Set<String> addUserActor(int userId, String actor);
 
@@ -38,5 +42,4 @@ public interface UserService {
     UserTagVO getUserTag(Integer userId);
 
     Set<String> getUserRecommendedMovies(Integer userId);
-
 }
