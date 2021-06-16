@@ -18,6 +18,3 @@ source sql/coin_user_tag_director.sql;
 source sql/coin_user_tag_genre.sql;
 source sql/coin_user_tag_movie.sql;
 EOF
-
-curl -d 'username=123&password=123456' -X POST http://localhost:8082/login
-curl -X POST http://localhost:8082/trans/reload
