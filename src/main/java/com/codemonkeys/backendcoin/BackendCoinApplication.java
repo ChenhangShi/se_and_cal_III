@@ -7,8 +7,6 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 @MapperScan("com.codemonkeys.backendcoin.mapper")
 @SpringBootApplication
 public class BackendCoinApplication {
-
-
     public static void main(String[] args) {
         SpringApplication.run(BackendCoinApplication.class, args);
     }

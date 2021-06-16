@@ -13,6 +13,8 @@ public interface UserService {
 
     UserVO getUser(int id);
 
+    boolean isNameRepeat(String username);
+
     Set<String> addUserActor(int userId, String actor);
 
     Set<String> addUserDirector(int userId, String director);
