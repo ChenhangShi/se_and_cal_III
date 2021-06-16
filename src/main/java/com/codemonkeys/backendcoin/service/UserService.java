@@ -10,6 +10,8 @@ public interface UserService {
 
     public UserVO getUser(int id);
 
+    public int getUserId(String username);
+
     public void addUserActor(int userId,String actor);
 
     public void addUserDirector(int userId,String director);

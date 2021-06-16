@@ -26,6 +26,11 @@ public class UserController {
         return userService.getUser(id);
     }
 
+    @GetMapping("/getUserId")
+    public int getUserId(@RequestParam("username")String username){
+        return userService.getUserId(username);
+    }
+
     @PostMapping("/addUserActor")
     public void addUserActor(@RequestBody UserActorVO userActorVO){
         userService.addUserActor(userActorVO.getUserId(),userActorVO.getActor());

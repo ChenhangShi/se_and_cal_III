@@ -39,6 +39,15 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public int getUserId(String username) {
+        Integer id=userMapper.getUserIdByUsername(username);
+        if(id==null){
+            return -1;
+        }
+        return id;
+    }
+
+    @Override
     public void addUserActor(int userId, String actor) {
         userMapper.insertUserActor(userId,actor);
     }
