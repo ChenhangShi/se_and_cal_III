@@ -1,6 +1,6 @@
 package com.codemonkeys.backendcoin.mapper;
 
-import com.codemonkeys.backendcoin.PO.DirectorMoviePO;
+import com.codemonkeys.backendcoin.PO.DirectorNameMoviePO;
 import com.codemonkeys.backendcoin.PO.MovieNamePO;
 import com.codemonkeys.backendcoin.PO.MoviePO;
 import org.apache.ibatis.annotations.*;
@@ -16,11 +16,11 @@ public interface MovieMapper {
     @Select("select movie_chName from movie where movie_id=#{movie_id}")
     String getMovieNameById(int movie_id);
 
-    @Select("select movie_id, movie_chName, movie_forName from movie")
+    @Select("select movie_id, movie_chName, movie_foreName from movie")
     List<MovieNamePO> getAllMovieNames();
 
     @Select("select movie_director,movie_id from movie")
-    List<DirectorMoviePO> getAllDirectors();
+    List<DirectorNameMoviePO> getAllDirectors();
 
 
     @Insert("insert into movie(movie_bio,movie_chName,movie_foreName,movie_prodTime,movie_prodCompany,movie_director,movie_screenwriter," +

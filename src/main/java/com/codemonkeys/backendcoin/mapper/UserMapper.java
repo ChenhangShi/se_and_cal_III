@@ -38,6 +38,9 @@ public interface UserMapper {
     @Insert("insert into user_tag_actor(userId,actor) values (#{userId},#{actor})")
     void insertUserActor(@Param("userId")int userId,@Param("actor") String actor);
 
+    @Insert("insert into user_tag_genre(userId,genre) values (#{userId},#{genre})")
+    void insertUserGenre(@Param("userId")int userId,@Param("genre") String genre);
+
     @Select("select director from user_tag_director where userId=#{userId}")
     List<String> getUserDirector(@Param("userId")int userId);
 
