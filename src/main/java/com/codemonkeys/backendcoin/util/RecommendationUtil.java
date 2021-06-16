@@ -1,13 +1,10 @@
 package com.codemonkeys.backendcoin.util;
 
-import checkers.units.quals.A;
 import com.codemonkeys.backendcoin.Exceptions.EmptyException;
-import com.codemonkeys.backendcoin.PO.ActorNamePO;
-import com.codemonkeys.backendcoin.PO.GenrePO;
-import com.codemonkeys.backendcoin.PO.MovieNamePO;
+import com.codemonkeys.backendcoin.PO.*;
 import com.codemonkeys.backendcoin.VO.UserTagVO;
 import com.codemonkeys.backendcoin.mapper.*;
-import org.apache.commons.collections.SetUtils;
+import com.codemonkeys.backendcoin.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -27,6 +24,10 @@ public class RecommendationUtil {
     private GenreMapper genreMapper;
     @Autowired
     private GenreMovieMapper genreMovieMapper;
+    @Autowired
+    DirectorMapper directorMapper;
+    @Autowired
+    private DirectorMovieMapper directorMovieMapper;
 
     /**
      * 计算两个字符串之间的jaccard相似度，大于阈值就认为相似
@@ -76,27 +77,47 @@ public class RecommendationUtil {
         return isSimilarString(a,b,0.75);
     }
 
+
     /**
      * 返回推荐的电影，不超过20条，按得分从高到低排序
      * @param userTagVO
      * @return
      */
-    public List<String> generateRecommendMovies(UserTagVO userTagVO){
+    public Set<UserRecommendedMoviePO> generateUserRecommendedMovies(UserTagVO userTagVO){
+        Set<Integer> probableTagMovieIds = getProbableMovieIds(userTagVO.getMovies());
         Map<Integer,Integer> recommendedMovieIdAndScore = mergeMovieScore(
-                recommendByMovies(userTagVO.getMovies()),
+                recommendByMovieIds(probableTagMovieIds),
                 recommendByActors(userTagVO.getActors()),
                 recommendByDirectors(userTagVO.getDirectors()),
                 recommendByGenres(userTagVO.getGenres()));
-        return null;
+        //去除用户tag中的电影id
+        recommendedMovieIdAndScore.keySet().removeIf(probableTagMovieIds::contains);
+        //根据value降序排序
+        List<Map.Entry<Integer,Integer>> entryList = new ArrayList<>(recommendedMovieIdAndScore.entrySet());
+        Collections.sort(entryList, new Comparator<Map.Entry<Integer, Integer>>() {
+            @Override
+            public int compare(Map.Entry<Integer, Integer> o1, Map.Entry<Integer, Integer> o2) {
+                return -(o1.getValue().compareTo(o2.getValue()));
+            }
+        });
+        // 获取前20条
+        Set<UserRecommendedMoviePO> recommendedMovies = new HashSet<>();
+        for(int i = 0; i<entryList.size() && i<20;i++){
+            Integer movieId = entryList.get(i).getKey();
+            UserRecommendedMoviePO userRecommendedMoviePO = new UserRecommendedMoviePO(userTagVO.getUserId(),movieId,movieMapper.getMovieNameById(movieId));
+            recommendedMovies.add(userRecommendedMoviePO);
+        }
+        return recommendedMovies;
     }
 
+
     /**
-     * 根据电影tag推荐
-     * 返回movieId和其得分
+     * 根据电影tag获取电影id
+     * 用于根据电影推荐以及最终推荐结果去重
      * @param movies
      * @return
      */
-    Map<Integer,Integer> recommendByMovies(List<String> movies){
+    private Set<Integer> getProbableMovieIds(List<String> movies){
         // 获取movie_id
         Set<String> movieTagSet = new HashSet<>(movies);
         List<MovieNamePO> movieNamePOList = movieMapper.getAllMovieNames();
@@ -121,9 +142,19 @@ public class RecommendationUtil {
                     .collect(Collectors.toSet());
             probableMovieIds.addAll(curProbableMovieIds);
         }
-        return recommendByMovieIds(probableMovieIds);
+        return probableMovieIds;
     }
 
+    /**
+     * 根据电影tag推荐
+     * 返回movieId和其得分
+     * 仅供测试用
+     * @param movies
+     * @return
+     */
+    Map<Integer,Integer> recommendByMovies(List<String> movies){
+        return recommendByMovieIds(getProbableMovieIds(movies));
+    }
 
     private Map<Integer,Integer> recommendByMovieIds(Set<Integer> movieIds){
         // 获取电影的演员、导演、体裁
@@ -132,7 +163,7 @@ public class RecommendationUtil {
         Set<Integer> genreIds = new HashSet<>();
         for(Integer movieId:movieIds){
             actorIds.addAll(actorMovieMapper.getActorIdsByMovieId(movieId));
-            // TODO directorId
+            directorIds.addAll(directorMovieMapper.getDirectorIdsByMovieId(movieId));
             genreIds.addAll(genreMovieMapper.getGenreIdsByMovieId(movieId));
         }
         Map<Integer,Integer> byActorRes = recommendByActorIds(actorIds);
@@ -144,10 +175,12 @@ public class RecommendationUtil {
     /**
      * 合并电影的得分
      * 可变参数
-     * @param recommendResults
+     * @param recommendedMaps
      * @return
      */
-    private Map<Integer,Integer> mergeMovieScore(Map<Integer,Integer>... recommendResults){
+    private Map<Integer,Integer> mergeMovieScore(Map<Integer,Integer>... recommendedMaps){
+        // 转set确保不重复
+        Set<Map<Integer,Integer>> recommendResults=new HashSet<>(Arrays.asList(recommendedMaps));
         Map<Integer,Integer> mergedRes = new HashMap<>();
         for(Map<Integer,Integer> recommendResult:recommendResults){
             for(Integer movieId:recommendResult.keySet()){
@@ -212,24 +245,15 @@ public class RecommendationUtil {
      */
     Map<Integer,Integer> recommendByDirectors(List<String> directors){
         Set<String> directorTagSet = new HashSet<>(directors);
-        List<ActorNamePO> directorNamePOList = actorMapper.getAllActorNames();
+        List<DirectorPO> directorPOList = directorMapper.getAllDirectors();
         Set<Integer> probableDirectorIds = new HashSet<>();
         for(String directorTag:directorTagSet){
-            Set<Integer> curProbableDirectorIds = directorNamePOList
+            Set<Integer> curProbableDirectorIds = directorPOList
                     .stream()
                     .filter(
-                            directorNamePO -> {
-                                try {
-                                    if (ProcessData.isContainChinese(directorTag))
-                                        return isSimilarString(directorTag, directorNamePO.actor_chName);
-                                    return isSimilarString(directorTag, directorNamePO.actor_foreName);
-                                } catch (EmptyException e) {
-                                    e.printStackTrace();
-                                    return false;
-                                }
-                            }
+                            directorPO -> isSimilarString(directorTag, directorPO.director_name)
                     )
-                    .map(directorNamePO -> directorNamePO.actor_id)
+                    .map(directorPO -> directorPO.director_id)
                     .collect(Collectors.toSet());
             probableDirectorIds.addAll(curProbableDirectorIds);
         }
@@ -240,7 +264,7 @@ public class RecommendationUtil {
         // 一部电影每与一个director匹配，得一分
         Map<Integer,Integer> recommendedMovieIdAndScore = new HashMap<>();
         for(Integer directorId:directorIds){
-            Set<Integer> curMovieIds = new HashSet<>(actorMovieMapper.getMovieIdsByActorId(directorId));
+            Set<Integer> curMovieIds = new HashSet<>(directorMovieMapper.getMovieIdsByDirectorId(directorId));
             for(Integer movieId:curMovieIds){
                 recommendedMovieIdAndScore.put(movieId,recommendedMovieIdAndScore.getOrDefault(movieId,0)+1);
             }
@@ -263,9 +287,7 @@ public class RecommendationUtil {
             Set<Integer> curProbableGenreIds = genreList
                     .stream()
                     .filter(
-                            genrePO -> {
-                                return isSimilarString(genreTag, genrePO.genre_name,0.5);
-                            }
+                            genrePO -> isSimilarString(genreTag, genrePO.genre_name,0.5)
                     )
                     .map(genrePO -> genrePO.genre_id)
                     .collect(Collectors.toSet());

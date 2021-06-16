@@ -1,9 +1,12 @@
 package com.codemonkeys.backendcoin.mapper;
 
+import com.codemonkeys.backendcoin.PO.DirectorPO;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 import org.springframework.stereotype.Repository;
+
+import java.util.List;
 
 @Repository
 public interface DirectorMapper {
@@ -18,4 +21,7 @@ public interface DirectorMapper {
 
     @Select("select director_id from director_to_movie where director_id=#{director_id} and movie_id=#{movie_id}")
     String isDirectorToMovieInTable(@Param("director_id")int director_id, @Param("movie_id")int movie_id);
+
+    @Select("select director_id,director_name from director")
+    List<DirectorPO> getAllDirectors();
 }

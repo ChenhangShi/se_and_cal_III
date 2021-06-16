@@ -1,7 +1,7 @@
 package com.codemonkeys.backendcoin.util;
 
 import com.codemonkeys.backendcoin.Exceptions.EmptyException;
-import com.codemonkeys.backendcoin.PO.DirectorMoviePO;
+import com.codemonkeys.backendcoin.PO.DirectorNameMoviePO;
 import com.codemonkeys.backendcoin.mapper.DirectorMapper;
 import com.codemonkeys.backendcoin.mapper.DirectorMovieMapper;
 import com.codemonkeys.backendcoin.mapper.MovieMapper;
@@ -30,9 +30,9 @@ public class ProcessData {
     }
 
     public void generateDirectorToMovie(){
-        List<DirectorMoviePO> directorsList=movieMapper.getAllDirectors();
+        List<DirectorNameMoviePO> directorsList=movieMapper.getAllDirectors();
         Set<String> directorName=new HashSet<>();
-        for(DirectorMoviePO directorToMovie:directorsList){
+        for(DirectorNameMoviePO directorToMovie:directorsList){
             try {
                 if(isContainChinese(directorToMovie.getMovie_director())){
                     String[] directors=directorToMovie.getMovie_director().split(" |,|、|，");
@@ -66,7 +66,7 @@ public class ProcessData {
 
     }
 
-    private void extractFromDirector(DirectorMoviePO directorToMovie, String d) {
+    private void extractFromDirector(DirectorNameMoviePO directorToMovie, String d) {
         if(directorMapper.isDirectorInTable(d)==null){
             directorMapper.addDirector(d);
         }

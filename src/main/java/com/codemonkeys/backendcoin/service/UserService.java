@@ -3,33 +3,40 @@ package com.codemonkeys.backendcoin.service;
 import com.codemonkeys.backendcoin.VO.*;
 
 import java.util.List;
+import java.util.Set;
 
 
 public interface UserService {
-    public void register(String username, String password, String roles);
+    void register(String username, String password, String roles);
 
-    public UserVO getUser(int id);
+    UserVO getUser(int id);
 
-    public void addUserActor(int userId,String actor);
+    Set<String> addUserActor(int userId, String actor);
 
-    public void addUserDirector(int userId,String director);
+    Set<String> addUserDirector(int userId, String director);
 
-    public void addUserMovie(int userId,String movie);
+    Set<String> addUserMovie(int userId, String movie);
 
-    public List<String> getUserActor(int userId);
+    Set<String> addUserGenre(int userId, String genre);
 
-    public List<String> getUserMovie(int userId);
+    List<String> getUserActor(int userId);
 
-    public List<String> getUserDirector(int userId);
+    List<String> getUserMovie(int userId);
 
-    public List<String> getUserGenre(int userId);
+    List<String> getUserDirector(int userId);
 
-    public void deleteUserActor(UserActorVO userActorVO);
+    List<String> getUserGenre(int userId);
 
-    public void deleteUserMovie(UserMovieVO userMovieVO);
+    Set<String> deleteUserActor(UserActorVO userActorVO);
 
-    public void deleteUserGenre(UserGenreVO userGenreVO);
+    Set<String> deleteUserMovie(UserMovieVO userMovieVO);
 
-    public void deleteUserDirector(UserDirectorVO userDirectorVO);
+    Set<String> deleteUserGenre(UserGenreVO userGenreVO);
+
+    Set<String> deleteUserDirector(UserDirectorVO userDirectorVO);
+
+    UserTagVO getUserTag(Integer userId);
+
+    Set<String> getUserRecommendedMovies(Integer userId);
 
 }

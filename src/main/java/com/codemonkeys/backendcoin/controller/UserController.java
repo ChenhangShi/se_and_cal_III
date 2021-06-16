@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Set;
 
 @RestController
 @RequestMapping("/user")
@@ -27,34 +28,52 @@ public class UserController {
     }
 
     @PostMapping("/addUserActor")
-    public void addUserActor(@RequestBody UserActorVO userActorVO){
-        userService.addUserActor(userActorVO.getUserId(),userActorVO.getActor());
+    public Set<String> addUserActor(@RequestBody UserActorVO userActorVO){
+        return userService.addUserActor(userActorVO.getUserId(),userActorVO.getActor());
     }
 
     @PostMapping("/addUserMovie")
-    public void addUserMovie(@RequestBody UserMovieVO userMovieVO){
-        userService.addUserMovie(userMovieVO.getUserId(), userMovieVO.getMovie());
+    public Set<String> addUserMovie(@RequestBody UserMovieVO userMovieVO){
+        return userService.addUserMovie(userMovieVO.getUserId(), userMovieVO.getMovie());
     }
 
     @PostMapping("/addUserDirector")
-    public void addUserDirector(@RequestBody UserDirectorVO userDirectorVO){
-        userService.addUserDirector(userDirectorVO.getUserId(), userDirectorVO.getDirector());
+    public Set<String> addUserDirector(@RequestBody UserDirectorVO userDirectorVO){
+        return userService.addUserDirector(userDirectorVO.getUserId(), userDirectorVO.getDirector());
+    }
+
+    @PostMapping("/addUserGenre")
+    public Set<String> addUserGenre(@RequestBody UserGenreVO userGenreVO){
+        return userService.addUserGenre(userGenreVO.getUserId(), userGenreVO.getGenre());
     }
 
     @PostMapping("/deleteUserActor")
-    public void deleteUserActor(@RequestBody UserActorVO userActorVO){
-        userService.deleteUserActor(userActorVO);
+    public Set<String> deleteUserActor(@RequestBody UserActorVO userActorVO){
+        return userService.deleteUserActor(userActorVO);
+    }
+
+    @PostMapping("/deleteUserMovie")
+    public Set<String> deleteUserMovie(@RequestBody UserMovieVO userMovieVO){
+        return userService.deleteUserMovie(userMovieVO);
+    }
+
+    @PostMapping("/deleteUserGenre")
+    public Set<String> deleteUserGenre(@RequestBody UserGenreVO userGenreVO){
+        return userService.deleteUserGenre(userGenreVO);
+    }
+
+    @PostMapping("/deleteUserDirector")
+    public Set<String> deleteUserDirector(UserDirectorVO userDirectorVO){
+        return userService.deleteUserDirector(userDirectorVO);
     }
 
     @GetMapping("/getUserTag/{userId}")
     public UserTagVO getUserTag(@PathVariable int userId){
-        List<String> userMovieList=userService.getUserMovie(userId);
-        List<String> userActorList=userService.getUserActor(userId);
-        List<String> userDirectorList=userService.getUserDirector(userId);
-        List<String> userGenreList=userService.getUserGenre(userId);
+        return userService.getUserTag(userId);
+    }
 
-        UserTagVO userTagVO=new UserTagVO((long)userId,userMovieList,userActorList,userDirectorList,userGenreList);
-
-        return userTagVO;
+    @GetMapping("/getUserRecommendedMovies/{userId}")
+    public Set<String> getUserRecommendedMovies(@PathVariable int userId){
+        return userService.getUserRecommendedMovies(userId);
     }
 }
