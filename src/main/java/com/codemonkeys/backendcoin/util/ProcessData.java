@@ -37,10 +37,7 @@ public class ProcessData {
                 if(isContainChinese(directorToMovie.getMovie_director())){
                     String[] directors=directorToMovie.getMovie_director().split(" |,|、|，");
                     for(String d:directors){
-                        System.out.println(d);
-                        System.out.println(directorMapper.isDirectorInTable(d)==null);
                         extractFromDirector(directorToMovie, d);
-
                     }
                 }
                 else{
@@ -66,7 +63,7 @@ public class ProcessData {
 
     }
 
-    private void extractFromDirector(DirectorNameMoviePO directorToMovie, String d) {
+    public void extractFromDirector(DirectorNameMoviePO directorToMovie, String d) {
         if(directorMapper.isDirectorInTable(d)==null){
             directorMapper.addDirector(d);
         }

@@ -14,4 +14,6 @@ public interface GenreMapper {
 
     @Select("select genre_id,genre_name from genre")
     List<GenrePO> getAllGenres();
+
+
 }

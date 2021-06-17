@@ -19,6 +19,7 @@ import java.util.List;
 @Transactional
 public class TransServiceImpl implements TransService {
     ActorMapper actorMapper;
+    ActorMovieMapper actorMovieMapper;
     EntityMapper entityMapper;
     EnumUtil enumUtil;
     LinkMapper linkMapper;
@@ -33,7 +34,8 @@ public class TransServiceImpl implements TransService {
     public TransServiceImpl(ActorMapper actorMapper,EntityMapper entityMapper,EnumUtil enumUtil,
                             LinkMapper linkMapper,MovieMapper movieMapper,GraphMapper graphMapper
     ,GenreMapper genreMapper,ProcessData processData,DirectorMapper directorMapper
-            , GenreMovieMapper genreMovieMapper, DirectorMovieMapper directorMovieMapper){
+            , GenreMovieMapper genreMovieMapper, DirectorMovieMapper directorMovieMapper
+    ,ActorMovieMapper actorMovieMapper){
         this.actorMapper=actorMapper;
         this.entityMapper=entityMapper;
         this.enumUtil=enumUtil;
@@ -44,6 +46,7 @@ public class TransServiceImpl implements TransService {
         this.processData=processData;
         this.directorMapper=directorMapper;
         this.genreMovieMapper=genreMovieMapper;
+        this.actorMovieMapper=actorMovieMapper;
         this.directorMovieMapper=directorMovieMapper;
     }
 
@@ -171,6 +174,7 @@ public class TransServiceImpl implements TransService {
         ActorPO actorPO=new ActorPO();
         long actorId=0l;
         List<MoviePO> moviePOList=new ArrayList<>();
+        //先根据graphId找到对应的actor对象,并根据entity中的信息初始化actorPO
         for(EntityPO entityPO:entityPOList){
             if(enumUtil.isActorNode(entityPO.nodeType)){
                 if(entityPO.nodeType==NodeType.Actor){
@@ -182,9 +186,12 @@ public class TransServiceImpl implements TransService {
                 //通过field将entityPO中的description提取到actorPO中对应的属性中
             }
         }
+        //获取与当前actor联系的movieId
         List<Long> movieEntityIdList=linkMapper.getRelatedMovieId((long)graphId,actorId);
 
+        //再根据movieId来初始化一系列moviePO
         for(Long movieEntityId:movieEntityIdList){
+            //获取与当前电影相关的电影信息Entity
             List<Long> movieInfoEntityIdList=linkMapper.getMovieInfoId((long)graphId,movieEntityId);
             MoviePO moviePO=new MoviePO();
             EntityPO moviechNameEntity=entityMapper.getEntity((long)graphId,movieEntityId);
@@ -208,17 +215,34 @@ public class TransServiceImpl implements TransService {
             actorPO.actor_id=actorMapper.getActorIdByActorName(actorPO.actor_chName);
         }
 
+        //原有的actor_to_movie关系
+        List<Integer> actor_related_movieId=actorMovieMapper.getMovieIdsByActorId(actorPO.actor_id);
+
         for(MoviePO moviePO:moviePOList){
             System.out.println(moviePO.toString());
             System.out.println(movieMapper.isMovieInTable(moviePO.movie_chName));
             if(movieMapper.isMovieInTable(moviePO.movie_chName)==null){
                 movieMapper.insertMovie(moviePO);
+                //将actor_to_movie的关系插入表中(如果原表中没有movie)
+                actorMapper.insertIntoActorToMovie(actorPO.actor_id,moviePO.movie_id);
             }
             else{
                 movieMapper.updateMovie(moviePO);
                 moviePO.movie_id=movieMapper.getMovieIdByMovieName(moviePO.movie_chName);
+                //如果原表中有actor_movie的对应关系
+                if(actor_related_movieId.contains(moviePO.movie_id)){
+                    actor_related_movieId.remove(moviePO.movie_id);
+                    //删除已经出现的，没有出现过的，就当作关系被删除，从actor_to_movie表中删除
+                    continue;
+                }
+                //如果这个电影不是新建的,但是新增了和actor的关系
+                else{
+                    actorMapper.insertIntoActorToMovie(actorPO.actor_id,moviePO.movie_id);
+                }
             }
-            actorMapper.insertIntoActorToMovie(actorPO.actor_id,moviePO.movie_id);
+
+
+            List<Integer> director_related_movieId=directorMovieMapper.getDirectorIdsByMovieId(moviePO.movie_id);
 
             String[] director= processData.getDirectorName(moviePO.movie_director);
             for(String d:director){
@@ -231,17 +255,36 @@ public class TransServiceImpl implements TransService {
                 if(directorMapper.isDirectorToMovieInTable(director_id,moviePO.movie_id)==null){
                     directorMovieMapper.insertIntoDirectorToMovie(director_id,moviePO.movie_id);
                 }
+                else{
+                    director_related_movieId.remove(director_id);
+                }
             }
+            for(int dId:director_related_movieId){
+                directorMovieMapper.deleteDirectorMovie(dId,moviePO.movie_id);
+            }
+
+            List<Integer> movie_related_genreId=genreMovieMapper.getGenreIdsByMovieId(moviePO.movie_id);
             String[] genreList=moviePO.movie_genre.split(" ");
             for(String genre:genreList){
                 Integer genreId=genreMapper.getGenreId(genre);
-                if(genreId!=null){
-                    genreMovieMapper.insertIntoMovieToGenre(moviePO.movie_id,genreId);
+                if(movie_related_genreId.contains(genreId)){
+                    movie_related_genreId.remove(genreId);
                 }
                 else{
-                    genreMovieMapper.insertIntoMovieToGenre(moviePO.movie_id,10);
+                    if(genreId!=null){
+                        genreMovieMapper.insertIntoMovieToGenre(moviePO.movie_id,genreId);
+                    }
+                    else{
+                        genreMovieMapper.insertIntoMovieToGenre(moviePO.movie_id,10);
+                    }
                 }
             }
+            for(int gId:movie_related_genreId){
+                genreMovieMapper.deleteMovieToGenre(moviePO.movie_id,gId);
+            }
+        }
+        for(int mId:actor_related_movieId){
+            actorMovieMapper.deleteActorMovie(actorPO.actor_id,mId);
         }
 
         //从操作表中删除所有已提交的图对应的entity,link,graph

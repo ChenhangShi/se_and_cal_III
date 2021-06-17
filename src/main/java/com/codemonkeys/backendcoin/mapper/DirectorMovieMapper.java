@@ -1,5 +1,6 @@
 package com.codemonkeys.backendcoin.mapper;
 
+import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
@@ -18,4 +19,7 @@ public interface DirectorMovieMapper {
 
     @Select("select director_id from director_to_movie where movie_id=#{movie_id}")
     List<Integer> getDirectorIdsByMovieId(Integer movie_id);
+
+    @Delete("delete from director_to_movie where director_id=#{director_id} and movie_id=#{movie_id}")
+    void deleteDirectorMovie(int director_id,int movie_id);
 }

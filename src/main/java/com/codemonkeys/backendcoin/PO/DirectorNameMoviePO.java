@@ -5,6 +5,11 @@ public class DirectorNameMoviePO {
         return movie_director;
     }
 
+    public DirectorNameMoviePO(String movie_director, Integer movie_id) {
+        this.movie_director = movie_director;
+        this.movie_id = movie_id;
+    }
+
     public void setMovie_director(String movie_director) {
         this.movie_director = movie_director;
     }
