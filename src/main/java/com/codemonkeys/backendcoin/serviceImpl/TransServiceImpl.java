@@ -61,9 +61,7 @@ public class TransServiceImpl implements TransService {
      */
     @Override
     public void extract(int actorId,String graphName) throws IllegalAccessException {
-        GraphPO graphPO=new GraphPO();
-        graphPO.graphName=graphName;
-        graphMapper.insertGraph(graphPO);
+        GraphPO graphPO=graphMapper.getGraphByName(graphName);
         //根据graphName来向graph表中新插入一行，graph表中id是自增字段，通过mybatis来对graphPO中的id赋新值
 
         ActorPO actorPO=actorMapper.getActorById(actorId);
