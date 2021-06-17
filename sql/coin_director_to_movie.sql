@@ -23,7 +23,7 @@ DROP TABLE IF EXISTS `director_to_movie`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `director_to_movie` (
-  `director_id` int NOT NULL auto_increment,
+  `director_id` int NOT NULL,
   `movie_id` int NOT NULL,
   PRIMARY KEY (`director_id`,`movie_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
