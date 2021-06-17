@@ -23,11 +23,18 @@ public interface MovieMapper {
     List<DirectorNameMoviePO> getAllDirectors();
 
 
-    @Insert("insert into movie(movie_bio,movie_chName,movie_foreName,movie_prodTime,movie_prodCompany,movie_director,movie_screenwriter," +
-            "movie_genre,movie_star,movie_length,movie_rekeaseTime,movie_language,movie_achiem) values" +
-            "(#{movie.movie_bio},#{movie.movie_chName},#{movie.movie_foreName},#{movie.movie_prodTime},#{movie.movie_prodCompany},#{movie.movie_director}," +
-            "#{movie_screenwriter}," +
-            "#{movie_genre},#{movie_star},#{movie_length},#{movie_rekeaseTime},#{movie_language},#{movie_achiem})")
+    @Insert("insert into movie(movie_bio,movie_chName,movie_foreName,movie_prodTime," +
+            "movie_prodCompany,movie_director,movie_screenwriter," +
+            "movie_genre,movie_star,movie_length," +
+            "movie_rekeaseTime,movie_language,movie_achiem) " +
+            "values" +
+            "(#{movie.movie_bio},#{movie.movie_chName},#{movie.movie_foreName}," +
+            "#{movie.movie_prodTime},#{movie.movie_prodCompany}" +
+            ",#{movie.movie_director}," +
+            "#{movie.movie_screenwriter}," +
+            "#{movie.movie_genre},#{movie.movie_star}," +
+            "#{movie.movie_length}," +
+            "#{movie.movie_rekeaseTime},#{movie.movie_language},#{movie.movie_achiem})")
     @Options(useGeneratedKeys = true,keyProperty = "movie_id",keyColumn = "movie_id")
     int insertMovie(@Param("movie")MoviePO moviePO);
 
@@ -44,7 +51,7 @@ public interface MovieMapper {
     void updateMovie(@Param("movie")MoviePO moviePO);
 
 
-    @Select("select movie_id from movie where movie_name=#{movieName}")
+    @Select("select movie_id from movie where movie_chName=#{movieName}")
     int getMovieIdByMovieName(@Param("movieName")String movieName);
 
 }

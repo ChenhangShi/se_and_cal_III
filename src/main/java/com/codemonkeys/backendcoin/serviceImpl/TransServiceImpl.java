@@ -13,7 +13,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Service
 @Transactional
@@ -216,7 +218,7 @@ public class TransServiceImpl implements TransService {
         }
 
         //原有的actor_to_movie关系
-        List<Integer> actor_related_movieId=actorMovieMapper.getMovieIdsByActorId(actorPO.actor_id);
+        Set<Integer> actor_related_movieId=new HashSet<>(actorMovieMapper.getMovieIdsByActorId(actorPO.actor_id));
 
         for(MoviePO moviePO:moviePOList){
             System.out.println(moviePO.toString());
@@ -231,9 +233,10 @@ public class TransServiceImpl implements TransService {
                 moviePO.movie_id=movieMapper.getMovieIdByMovieName(moviePO.movie_chName);
                 //如果原表中有actor_movie的对应关系
                 if(actor_related_movieId.contains(moviePO.movie_id)){
+                    System.out.println("excute");
                     actor_related_movieId.remove(moviePO.movie_id);
                     //删除已经出现的，没有出现过的，就当作关系被删除，从actor_to_movie表中删除
-                    continue;
+
                 }
                 //如果这个电影不是新建的,但是新增了和actor的关系
                 else{
@@ -242,7 +245,7 @@ public class TransServiceImpl implements TransService {
             }
 
 
-            List<Integer> director_related_movieId=directorMovieMapper.getDirectorIdsByMovieId(moviePO.movie_id);
+            Set<Integer> director_related_movieId=new HashSet<>(directorMovieMapper.getDirectorIdsByMovieId(moviePO.movie_id));
 
             String[] director= processData.getDirectorName(moviePO.movie_director);
             for(String d:director){
@@ -263,10 +266,11 @@ public class TransServiceImpl implements TransService {
                 directorMovieMapper.deleteDirectorMovie(dId,moviePO.movie_id);
             }
 
-            List<Integer> movie_related_genreId=genreMovieMapper.getGenreIdsByMovieId(moviePO.movie_id);
+            Set<Integer> movie_related_genreId=new HashSet<>(genreMovieMapper.getGenreIdsByMovieId(moviePO.movie_id));
             String[] genreList=moviePO.movie_genre.split(" ");
             for(String genre:genreList){
                 Integer genreId=genreMapper.getGenreId(genre);
+                System.out.println(genreId);
                 if(movie_related_genreId.contains(genreId)){
                     movie_related_genreId.remove(genreId);
                 }
@@ -284,6 +288,7 @@ public class TransServiceImpl implements TransService {
             }
         }
         for(int mId:actor_related_movieId){
+            System.out.println(mId);
             actorMovieMapper.deleteActorMovie(actorPO.actor_id,mId);
         }
 

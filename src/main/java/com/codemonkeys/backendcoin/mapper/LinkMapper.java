@@ -27,7 +27,7 @@ public interface LinkMapper {
     LinkPO getLink(@Param("id") Long id,@Param("graphId")Long graphId);
 
     @Select("select targetId from link where graphId=#{graphId} and sourceId=#{sourceId} and " +
-            "relationName='Actor_Movie'")
+            "type='Actor_Movie'")
     List<Long> getRelatedMovieId(@Param("graphId")Long graphId,@Param("sourceId")Long sourceId);
 
     @Select("select targetId from link where graphId=#{graphId} and sourceId=#{sourceId} and " +
