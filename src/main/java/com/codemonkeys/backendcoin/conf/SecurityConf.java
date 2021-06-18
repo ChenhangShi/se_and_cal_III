@@ -37,12 +37,9 @@ public class SecurityConf extends WebSecurityConfigurerAdapter {
                 .exceptionHandling().authenticationEntryPoint(new Http403ForbiddenEntryPoint())  // 未登录时，返回403 默认返回的是302重定向到自带的登录页面，不利于前后端分离
                 .and()
                 .csrf().disable()
-                .authorizeRequests() // 这个确定了哪些需要权限认证
-//                .antMatchers("/**").permitAll()
-                .antMatchers("/user/register").permitAll()
-                .antMatchers("/entity/**").hasRole("USER")
-                .antMatchers("/link/**").hasRole("USER")
-                .antMatchers("/test/**").hasRole("ADMIN") //设置哪些路径可以直接访问，不需要认证
+                .authorizeRequests()
+                .antMatchers("/trans/submit").hasRole("ADMIN")
+                .antMatchers("/**").permitAll()
                 .anyRequest().authenticated();
     }
 
