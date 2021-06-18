@@ -3,6 +3,7 @@ package com.codemonkeys.backendcoin.serviceImpl;
 import com.codemonkeys.backendcoin.PO.UserPO;
 import com.codemonkeys.backendcoin.PO.UserRecommendedMoviePO;
 import com.codemonkeys.backendcoin.VO.*;
+import com.codemonkeys.backendcoin.mapper.ActorMapper;
 import com.codemonkeys.backendcoin.mapper.UserMapper;
 import com.codemonkeys.backendcoin.mapper.UserRecommendedMovieMapper;
 import com.codemonkeys.backendcoin.service.UserService;
@@ -24,12 +25,15 @@ public class UserServiceImpl implements UserService {
     UserMapper userMapper;
     UserRecommendedMovieMapper userRecommendedMovieMapper;
     RecommendationUtil recommendationUtil;
+    ActorMapper actorMapper;
 
     @Autowired
-    public UserServiceImpl(UserMapper userMapper,UserRecommendedMovieMapper userRecommendedMovieMapper ,RecommendationUtil recommendationUtil){
+    public UserServiceImpl(UserMapper userMapper,UserRecommendedMovieMapper userRecommendedMovieMapper ,
+                           RecommendationUtil recommendationUtil,ActorMapper actorMapper){
         this.userMapper=userMapper;
         this.userRecommendedMovieMapper=userRecommendedMovieMapper;
         this.recommendationUtil = recommendationUtil;
+        this.actorMapper=actorMapper;
     }
 
     @Override
@@ -150,6 +154,15 @@ public class UserServiceImpl implements UserService {
     @Override
     public Set<String> getUserRecommendedMovies(Integer userId){
         return new HashSet<>(userRecommendedMovieMapper.getRecommendedMovieNamesByUserId(userId));
+    }
+
+    @Override
+    public int getActorId(String actorName) {
+        Integer actorId=actorMapper.getActorIdByActorName(actorName);
+        if(actorId!=null){
+            return actorId;
+        }
+        return -1;
     }
 
     /**

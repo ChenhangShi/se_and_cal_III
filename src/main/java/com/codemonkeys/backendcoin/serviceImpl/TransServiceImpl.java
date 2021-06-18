@@ -245,44 +245,48 @@ public class TransServiceImpl implements TransService {
 
             Set<Integer> director_related_movieId=new HashSet<>(directorMovieMapper.getDirectorIdsByMovieId(moviePO.movie_id));
 
-            String[] director= processData.getDirectorName(moviePO.movie_director);
-            for(String d:director){
-                if(!d.equals("None")){
-                    if(directorMapper.isDirectorInTable(d)==null){
-                        directorMapper.addDirector(d);
+            if(moviePO.movie_director!=null){
+                String[] director= processData.getDirectorName(moviePO.movie_director);
+                for(String d:director){
+                    if(!d.equals("None")){
+                        if(directorMapper.isDirectorInTable(d)==null){
+                            directorMapper.addDirector(d);
+                        }
                     }
-                }
-                int director_id= directorMapper.getDirectorIdByName(d);
-                if(directorMapper.isDirectorToMovieInTable(director_id,moviePO.movie_id)==null){
-                    directorMovieMapper.insertIntoDirectorToMovie(director_id,moviePO.movie_id);
-                }
-                else{
-                    director_related_movieId.remove(director_id);
-                }
-            }
-            for(int dId:director_related_movieId){
-                directorMovieMapper.deleteDirectorMovie(dId,moviePO.movie_id);
-            }
-
-            Set<Integer> movie_related_genreId=new HashSet<>(genreMovieMapper.getGenreIdsByMovieId(moviePO.movie_id));
-            String[] genreList=moviePO.movie_genre.split(" ");
-            for(String genre:genreList){
-                Integer genreId=genreMapper.getGenreId(genre);
-                System.out.println(genreId);
-                if(movie_related_genreId.contains(genreId)){
-                    movie_related_genreId.remove(genreId);
-                }
-                else{
-                    if(genreId!=null){
-                        genreMovieMapper.insertIntoMovieToGenre(moviePO.movie_id,genreId);
+                    int director_id= directorMapper.getDirectorIdByName(d);
+                    if(directorMapper.isDirectorToMovieInTable(director_id,moviePO.movie_id)==null){
+                        directorMovieMapper.insertIntoDirectorToMovie(director_id,moviePO.movie_id);
                     }
                     else{
-                        genreMovieMapper.insertIntoMovieToGenre(moviePO.movie_id,10);
+                        director_related_movieId.remove(director_id);
                     }
                 }
+                for(int dId:director_related_movieId){
+                    directorMovieMapper.deleteDirectorMovie(dId,moviePO.movie_id);
+                }
             }
-            for(int gId:movie_related_genreId){
-                genreMovieMapper.deleteMovieToGenre(moviePO.movie_id,gId);
+
+            if(moviePO.movie_genre!=null){
+                Set<Integer> movie_related_genreId=new HashSet<>(genreMovieMapper.getGenreIdsByMovieId(moviePO.movie_id));
+                String[] genreList=moviePO.movie_genre.split(" |,|，|、");
+                for(String genre:genreList){
+                    Integer genreId=genreMapper.getGenreId(genre);
+                    System.out.println(genreId);
+                    if(movie_related_genreId.contains(genreId)){
+                        movie_related_genreId.remove(genreId);
+                    }
+                    else{
+                        if(genreId!=null){
+                            genreMovieMapper.insertIntoMovieToGenre(moviePO.movie_id,genreId);
+                        }
+                        else{
+                            genreMovieMapper.insertIntoMovieToGenre(moviePO.movie_id,10);
+                        }
+                    }
+                }
+                for(int gId:movie_related_genreId){
+                    genreMovieMapper.deleteMovieToGenre(moviePO.movie_id,gId);
+                }
             }
         }
         for(int mId:actor_related_movieId){

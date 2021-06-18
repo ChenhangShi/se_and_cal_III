@@ -3,6 +3,7 @@ package com.codemonkeys.backendcoin.controller;
 import com.codemonkeys.backendcoin.Enum.ResponseMessage;
 import com.codemonkeys.backendcoin.VO.*;
 import com.codemonkeys.backendcoin.service.UserService;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -85,5 +86,10 @@ public class UserController {
     @GetMapping("/getUserRecommendedMovies/{userId}")
     public Set<String> getUserRecommendedMovies(@PathVariable int userId){
         return userService.getUserRecommendedMovies(userId);
+    }
+
+    @GetMapping("/getActorId")
+    public int getActorId(@RequestParam("actorName") String actorName){
+        return userService.getActorId(actorName);
     }
 }
