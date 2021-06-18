@@ -74,7 +74,7 @@ public class UserController {
     }
 
     @PostMapping("/deleteUserDirector")
-    public Set<String> deleteUserDirector(UserDirectorVO userDirectorVO){
+    public Set<String> deleteUserDirector(@RequestBody UserDirectorVO userDirectorVO){
         return userService.deleteUserDirector(userDirectorVO);
     }
 

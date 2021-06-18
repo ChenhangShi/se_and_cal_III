@@ -41,11 +41,8 @@ public class SecurityConf extends WebSecurityConfigurerAdapter {
                 .antMatchers("/**").permitAll()
 //                .antMatchers("/user/register").permitAll()
 //                .antMatchers("/entity/**").hasRole("USER")
-//
 //                .antMatchers("/link/**").hasRole("USER")
-//
 //                .antMatchers("/test/**").hasRole("ADMIN") //设置哪些路径可以直接访问，不需要认证
-//
                 .anyRequest().authenticated();
     }
 
