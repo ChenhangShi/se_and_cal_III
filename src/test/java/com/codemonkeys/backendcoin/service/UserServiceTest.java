@@ -4,7 +4,7 @@ import com.codemonkeys.backendcoin.VO.UserActorVO;
 import com.codemonkeys.backendcoin.VO.UserDirectorVO;
 import com.codemonkeys.backendcoin.VO.UserGenreVO;
 import com.codemonkeys.backendcoin.VO.UserMovieVO;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -15,7 +15,6 @@ import java.util.Set;
 
 @SpringBootTest
 @Transactional
-@RunWith(SpringRunner.class)
 public class UserServiceTest {
     @Autowired
     UserService userService;

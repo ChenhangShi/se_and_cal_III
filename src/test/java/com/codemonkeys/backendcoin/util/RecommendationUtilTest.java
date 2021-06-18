@@ -3,7 +3,7 @@ package com.codemonkeys.backendcoin.util;
 import com.codemonkeys.backendcoin.PO.UserRecommendedMoviePO;
 import com.codemonkeys.backendcoin.VO.*;
 import com.codemonkeys.backendcoin.service.UserService;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -15,7 +15,6 @@ import java.util.Map;
 import java.util.Set;
 
 @SpringBootTest
-@RunWith(SpringRunner.class)
 @Transactional
 public class RecommendationUtilTest {
     @Autowired

@@ -6,7 +6,7 @@ import com.codemonkeys.backendcoin.VO.LinkVO;
 import com.codemonkeys.backendcoin.mapper.LinkMapper;
 import com.codemonkeys.backendcoin.util.Map;
 import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -16,7 +16,6 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 
-@RunWith(SpringRunner.class)
 @SpringBootTest(classes = {BackendCoinApplication.class})
 @Transactional
 public class LinkServiceTest {
@@ -34,17 +33,19 @@ public class LinkServiceTest {
         List<LinkVO> testLinkVOList=new ArrayList<>();
         testLinkVOList.add(linkVO);
         linkService.addLink(testLinkVOList);
-        Assert.assertEquals(linkVO,map.from(linkMapper.getLink(35L,Long.MAX_VALUE)));
+        Long insertedLinkId = linkMapper.getAllLink(Long.MAX_VALUE).get(0).id;
+        Assert.assertEquals(linkVO.getDescription(),map.from(linkMapper.getLink(insertedLinkId,Long.MAX_VALUE)).getDescription());
     }
 
     @Test
     public void testUpdateLink(){
-        LinkVO linkVO=new LinkVO(35L,10L,9L,"testLink"
+        testAddLink();
+        Long insertedLinkId = linkMapper.getAllLink(Long.MAX_VALUE).get(0).id;
+        LinkVO linkVO=new LinkVO(insertedLinkId,10L,9L,"testLink"
                 ,LinkType.Actor_Movie,"testUpdateLink",Long.MAX_VALUE,true);
-
         List<LinkVO> testLinkVOList=new ArrayList<>();
         testLinkVOList.add(linkVO);
         linkService.updateLink(testLinkVOList);
-        Assert.assertEquals(linkVO,map.from(linkMapper.getLink(35L,Long.MAX_VALUE)));
+        Assert.assertEquals(linkVO.getDescription(),map.from(linkMapper.getLink(insertedLinkId,Long.MAX_VALUE)).getDescription());
     }
 }

@@ -14,7 +14,7 @@
     <name>backend-coin</name>
     <description>Demo project for Spring Boot</description>
     <properties>
-        <java.version>11</java.version>
+        <java.version>8</java.version>
         <spring.version>2.1.4.RELEASE</spring.version>
         <mapstruct.version>1.4.2.Final</mapstruct.version>
         <mockitoVersion>1.9.5</mockitoVersion>
@@ -68,11 +68,6 @@
             <artifactId>jacoco-maven-plugin</artifactId>
             <version>0.8.6</version>
             <type>maven-plugin</type>
-        </dependency>
-        <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-            <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.mockito</groupId>
@@ -144,7 +139,6 @@
                     </annotationProcessorPaths>
                 </configuration>
             </plugin>
-
             <plugin>
                 <groupId>org.jacoco</groupId>
                 <artifactId>jacoco-maven-plugin</artifactId>

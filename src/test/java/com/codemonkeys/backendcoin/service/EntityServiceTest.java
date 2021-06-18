@@ -10,7 +10,7 @@ import com.codemonkeys.backendcoin.mapper.EntityMapper;
 import com.codemonkeys.backendcoin.mapper.LinkMapper;
 import com.codemonkeys.backendcoin.util.Map;
 import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -20,8 +20,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.Arrays;
 import java.util.List;
 
-@RunWith(SpringRunner.class)
-@SpringBootTest(classes = {BackendCoinApplication.class})
+@SpringBootTest
 @Transactional
 public class EntityServiceTest {
     @Autowired
@@ -53,10 +52,8 @@ public class EntityServiceTest {
                 new EntityVO(1L,Long.MAX_VALUE,NodeType.Actor_Bio,"b","","1","1","")
         );
         entityService.addEntities(entityVOList);
-        EntityPO entityPO = entityMapper.getEntity(Long.MAX_VALUE,0L);
-        Assert.assertEquals("a",entityPO.name);
-        entityPO = entityMapper.getEntity(Long.MAX_VALUE,1L);
-        Assert.assertEquals("b",entityPO.name);
+        List<EntityVO> resList = entityService.getAllEntities(Long.MAX_VALUE);
+        Assert.assertEquals(2,resList.size());
     }
 
     @Test
@@ -68,9 +65,13 @@ public class EntityServiceTest {
         for(EntityPO entityPO:entityPOList){
             entityMapper.insertEntity(entityPO);
         }
-        LinkPO linkPO = new LinkPO(){{this.id=Long.MAX_VALUE;this.graphId=Long.MAX_VALUE;this.sourceId=0L;this.targetId=1L;this.description="";this.relationName="";this.type= LinkType.Actor_Info;this.isFullLine=false;}};
+        List<EntityPO> cur_entity = entityMapper.getAllEntity(Long.MAX_VALUE);
+
+        LinkPO linkPO = new LinkPO(){{this.id=Long.MAX_VALUE;this.graphId=Long.MAX_VALUE;this.sourceId=cur_entity.get(0).id;this.targetId=cur_entity.get(1).id;this.description="";this.relationName="";this.type= LinkType.Actor_Info;this.isFullLine=false;}};
         linkMapper.insertLink(linkPO);
-        entityService.deleteEntities(Arrays.asList(0L),Long.MAX_VALUE);
+
+
+        entityService.deleteEntities(Arrays.asList(cur_entity.get(0).id),Long.MAX_VALUE);
 
         List<EntityPO> res_entity = entityMapper.getAllEntity(Long.MAX_VALUE);
         List<LinkPO> res_link = linkMapper.getAllLink(Long.MAX_VALUE);
@@ -82,10 +83,11 @@ public class EntityServiceTest {
     public void testUpdateEntities() throws Exception{
         EntityPO entityPO = new EntityPO(){{this.id=0L;this.graphId=Long.MAX_VALUE;this.description="";this.name="";this.shape="";this.nodeType=NodeType.Movie;this.x="1";this.y="1";}};
         entityMapper.insertEntity(entityPO);
+        Long insertedEntityId = entityMapper.getAllEntity(Long.MAX_VALUE).get(0).id;
         entityService.updateEntities(Arrays.asList(
-                new EntityVO(0L,Long.MAX_VALUE,NodeType.Movie,"a","","1","1","")
+                new EntityVO(insertedEntityId,Long.MAX_VALUE,NodeType.Movie,"a","","1","1","")
         ));
-        entityPO = entityMapper.getEntity(Long.MAX_VALUE,0L);
+        entityPO = entityMapper.getEntity(Long.MAX_VALUE,insertedEntityId);
         Assert.assertEquals("a",entityPO.name);
     }
 }

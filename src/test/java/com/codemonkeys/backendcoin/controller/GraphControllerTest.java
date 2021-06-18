@@ -2,8 +2,10 @@ package com.codemonkeys.backendcoin.controller;
 
 import com.codemonkeys.backendcoin.VO.GraphVO;
 import com.codemonkeys.backendcoin.service.GraphService;
-import org.junit.Test;
+import org.junit.Assert;
+import org.junit.jupiter.api.Test;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.transaction.annotation.Transactional;
 
 
 import java.util.Arrays;
@@ -14,7 +16,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.setup.MockMvcBuilders.standaloneSetup;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-
+@Transactional
 public class GraphControllerTest {
 
     @Test
@@ -33,9 +35,11 @@ public class GraphControllerTest {
         when(graphService.addGraph("a",1)).thenReturn(1L);
         GraphController graphController = new GraphController(graphService);
         MockMvc mockMvc = standaloneSetup(graphController).build();
-        String res = mockMvc.perform(post("/graph/addGraph").param("graphName","a"))
+        String res = mockMvc.perform(post("/graph/addGraph")
+                .param("graphName","a")
+                .param("userId","1"))
                 .andReturn().getResponse().getContentAsString();
-        assert res.equals("1");
+        Assert.assertEquals("1",res);
         verify(graphService).addGraph("a",1);
     }
 }

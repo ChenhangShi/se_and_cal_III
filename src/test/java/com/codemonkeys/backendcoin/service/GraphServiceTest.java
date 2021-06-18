@@ -4,7 +4,7 @@ import com.codemonkeys.backendcoin.BackendCoinApplication;
 import com.codemonkeys.backendcoin.VO.GraphVO;
 import com.codemonkeys.backendcoin.mapper.GraphMapper;
 import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -13,7 +13,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
-@RunWith(SpringRunner.class)
 @SpringBootTest(classes = {BackendCoinApplication.class})
 @Transactional
 public class GraphServiceTest {
@@ -24,7 +23,7 @@ public class GraphServiceTest {
 
     @Test
     public void testAddGraph(){
-        Long res=graphService.addGraph("newGraph",1);
+        Long res=graphService.addGraph("newGraph",Integer.MAX_VALUE);
         Assert.assertEquals("newGraph",graphMapper.getGraphById(res).graphName);
     }
 

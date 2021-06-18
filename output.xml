@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <root>
     <RelationGroup>
-        <Entity description="test_source" graphId="1" id="1" property="source" shape="circle" type="red" x="123" y="123">source</Entity>
-        <Relation description="test" id="1" isFullLine="true" type="red">test</Relation>
-        <Entity description="test_target" graphId="1" id="2" property="target" shape="circle" type="blue" x="124" y="125">target</Entity>
+        <Entity description="test_source" graphId="1" id="1" property="source" shape="circle" type="Movie" x="123" y="123">source</Entity>
+        <Relation description="test" id="1" isFullLine="true" type="Movie_Info">test</Relation>
+        <Entity description="test_target" graphId="1" id="2" property="target" shape="circle" type="Genre" x="124" y="125">target</Entity>
     </RelationGroup>
 </root>
