@@ -42,4 +42,6 @@ public interface UserService {
     UserTagVO getUserTag(Integer userId);
 
     Set<String> getUserRecommendedMovies(Integer userId);
+
+    int getActorId(String actorName);
 }
