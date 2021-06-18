@@ -28,6 +28,11 @@ public class GraphController {
         return graphService.addGraph(graphName,userId);
     }
 
+    @PostMapping("/deleteGraph")
+    public void deleteGraph(@RequestParam int graphId){
+        graphService.deleteGraph(graphId);
+    }
+
     @GetMapping("/getUserGraph")
     public List<GraphVO> getUserGraph(@RequestParam int userId){
         return graphService.getUserGraph(userId);

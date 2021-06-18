@@ -8,4 +8,5 @@ public interface GraphService {
     List<GraphVO> getAllGraph();
     Long addGraph(String graphName,int userId);
     List<GraphVO> getUserGraph(int userId);
+    void deleteGraph(int graphId);
 }

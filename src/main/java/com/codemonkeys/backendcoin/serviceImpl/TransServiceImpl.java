@@ -265,7 +265,7 @@ public class TransServiceImpl implements TransService {
             }
 
             Set<Integer> movie_related_genreId=new HashSet<>(genreMovieMapper.getGenreIdsByMovieId(moviePO.movie_id));
-            String[] genreList=moviePO.movie_genre.split(" ");
+            String[] genreList=moviePO.movie_genre.split(" |,|，|、");
             for(String genre:genreList){
                 Integer genreId=genreMapper.getGenreId(genre);
                 System.out.println(genreId);
