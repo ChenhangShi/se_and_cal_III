@@ -270,31 +270,35 @@ public class TransServiceImpl implements TransService {
                 Set<Integer> movie_related_genreId=new HashSet<>(genreMovieMapper.getGenreIdsByMovieId(moviePO.movie_id));
                 String[] genreList=moviePO.movie_genre.split(" |,|，|、");
                 boolean flag=false;
-                for(String genre:genreList){
-                    Integer genreId=genreMapper.getGenreId(genre);
-                    System.out.println(genreId);
-                    if(movie_related_genreId.contains(genreId)){
-                        movie_related_genreId.remove(genreId);
-                    }
-                    else{
-                        if(genreId!=null){
-                            if(genreId!=10){
-                                genreMovieMapper.insertIntoMovieToGenre(moviePO.movie_id,genreId);
+                try{
+                    for(String genre:genreList){
+                        Integer genreId=genreMapper.getGenreId(genre);
+                        System.out.println(genreId);
+                        if(movie_related_genreId.contains(genreId)){
+                            movie_related_genreId.remove(genreId);
+                        }
+                        else{
+                            if(genreId!=null){
+                                if(genreId!=10){
+                                    genreMovieMapper.insertIntoMovieToGenre(moviePO.movie_id,genreId);
+                                }
+                                else if(!flag){
+                                    genreMovieMapper.insertIntoMovieToGenre(moviePO.movie_id,genreId);
+                                    flag=true;
+                                }
                             }
                             else if(!flag){
-                                genreMovieMapper.insertIntoMovieToGenre(moviePO.movie_id,genreId);
+                                genreMovieMapper.insertIntoMovieToGenre(moviePO.movie_id,10);
                                 flag=true;
                             }
                         }
-                        else if(!flag){
-                            genreMovieMapper.insertIntoMovieToGenre(moviePO.movie_id,10);
-                            flag=true;
-                        }
                     }
+                    for(int gId:movie_related_genreId){
+                        genreMovieMapper.deleteMovieToGenre(moviePO.movie_id,gId);
+                    }
+                }catch (Exception e){
                 }
-                for(int gId:movie_related_genreId){
-                    genreMovieMapper.deleteMovieToGenre(moviePO.movie_id,gId);
-                }
+
             }
         }
         for(int mId:actor_related_movieId){
