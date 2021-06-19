@@ -278,7 +278,13 @@ public class TransServiceImpl implements TransService {
                     }
                     else{
                         if(genreId!=null){
-                            genreMovieMapper.insertIntoMovieToGenre(moviePO.movie_id,genreId);
+                            if(genreId!=10){
+                                genreMovieMapper.insertIntoMovieToGenre(moviePO.movie_id,genreId);
+                            }
+                            else if(!flag){
+                                genreMovieMapper.insertIntoMovieToGenre(moviePO.movie_id,genreId);
+                                flag=true;
+                            }
                         }
                         else if(!flag){
                             genreMovieMapper.insertIntoMovieToGenre(moviePO.movie_id,10);
