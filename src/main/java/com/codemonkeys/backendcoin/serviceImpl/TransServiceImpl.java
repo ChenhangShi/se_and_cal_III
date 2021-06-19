@@ -266,9 +266,10 @@ public class TransServiceImpl implements TransService {
                 }
             }
 
-            if(moviePO.movie_genre!=null){
+            if(moviePO.movie_genre!=null&&moviePO.movie_genre!="None"){
                 Set<Integer> movie_related_genreId=new HashSet<>(genreMovieMapper.getGenreIdsByMovieId(moviePO.movie_id));
                 String[] genreList=moviePO.movie_genre.split(" |,|，|、");
+                boolean flag=false;
                 for(String genre:genreList){
                     Integer genreId=genreMapper.getGenreId(genre);
                     System.out.println(genreId);
@@ -279,8 +280,9 @@ public class TransServiceImpl implements TransService {
                         if(genreId!=null){
                             genreMovieMapper.insertIntoMovieToGenre(moviePO.movie_id,genreId);
                         }
-                        else{
+                        else if(!flag){
                             genreMovieMapper.insertIntoMovieToGenre(moviePO.movie_id,10);
+                            flag=true;
                         }
                     }
                 }
