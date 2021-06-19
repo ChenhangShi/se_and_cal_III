@@ -17,7 +17,7 @@ public interface DirectorMapper {
     void addDirector(@Param("director_name")String director_name);
 
     @Select("select director_id from director where director_name=#{director_name}")
-    int getDirectorIdByName(@Param("director_name")String director_name);
+    Integer getDirectorIdByName(@Param("director_name")String director_name);
 
     @Select("select director_id from director_to_movie where director_id=#{director_id} and movie_id=#{movie_id}")
     String isDirectorToMovieInTable(@Param("director_id")int director_id, @Param("movie_id")int movie_id);
