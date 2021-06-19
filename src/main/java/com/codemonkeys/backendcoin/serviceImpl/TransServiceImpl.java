@@ -253,13 +253,16 @@ public class TransServiceImpl implements TransService {
                             directorMapper.addDirector(d);
                         }
                     }
-                    int director_id= directorMapper.getDirectorIdByName(d);
-                    if(directorMapper.isDirectorToMovieInTable(director_id,moviePO.movie_id)==null){
-                        directorMovieMapper.insertIntoDirectorToMovie(director_id,moviePO.movie_id);
+                    Integer director_id= directorMapper.getDirectorIdByName(d);
+                    if(director_id!=null){
+                        if(directorMapper.isDirectorToMovieInTable(director_id,moviePO.movie_id)==null){
+                            directorMovieMapper.insertIntoDirectorToMovie(director_id,moviePO.movie_id);
+                        }
+                        else{
+                            director_related_movieId.remove(director_id);
+                        }
                     }
-                    else{
-                        director_related_movieId.remove(director_id);
-                    }
+
                 }
                 for(int dId:director_related_movieId){
                     directorMovieMapper.deleteDirectorMovie(dId,moviePO.movie_id);
