@@ -37,6 +37,9 @@ CREATE TABLE `link` (
 
 --
 -- Dumping data for table `link`
+--
+
+/*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
 /*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
