@@ -34,7 +34,7 @@ public interface ActorMapper {
             "actor_foreName=#{a.actor_foreName},actor_nationality=#{a.actor_nationality}," +
             "actor_constellation=#{a.actor_constellation},actor_birthPlace=#{a.actor_birthPlace}" +
             ",actor_birthDay=#{a.actor_birthDay},actor_repWorks=#{a.actor_repWorks}," +
-            "actor_achiem=#{a.actor_achiem},actor_brokerage=#{a.actor_brokerage}" +
+            "actor_achiem=#{a.actor_achiem},actor_brokerage=#{a.actor_brokerage} " +
             "where actor_chName=#{a.actor_chName}")
     void updateActor(@Param("a")ActorPO actorPO);
 

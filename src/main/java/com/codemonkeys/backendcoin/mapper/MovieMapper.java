@@ -46,7 +46,7 @@ public interface MovieMapper {
             "movie_prodTime=#{movie.movie_prodTime},movie_prodCompany=#{movie.movie_prodCompany}," +
             "movie_director=#{movie.movie_director},movie_screenwriter=#{movie.movie_screenwriter}," +
             "movie_genre=#{movie.movie_genre},movie_star=#{movie.movie_star},movie_length=#{movie.movie_length}," +
-            "movie_rekeaseTime=#{movie.movie_rekeaseTime},movie_language=#{movie.movie_language},movie_achiem=#{movie.movie_achiem}" +
+            "movie_rekeaseTime=#{movie.movie_rekeaseTime},movie_language=#{movie.movie_language},movie_achiem=#{movie.movie_achiem} " +
             "where movie_chName=#{movie.movie_chName}")
     void updateMovie(@Param("movie")MoviePO moviePO);
 

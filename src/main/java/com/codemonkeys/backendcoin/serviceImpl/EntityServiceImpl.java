@@ -43,6 +43,10 @@ public class EntityServiceImpl implements EntityService {
     @Override
     public void addEntities(List<EntityVO> entityVOList) {
         for(EntityVO entityVO:entityVOList){
+            System.out.println(entityVO.toString());
+        }
+        for(EntityVO entityVO:entityVOList){
+
             entityMapper.insertEntity(map.from(entityVO));
         }
     }

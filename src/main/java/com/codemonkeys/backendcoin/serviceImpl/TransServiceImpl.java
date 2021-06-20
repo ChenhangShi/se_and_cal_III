@@ -66,10 +66,12 @@ public class TransServiceImpl implements TransService {
 
         ActorPO actorPO=actorMapper.getActorById(actorId);
         List<EntityPO> entityPOList=new ArrayList<>();
+        int id_index=1;
 
         //先建中心节点
         EntityPO actorEntityPO=new EntityPO();
         actorEntityPO.nodeType= NodeType.Actor;
+        actorEntityPO.id=(long)id_index++;
         actorEntityPO.shape="rectangle";
         actorEntityPO.description=actorPO.actor_chName;
         actorEntityPO.graphId=graphPO.graphId;
@@ -82,12 +84,13 @@ public class TransServiceImpl implements TransService {
         Field[] fields=actorPO.getClass().getDeclaredFields();
         for(int i=0;i<fields.length;i++){
             String fieldName=fields[i].getName();
-            if(!fieldName.equals("actor_id")&&!fieldName.equals("actor_chName")){
+            if(!fieldName.equals("actor_id")&&!fieldName.equals("actor_chName")&&fields[i].get(actorPO)!=null){
                 EntityPO entityPO=new EntityPO();
                 entityPO.nodeType= enumUtil.getNodeType(fieldName);
                 //通过field来获取actorPO中对应属性的值作为entity的description
                 entityPO.description= (String) fields[i].get(actorPO);
                 entityPO.graphId= graphPO.graphId;
+                entityPO.id=(long)id_index++;
                 entityPO.name=fieldName;
                 entityPO.shape="circle";
                 entityPO.x=String.valueOf(Math.random()*100);
@@ -120,6 +123,7 @@ public class TransServiceImpl implements TransService {
                 movieEntityPO.nodeType=NodeType.Movie;
                 movieEntityPO.name=NodeType.Movie.toString();
                 movieEntityPO.description=moviePO.movie_chName;
+                movieEntityPO.id=(long)id_index++;
                 movieEntityPO.graphId=graphPO.graphId;
                 movieEntityPO.shape="triangle";
                 movieEntityPO.x=String.valueOf(Math.random()*200);
@@ -140,9 +144,10 @@ public class TransServiceImpl implements TransService {
                 Field[] movieFields=moviePO.getClass().getDeclaredFields();
                 for(int i=0;i<movieFields.length;i++){
                     String fieldName=movieFields[i].getName();
-                    if(!fieldName.equals("movie_id")&&!fieldName.equals("movie_chName")){
+                    if(!fieldName.equals("movie_id")&&!fieldName.equals("movie_chName")&&movieFields[i].get(moviePO)!=null){
                         EntityPO entityPO=new EntityPO();
                         entityPO.nodeType= enumUtil.getNodeType(fieldName);
+                        entityPO.id=(long)id_index++;
                         entityPO.description= (String) movieFields[i].get(moviePO);
                         entityPO.graphId= graphPO.graphId;
                         entityPO.name=fieldName;
